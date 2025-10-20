@@ -1,15 +1,16 @@
-import { useState } from "react";
 import { Router, Routes, Route } from "react-router-dom";
 import "./App.css";
+import ChildChat from "./Pages/ChildChat";
+import ProfChat from "./Pages/ProfChat";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/ChildChat" element={<ChildChat />} />
+          <Route path="/ProfChat" element={<ProfChat />} />
         </Routes>
       </Router>
     </>
