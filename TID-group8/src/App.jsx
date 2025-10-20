@@ -1,7 +1,8 @@
-import { Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import ChildChat from "./Pages/ChildChat";
 import ProfChat from "./Pages/ProfChat";
+import Home from "./Pages/home";
 
 function App() {
   return (
