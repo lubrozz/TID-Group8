@@ -1,0 +1,12 @@
+:root {
+  --sand-color: #c7c4b1;
+  --light-sand-color: #f6f0e7;
+  --dark-brown-color: #5b5d52;
+  --blue-green-color: #00afbc;
+  --dark-brown-text-color: #464740;
+  --white-bg-color: #ffffff;
+}
+
+.child-splash-bg {
+  background-color: var(--light-sand-color);
+}
