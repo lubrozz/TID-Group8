@@ -74,7 +74,7 @@ export default function ProfChat() {
         {/* --- Left column: Chat list --- */}
         <div
           style={{
-            width: "300px",
+            width: "30%",
             borderRight: "1px solid var(--sand-color)",
             display: "flex",
             flexDirection: "column",
@@ -138,7 +138,7 @@ export default function ProfChat() {
             <div
               className="flex flex-col justify-between rounded-xl shadow-md overflow-hidden"
               style={{
-                width: "70%",
+                width: "40%",
                 maxWidth: "700px",
                 height: "90%",
                 border: "1px solid var(--sand-color)",

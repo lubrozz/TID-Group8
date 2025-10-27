@@ -6,14 +6,21 @@ import "../../App.css";
 
 export default function ChatObject({ chat, onSend }) {
   return (
-    <>
+    <div className="chat-object-container">
+    {/* 2️⃣ Message area grows to fill space */}
+    <div className="chat-messages">
       <MessageList
         messages={chat.messages}
-        renderItem={(m) => <MessageBubble key={m.id} text={m.text} sender={m.sender} />}
+        renderItem={(m) => (
+          <MessageBubble key={m.id} text={m.text} sender={m.sender} />
+        )}
       />
-      <div className="textbar-wrap">
+    </div>
+ 
+          {/* 3️⃣ Input bar stays fixed at bottom */}
+          <div className="textbar-wrap">
         <TextBar onSend={onSend} />
       </div>
-    </>
+    </div>
   );
 }
