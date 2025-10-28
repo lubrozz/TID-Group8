@@ -1,6 +1,8 @@
 import NoteTaking from "./NoteTaking";
 import AddNoteButton from "./AddNoteButton";
 import { useEffect, useRef } from "react";
+import "../../App.css";
+
 
 export default function NotesBar({
   notesByMessageId = {},
@@ -26,20 +28,7 @@ export default function NotesBar({
   const otherEntries = entries.filter(([id]) => id !== selectedMessageId);
 
   return (
-    <aside
-      style={{
-        width: "198px",
-        height: "651px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        backgroundColor: "transparent",
-        padding: "10px 0",
-        gap: "12px",
-        overflowY: "auto",
-      }}
-    >
+    <aside className="notes-bar">
       {/* The currently selected note is at the top. */}
       {selectedEntry.map(([id, text]) => (
         <div key={id} ref={topNoteRef}>
@@ -61,7 +50,7 @@ export default function NotesBar({
       ))}
 
       {/* Add button at the bottom */}
-      <div style={{ marginTop: "auto", paddingTop: "8px" }}>
+      <div className="notes-bar-add-button">
         <AddNoteButton onClick={onAddNoteForSelected} />
       </div>
     </aside>

@@ -10,3 +10,140 @@
 .child-splash-bg {
   background-color: var(--light-sand-color);
 }
+
+
+
+/* === TextBar input styling === */
+.textbar-input {
+  max-block-size: 10px;
+  margin-trim: center;
+  background-color: var(--white-bg-color);
+  border: none;
+  border-radius: 100px; /* fully rounded “pill” shape */
+  padding: 10px 16px;
+  color: var(--dark-brown-text-color);
+  font-size: 14px;
+  outline: var(--dark-brown-text-color); /* removes blue focus border */
+  height: 36px;
+}
+
+
+
+/* === AddAttachmentButton styling === */
+.add-attachment-button {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+
+
+/* === AddNoteButton styling === */
+.add-note-button {
+  background-color: var(--sand-color);
+  border: 1px solid #464740;
+  border-radius: 20px;
+  width: 180px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: none;
+  padding: 0;
+}
+
+
+
+/* === Ellipsis component === */
+.ellipsis-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.ellipsis-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #464740;
+  margin: 0 6px;
+}
+
+
+
+/* === NoteTaking component === */
+.note-taking-textarea {
+  width: 204px;
+  height: 162px;
+  background-color: #5b5d52;
+  color: white;
+  font-family: "Nunito", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  border-radius: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+  resize: none;      
+  outline: none;    
+  border: none;      
+}
+
+
+
+/* === NotesBar component === */
+.notes-bar {
+  width: 198px;
+  height: 651px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: transparent;
+  padding: 10px 0;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.notes-bar-add-button {
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+
+
+/* === SearchBar component === */
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 193px;
+  height: 42px;
+  background-color: rgba(120, 120, 128, 0.16);
+  border: 1px solid #000000;
+  border-radius: 100px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 0 12px;
+}
+
+.search-bar-icon {
+  margin-right: 8px;
+}
+
+.search-bar-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 17px;
+  color: #999999;
+}

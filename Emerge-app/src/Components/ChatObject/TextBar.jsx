@@ -82,19 +82,7 @@ export default function TextBar({ onSend }) {
         placeholder="Type a message..."
         value={text}
         onChange={(e) => setText(e.target.value)} // updates local state
-        style={{
-       
-         maxBlockSize: "10px",
-         marginTrim: "center",
-          backgroundColor: "var(--white-bg-color)",
-          border: "none",
-          borderRadius: "100px", // fully rounded “pill” shape
-          padding: "10px 16px",
-          color: "var(--dark-brown-text-color)",
-          fontSize: "14px",
-          outline: "var(--dark-brown-text-color)", // removes blue focus border
-          height: "36px",
-        }}
+        className="textbar-input"
         // Could later add `onKeyDown={(e) => e.key === 'Enter' && handleSend()}`
         // for enter-to-send functionality.
       />
