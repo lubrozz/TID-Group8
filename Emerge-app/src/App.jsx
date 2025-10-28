@@ -1,21 +1,15 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
-import ChildChat from "./Pages/ChildChat";
+import HomePage from "./Pages/HomePage";
 import ProfChat from "./Pages/ProfChat";
-import Home from "./Pages/home";
+// import ChildChat from "./Pages/ChildChat";
 
-function App() {
+export default function App() {
   return (
-    <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/ChildChat" element={<ChildChat />} />
-          <Route path="/ProfChat" element={<ProfChat />} />
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/ProfChat" element={<ProfChat />} /> 
+      </Routes>
+    </Router>
   );
 }
-
-export default App;
