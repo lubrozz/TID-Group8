@@ -7,5 +7,4 @@ const ChildChat = () => {
     </>
   );
 };
-
 export default ChildChat;
