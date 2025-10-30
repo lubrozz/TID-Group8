@@ -2,7 +2,7 @@
 import MessageList from "../ChatObject/MessageList";
 import MessageBubble from "../ChatObject/MessageBubble";
 import TextBar from "../ChatObject/TextBar";
-import NotesBar from "../Notes/NotesBar";
+import NotesBar from "../Shared/NotesBar";
 import "../../App.css";
 import { useState } from "react";
 

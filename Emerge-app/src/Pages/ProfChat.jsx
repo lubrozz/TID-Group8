@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import ChatLayout from "../Components/Layout/ChatLayout";
+import ChatLayout from "../Components/ChatObject/ChatLayout";
 import "../App.css";
 
 
