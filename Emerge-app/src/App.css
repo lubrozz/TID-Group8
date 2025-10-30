@@ -19,6 +19,9 @@
   background-color: var(--sand-color);
 }
 
+.center-text {
+  text-align: center;
+}
 
 .bg-sand      { background-color: var(--light-sand-color); }
 .bg-white     { background-color: var(--white-bg-color); }
@@ -39,6 +42,54 @@
   box-shadow: 0 4px 16px rgba(0,0,0,.08);
 }
 
+.splash-card {
+  background: var(--sand-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.08);
+  position: fixed;
+  margin: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: fit-content;
+}
+
+.new-chat-button {
+  background-color: var(--blue-green-color);
+  color: var(--light-sand-color);
+  display: flex;
+  text-align: center;
+  align-content: center;
+  padding: 5, 10;
+  border-radius: 100px;
+  width: fit-content;
+  
+}
+
+
+
+.old-chat-button {
+  background-color: var(--light-sand-color);
+  color: var(--blue-green-color);
+  display: flex;
+  text-align: center;
+  align-content: center;
+  padding: 5, 10;
+  border-radius: 100px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.arrow-label-text {
+  text-align: center;
+  padding: 5px 5px 5px 10px;
+  margin: auto;
+}
+
+.arrow-label-icon {
+  padding: 5px 10px 5px 5px;
+  align-content: center;
+}
 
 /*Keep message-bubbles strucuted and bacgorund colour ligt-sand */
 .messages {
