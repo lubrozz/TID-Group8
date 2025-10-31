@@ -1,5 +1,4 @@
-import "../../styles/chat.css";
-import ConversationList from "../Chat/ConversationList";
+import ConversationList from "../ChatObject/ConversationList";
 import ChatObject from "../ChatObject/ChatObject";
 
 export default function ChatLayout({ conversations, selectedChat, onSelectChat }) {
