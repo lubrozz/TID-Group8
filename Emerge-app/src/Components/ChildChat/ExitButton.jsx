@@ -1,8 +1,8 @@
 import "../../chat.css";
 
-export default function ExitButton() {
+export default function ExitButton({ onClick }) {
   return (
-    <button className="exitButton">
+    <button className="exitButton" onClick={onClick}>
       <p>Exit</p>
     </button>
   );
