@@ -1,8 +1,12 @@
+import { Link } from "react-router-dom";
+
 export default function OldChatButton() {
   return (
-    <div className="old-chat-button">
-      <h4 className="arrow-label-text">Old chat</h4>
-      <span className="arrow-label-icon">&#10560;</span>
+    <div className="oldChatButton">
+      <Link to="/NewChildChat" className="texts">
+        <p>Old chat</p>
+        <span>&#10560;</span>
+      </Link>
     </div>
   );
 }
