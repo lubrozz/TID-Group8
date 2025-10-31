@@ -1,33 +1,21 @@
+import "../../homePage.css";
+
 import OldChatButton from "./OldChatButton";
 import NewChatButton from "./NewChatbutton";
 
 export default function WelcomeSplash() {
   return (
-    <div className="splash-card">
-      <div className="center-text" style={{ padding: "25px" }}>
-        <div>
-          <h3>Welcome</h3>
-        </div>
-        <div>
-          <p>
-            This is a safe and private space where you can chat and share your
-            thoughts.
-          </p>
-        </div>
+    <div className="centerSplash">
+      <div className="headerWrapper">
+        <h1 className="mainHeader">Welcome</h1>
+        <h2 className="subHeader">
+          This is a safe and private space where you can chat and share your
+          thoughts.
+        </h2>
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          padding: "10px",
-        }}
-      >
-        <div>
-          <OldChatButton />
-        </div>
-        <div>
-          <NewChatButton />
-        </div>
+      <div className="buttonWrapper">
+        <OldChatButton />
+        <NewChatButton />
       </div>
     </div>
   );
