@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import ChatLayout from "../Components/ChatObject/ChatLayout";
 import "../App.css";
 
-
 export default function ProfChat() {
   // State: all conversations
   const [chats, setChats] = useState([
@@ -39,7 +38,11 @@ export default function ProfChat() {
               ...chat,
               messages: [
                 ...chat.messages,
-                { id: chat.messages.length + 1, sender: "professional", text: newText },
+                {
+                  id: chat.messages.length + 1,
+                  sender: "professional",
+                  text: newText,
+                },
               ],
             }
           : chat
