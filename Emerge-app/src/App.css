@@ -100,8 +100,8 @@
 }
 
 .textbar-wrap {
-  border-top: 1px solid var(--sand-color);
-  padding: 0.75rem 1rem;
+  border-top: 2px solid var(--sand-color);
+  padding: 0rem 0rem;
   background: var(--white-bg-color);
   display: flex;
   justify-content: center;
@@ -114,7 +114,7 @@
   justify-content: space-between;
   background-color: var(--sand-color);
   border-top: 1px solid var(--sand-color);
-  padding: 0.5rem 0.75rem;
+  padding: 1.2rem 0.75rem;
   width: 100%;             /* ensures it fits chat width */
   box-sizing: border-box;  /* includes padding in width */
 }
@@ -218,11 +218,11 @@
 }
 
 .ellipsis-dot {
-  width: 20px;
-  height: 20px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background-color: #464740;
-  margin: 0 6px;
+  margin: 0 2px;
 }
 
 
@@ -249,8 +249,8 @@
 
 /* === NotesBar component === */
 .notes-bar {
-  width: 198px;
-  height: 651px;
+  width: 298px;
+  height: 1010px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -324,3 +324,109 @@
   justify-content: center; 
   text-align: center; 
 }
+
+/*Proffesional chat css */
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--white-bg-color);
+  border: 1px solid var(--sand-color);
+  border-radius: 8px;
+}
+
+/* main chat + notes side-by-side */
+.center {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  background-color: var(--light-sand-color);
+}
+
+/* scrollable message region */
+.messages-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: var(--light-sand-color);
+}
+
+/* right notes area */
+.notes-area {
+  flex: 1;
+  width: 240px;
+  border-left: 1px solid var(--sand-color);
+  background-color: var(--white-bg-color);
+  padding: 0.75rem;
+}
+
+/* bottom bar (TextBar container) */
+.bottom {
+  border-top: 1px solid var(--sand-color);
+  padding: 0.5rem 1rem;
+  background-color: var(--sand-color);
+}
+
+/* For visual testing*/
+/* .prof-layout > div {
+  border: 1px dashed red;
+} */
+
+
+    /* === Professional Chat Page Layout === */
+.prof-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr 260px; /* left: list, middle: chat, right: notes */
+  height: 100vh;
+  background-color: var(--light-sand-color);
+  color: var(--dark-brown-text-color);
+}
+
+/* Left: conversation list */
+.prof-chat-list {
+  background-color: var(--white-bg-color);
+  border-right: 1px solid var(--sand-color);
+  overflow-y: auto;
+}
+
+.prof-chat-list h3 {
+  padding: 1rem;
+  border-bottom: 1px solid var(--sand-color);
+  font-weight: 600;
+}
+
+.chat-list-item {
+  padding: 1rem;
+  border-bottom: 1px solid var(--sand-color);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.chat-list-item:hover {
+  background-color: var(--light-sand-color);
+}
+
+.chat-list-item.active {
+  background-color: var(--sand-color);
+}
+
+/* Middle: chat window (reuse your .chat structure here) */
+.prof-chat-center {
+  background-color: var(--white-bg-color);
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+/* --- Fix chat sizing inside professional layout --- */
+.prof-layout .chat {
+  height: 100%;
+  width: 100%;
+  border-left: none;
+  border-right: none;
+}
+
