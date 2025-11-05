@@ -15,7 +15,7 @@ export default function ChatLayout({ conversations, selectedChat, onSelectChat }
       {/* The Left Part: ConversationList */}
       <div
         style={{
-          width: "220px",
+          width: "320px",
           borderRight: "1px solid var(--sand-color)",
           backgroundColor: "var(--white-bg-color)",
         }}
@@ -31,7 +31,7 @@ export default function ChatLayout({ conversations, selectedChat, onSelectChat }
       <div
         style={{
           flex: 1,
-          padding: "16px",
+          padding: "20px",
           display: "flex",
           flexDirection: "column",
           backgroundColor: "var(--white-bg-color)",
@@ -40,8 +40,8 @@ export default function ChatLayout({ conversations, selectedChat, onSelectChat }
         {selectedChat ? (
           <ChatObject chat={selectedChat} onSend={(msg) => console.log("send:", msg)} />
         ) : (
-          <div style={{ textAlign: "center", marginTop: "50%", color: "gray" }}>
-            Select a conversation to start chatting
+          <div style={{ textAlign: "center", marginTop: "100%", color: "gray" }}>
+         
           </div>
         )}
       </div>

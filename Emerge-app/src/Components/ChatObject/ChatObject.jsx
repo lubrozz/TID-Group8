@@ -39,54 +39,34 @@ export default function ChatObject({ chat, onSend }) {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        width: "100%",
-        overflow: "hidden",
-      }}
-    >
-      {/* Left：Chat area */}
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          paddingRight: 20,
-        }}
-      >
-        <MessageList
-          messages={chat.messages}
-          renderItem={(m) => (
-            <MessageBubble
-              key={m.id}
-              text={m.text}
-              sender={m.sender}
-              onEllipsisClick={() => handleEllipsisClick(m)} // When click Ellipsis 
-            />
-          )}
-        />
-        <div className="textbar-wrap">
-          <TextBar onSend={onSend} />
-        </div>
-      </div>
-
-      {/* Right：NotesBar */}
-      <div
-        style={{
-          width: 240,
-          paddingLeft: 16,
-          borderLeft: "1px solid var(--sand-color)",
-        }}
-      >
-        <NotesBar
-          notesByMessageId={notesByMessageId}
-          selectedMessageId={selectedMessageId}
-          onUpdateNote={handleUpdateNote}
-          onAddNoteForSelected={handleAddNoteForSelected}
-        />
-      </div>
+    <div className="chatProf">
+  <div className="center" style={{ display: "flex", flexDirection: "row" }}>
+    <div className="messages-area">
+      <MessageList
+        messages={chat.messages}
+        renderItem={(m) => (
+          <MessageBubble
+            key={m.id}
+            text={m.text}
+            sender={m.sender}
+            onEllipsisClick={() => handleEllipsisClick(m)}
+          />
+        )}
+      />
     </div>
+    <div className="notes-area">
+      <NotesBar
+        notesByMessageId={notesByMessageId}
+        selectedMessageId={selectedMessageId}
+        onUpdateNote={handleUpdateNote}
+        onAddNoteForSelected={handleAddNoteForSelected}
+      />
+    </div>
+  </div>
+
+  <div className="textbar-wrap">
+    <TextBar onSend={onSend} />
+  </div>
+</div>
   );
 }

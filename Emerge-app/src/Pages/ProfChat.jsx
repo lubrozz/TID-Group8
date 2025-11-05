@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import ChatLayout from "../Components/ChatObject/ChatLayout";
-import "../App.css";
+import ChatObject from "../Components/ChatObject/ChatObject";
+import "../chat.css";
 
 export default function ProfChat() {
-  // State: all conversations
+ // State: all conversations
   const [chats, setChats] = useState([
     {
       id: 1,
@@ -60,32 +60,36 @@ export default function ProfChat() {
 
   // --- Return Layout ---
   return (
-    <div
-      className="min-h-screen flex items-center justify-center"
-      style={{
-        backgroundColor: "var(--light-sand-color)",
-        color: "var(--dark-brown-text-color)",
-        padding: "2rem",
-      }}
-    >
-      <div
-        className="flex rounded-xl shadow-lg overflow-hidden"
-        style={{
-          width: "90%",
-          maxWidth: "1000px",
-          height: "80vh",
-          backgroundColor: "var(--white-bg-color)",
-          border: "2px solid var(--sand-color)",
-        }}
-      >
-        {/* Reuse your ChatLayout component */}
-        <ChatLayout
-          conversations={chats}
-          selectedChat={selectedChat}
-          onSelectChat={setSelectedChat}
-          onSend={(msg) => handleSendMessage(selectedChat?.id, msg)}
-        />
+    <div className="prof-layout">
+      {/* LEFT COLUMN: Conversations */}
+      <div className="prof-chat-list">
+        <h3>Conversations</h3>
+        {chats.map((chat) => (
+          <div
+            key={chat.id}
+            className={`chat-list-item ${
+              selectedChat?.id === chat.id ? "active" : ""
+            }`}
+            onClick={() => setSelectedChat(chat)}
+          >
+            <strong>{chat.name}</strong>
+          <p>{chat.preview}</p>
+        </div>
+      ))}
+    </div>
+
+      {/* MIDDLE COLUMN: ChatObject */}
+      <div className="prof-chat-center">
+        {selectedChat ? (
+          <ChatObject
+            chat={selectedChat}
+            onSend={(msg) => handleSendMessage(selectedChat.id, msg)}
+          />
+        ) : (
+          <h2>This is the proffesional chat-site. Select a chat to begin</h2>
+        )}
       </div>
+
     </div>
   );
 }
