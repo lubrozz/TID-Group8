@@ -3,7 +3,7 @@ import MessageList from "../ChatObject/MessageList";
 import MessageBubble from "../ChatObject/MessageBubble";
 import TextBar from "../ChatObject/TextBar";
 import NotesBar from "../Shared/NotesBar";
-import "../../App.css";
+import "../../prof-chat.css";
 import { useState } from "react";
 
 export default function ChatObject({ chat, onSend }) {
@@ -12,16 +12,6 @@ export default function ChatObject({ chat, onSend }) {
 
   // Store all notes: { messageId or noteId: “Content” }
   const [notesByMessageId, setNotesByMessageId] = useState({});
-
-  // Click the ellipsis on the message (to attach a note)
-  const handleEllipsisClick = (message) => {
-    setSelectedMessageId(message.id);
-    setNotesByMessageId((prev) =>
-      prev[message.id] !== undefined
-        ? prev
-        : { ...prev, [message.id]: "" } // If the message does not yet have a note, create one
-    );
-  };
 
   // Renew Notes
   const handleUpdateNote = (messageId, nextText) => {
@@ -39,9 +29,9 @@ export default function ChatObject({ chat, onSend }) {
   };
 
   return (
-    <div className="chatProf">
-  <div className="center" style={{ display: "flex", flexDirection: "row" }}>
-    <div className="messages-area">
+    <div className="chatobject-wrapper">
+      {/* Left side: message area */}
+      <div className="chatobject-messages">
       <MessageList
         messages={chat.messages}
         renderItem={(m) => (
@@ -49,24 +39,25 @@ export default function ChatObject({ chat, onSend }) {
             key={m.id}
             text={m.text}
             sender={m.sender}
-            onEllipsisClick={() => handleEllipsisClick(m)}
+            timestamp={m.timestamp}
           />
         )}
       />
-    </div>
-    <div className="notes-area">
-      <NotesBar
-        notesByMessageId={notesByMessageId}
-        selectedMessageId={selectedMessageId}
-        onUpdateNote={handleUpdateNote}
-        onAddNoteForSelected={handleAddNoteForSelected}
-      />
-    </div>
-  </div>
+      <div className="textbar-wrap">
+          <TextBar onSend={onSend} />
+        </div>
+      </div>
 
-  <div className="textbar-wrap">
-    <TextBar onSend={onSend} />
-  </div>
-</div>
+         {/* Right side: notes */}
+         <div className="chatobject-notes">
+        <NotesBar
+          notesByMessageId={notesByMessageId}
+          selectedMessageId={selectedMessageId}
+          onUpdateNote={handleUpdateNote}
+          onAddNoteForSelected={handleAddNoteForSelected}
+        />
+      </div>
+      
+    </div>
   );
 }

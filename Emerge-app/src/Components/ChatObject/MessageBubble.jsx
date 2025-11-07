@@ -1,33 +1,26 @@
 import Ellipsis from "../Shared/Ellipsis";
+import "../../prof-chat.css";
 
-
-export default function MessageBubble({ text, sender, onEllipsisClick }) {
+export default function MessageBubble({ text, sender, timestamp, onEllipsisClick }) {
   const isPro = sender === "professional";
-
-  const bubbleStyle = {
-    background: isPro ? "var(--blue-green-color)" : "var(--sand-color)",
-    color: isPro ? "white" : "var(--dark-brown-text-color)",
-    padding: ".5rem .75rem",
-    borderRadius: "16px",
-    maxWidth: "70%",
-  };
 
   return (
     <div
-      style={{
-        display: "flex",
-        justifyContent: isPro ? "flex-end" : "flex-start",
-        alignItems: "center",
-        marginBottom: ".5rem",
-        gap: "3px", 
-      }}
+      className={`message-bubble-row ${isPro ? "sent" : "received"}`}
+      style={{ width: "100%" }}
     >
-      {/* If it is kid user，Ellipsis will be on the right */}
+      {/* Ellipsis on the left for received (child) */}
       {!isPro && <Ellipsis onClick={onEllipsisClick} />}
 
-      <div style={bubbleStyle}>{text}</div>
+      {/* Message bubble */}
+      <div className={`message-bubble ${isPro ? "sent" : "received"}`}>
+        <p className="message-text">{text}</p>
+        <span className="message-timestamp">
+          {timestamp ? timestamp : "3 min ago"}
+        </span>
+      </div>
 
-      {/* If it is professional user，Ellipsis will be on the left */}
+      {/* Ellipsis on the right for professional */}
       {isPro && <Ellipsis onClick={onEllipsisClick} />}
     </div>
   );
