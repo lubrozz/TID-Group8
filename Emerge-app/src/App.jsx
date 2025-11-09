@@ -1,5 +1,9 @@
-import Parse from "parse/dist/parse.min.js";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import HomePage from "./Pages/HomePage";
 import ProfChat from "./Pages/ProfChat";
 import LoginPage from "./Pages/LoginPage";
