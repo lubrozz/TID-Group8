@@ -1,0 +1,105 @@
+/* === LoginPage styles === */
+:root {
+  --light-sand: #F6F0E7;
+  --sand: #C7C4B1;
+  --outline: #A4A4A4;
+  --button-blue: #00AFBC;
+  --text-dark: #464740;
+  --darker:#5B5D52;
+}
+
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--light-sand); 
+}
+
+
+.login-form {
+  background-color: var(--sand); 
+  padding: 40px 50px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--outline); 
+  width: 410px;
+  text-align: center;
+}
+
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--outline);
+  border-radius: 8px;
+}
+
+
+.register-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+.register-link a {
+  color: var(--text-dark);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+
+
+
+/* === LoginInput Component === */
+.login-input {
+  width: 367px;
+  height: 34px;  
+  background-color: white;  
+  border: 2px solid var(--darker); 
+  border-radius: 20px; 
+  padding: 0 20px;  
+  font-size: 14px; 
+  font-family: 'Nunito', sans-serif;
+  color: var(--darker);  
+  outline: none;  
+  box-sizing: border-box; 
+}
+
+
+
+/* === LoginButton Component === */
+.login-button {
+  background-color: var(--button-blue); 
+  color: white;
+  font-size: 14px;  
+  font-family: 'Nunito', sans-serif;  
+  border: none; 
+  border-radius: 20px;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  width: 95px;  
+  height: 40px;  
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);  
+  transition: background-color 0.3s ease;  
+}
+
+
+
+
+
