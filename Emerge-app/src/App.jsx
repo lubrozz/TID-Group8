@@ -2,7 +2,10 @@ import Parse from "parse/dist/parse.min.js";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./Pages/HomePage";
 import ProfChat from "./Pages/ProfChat";
+import LoginPage from "./Pages/LoginPage";
 import NewChildChat from "./Pages/NewChildChat";
+import Register from "./Pages/RegisterPage";
+
 
 export default function App() {
   Parse.initialize(
@@ -12,18 +15,15 @@ export default function App() {
 
   Parse.serverURL = "https://parseapi.back4app.com"; //migration to happen soon.
   return (
-    <>
-      <script
-        type="text/javascript"
-        src="https://unpkg.com/parse/dist/parse.min.js"
-      ></script>
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/ProfChat" element={<ProfChat />} />
-          <Route path="/NewChildChat" element={<NewChildChat />} />
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/prof-chat" element={<ProfChat />} />
+        <Route path="/prof-login" element={<LoginPage />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/new-child-chat" element={<NewChildChat />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
   );
 }
