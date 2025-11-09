@@ -24,6 +24,16 @@ body {
   height: 100vh;
 }
 
+.chatProf {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  height: 100%;
+  width: 100%;
+}
+
 .chat {
   flex: 1;
   border-left: 1px solid black;
@@ -233,5 +243,10 @@ body {
       cursor: pointer;
       border: none;
     }
-  }
+
+
+  
+
+
+}
 }
