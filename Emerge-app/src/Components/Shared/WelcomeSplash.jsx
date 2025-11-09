@@ -1,7 +1,6 @@
 import "../../homePage.css";
 
-import OldChatButton from "./OldChatButton";
-import NewChatButton from "./NewChatbutton";
+import NavigateButton from "./NavigateButton";
 
 export default function WelcomeSplash() {
   return (
@@ -14,8 +13,18 @@ export default function WelcomeSplash() {
         </h2>
       </div>
       <div className="buttonWrapper">
-        <OldChatButton />
-        <NewChatButton />
+        <NavigateButton
+          styleClass="newChatButton"
+          page="/new-child-chat"
+          buttonText="New Chat"
+          buttonIcon={<span>&#10140;</span>}
+        />
+        <NavigateButton
+          styleClass="oldChatButton"
+          page="/new-child-chat"
+          buttonText="Old chat"
+          buttonIcon={<span>&#10560;</span>}
+        />
       </div>
     </div>
   );
