@@ -1,3 +1,5 @@
+// To be deleted. Now using NavigateButton.jsx --Lukas
+
 import "../../homePage.css";
 import { Link } from "react-router-dom";
 
