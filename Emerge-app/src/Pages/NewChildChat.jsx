@@ -7,6 +7,7 @@ import OutgoingMessage from "../Components/ChildChat/OutgoingMessage";
 import ExitButton from "../Components/ChildChat/ExitButton";
 import ExitWarning from "../Components/ChildChat/ExitWarning";
 import { useState } from "react";
+import ExitModal from "../Components/ChildChat/ExitModal";
 
 const NewChildChat = () => {
   const [showExit, setShowExit] = useState(false);
@@ -14,12 +15,8 @@ const NewChildChat = () => {
   return (
     <div className="container">
       <div className="chat">
-        <div className="top">
-          <ExitBar />
-          <ExitButton onClick={() => setShowExit(true)} />
-        </div>
+        <ExitModal />
         <div className="center">
-          {showExit && <ExitWarning onCancel={() => setShowExit(false)} />}
           <IncomingMessage />
           <OutgoingMessage />
         </div>
