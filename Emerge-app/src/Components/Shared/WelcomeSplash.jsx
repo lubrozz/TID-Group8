@@ -14,16 +14,16 @@ export default function WelcomeSplash() {
       </div>
       <div className="buttonWrapper">
         <NavigateButton
-          styleClass="newChatButton"
-          page="/new-child-chat"
-          buttonText="New Chat"
-          buttonIcon={<span>&#10140;</span>}
-        />
-        <NavigateButton
           styleClass="oldChatButton"
           page="/new-child-chat"
           buttonText="Old chat"
           buttonIcon={<span>&#10560;</span>}
+        />
+        <NavigateButton
+          styleClass="newChatButton"
+          page="/new-child-chat"
+          buttonText="New Chat"
+          buttonIcon={<span>&#10140;</span>}
         />
       </div>
     </div>
