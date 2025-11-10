@@ -4,6 +4,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
+import { Link } from "react-router-dom";
 import "../../chat.css";
 
 export default function ExitModal() {
@@ -21,10 +22,10 @@ export default function ExitModal() {
           Exit
         </button>
       </div>
-      <div>
+      <div className="popup">
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle id="alert-dialog-title">
-            {"Are you sure you want to exit the chat?"}
+            {"Exit and delete this chat?"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
@@ -32,10 +33,18 @@ export default function ExitModal() {
               are always welcome to come back to have another chat.
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
-            <button onClick={handleClose}>Back to chat</button>
-            <button onClick={handleClose}>Exit Chat</button>
-          </DialogActions>
+          <div>
+            <DialogActions className="actionButtons">
+              <button className="cancelExitButton" onClick={handleClose}>
+                Back to chat
+              </button>
+              <button className="confirmExitButton">
+                <Link to="/" className="texts">
+                  Exit Chat
+                </Link>
+              </button>
+            </DialogActions>
+          </div>
         </Dialog>
       </div>
     </div>
