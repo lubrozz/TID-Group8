@@ -45,7 +45,20 @@ body {
       border: none;
       border-radius: 8px;
 
-      .linkText {
+      .texts {
+        text-decoration: none;
+        color: var(--white-bg-color);
+      }
+    }
+
+
+    .toProfLoginButton {
+      background-color: #51ad90;
+      padding: 5px 15px;
+      border: none;
+      border-radius: 8px;
+
+      .texts {
         text-decoration: none;
         color: var(--white-bg-color);
       }
@@ -61,6 +74,22 @@ body {
         font-weight: 500;
       }
     }
+
+    /* Group both buttons together */
+.buttons-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between them */
+}
+
+/* Optional: stack vertically on smaller screens */
+@media (max-width: 600px) {
+  .buttons-container {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+}
   }
 
   .center {
