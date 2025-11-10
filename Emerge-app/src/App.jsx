@@ -10,7 +10,7 @@ export default function App() {
     "LmonXzQwyZ5p5qp1TxiI3tVrRcg2PZ89ug9I5iai"
   );
 
-  Parse.serverURL = "http://YOUR_PARSE_SERVER:1337/parse"; //migration to happen soon.
+  Parse.serverURL = "https://parseapi.back4app.com"; //migration to happen soon.
   return (
     <>
       <script
