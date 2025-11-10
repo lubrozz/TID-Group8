@@ -1,18 +1,19 @@
 import "../../chat.css";
+import ExitChatButton from "./ExitChatButton";
 
-export default function ExitWarning({ onCancel }) {
+export default function ExitWarning({ onCancel, onConfirm }) {
   return (
     <div>
       <div className="popup-bg">
         <div className="popup">
-          <div>
-            <h1 className="warningText">
-              Are you sure you want to exit the chat?
-            </h1>
+          <div className="warningText">
+            <h1>Are you sure you want to exit the chat?</h1>
           </div>
           <div className="actionButtons">
-            <button onClick={onCancel}>Back to chat</button>
-            <button>Exit chat</button>
+            <button className="cancelExitButton" onClick={onCancel}>
+              Back to chat
+            </button>
+            <ExitChatButton onClick={onConfirm} />
           </div>
         </div>
       </div>

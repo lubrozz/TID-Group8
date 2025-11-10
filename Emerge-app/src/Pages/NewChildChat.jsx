@@ -19,7 +19,12 @@ const NewChildChat = () => {
           <ExitButton onClick={() => setShowExit(true)} />
         </div>
         <div className="center">
-          {showExit && <ExitWarning onCancel={() => setShowExit(false)} />}
+          {showExit && (
+            <ExitWarning
+              onCancel={() => setShowExit(false)}
+              onConfirm={() => setShowExit(false)}
+            />
+          )}
           <IncomingMessage />
           <OutgoingMessage />
         </div>
