@@ -1,3 +1,5 @@
+// To be deleted. Used in MessageBubble.jsx --lukas
+
 import "../../chat.css";
 
 export default function IncomingMessage() {

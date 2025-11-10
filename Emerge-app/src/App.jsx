@@ -12,18 +12,13 @@ export default function App() {
 
   Parse.serverURL = "https://parseapi.back4app.com"; //migration to happen soon.
   return (
-    <>
-      <script
-        type="text/javascript"
-        src="https://unpkg.com/parse/dist/parse.min.js"
-      ></script>
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/ProfChat" element={<ProfChat />} />
-          <Route path="/NewChildChat" element={<NewChildChat />} />
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/prof-chat" element={<ProfChat />} />
+        <Route path="/new-child-chat" element={<NewChildChat />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
   );
 }

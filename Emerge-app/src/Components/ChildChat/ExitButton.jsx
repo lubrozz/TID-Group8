@@ -1,3 +1,5 @@
+// To be deleted. Is now in ExitModal.jsx --Lukas
+
 import "../../chat.css";
 
 export default function ExitButton({ onClick }) {
