@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import LoginInput from '../Components/Shared/LoginInput';  
 import LoginButton from '../Components/Shared/LoginButton';  
-import '../../LoginPage.css';  
+import '../LoginPage.css' 
 
 
 
