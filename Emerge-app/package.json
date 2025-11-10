@@ -12,6 +12,7 @@
   "dependencies": {
     "emoji-picker-react": "^4.15.0",
     "lucide-react": "^0.546.0",
+    "parse": "^7.0.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.4"
