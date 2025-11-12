@@ -56,12 +56,11 @@ input {
 }
 
 .register-link a {
+
   color: var(--text-dark);
   text-decoration: none;
   font-weight: 500;
 }
-
-
 
 
 /* === LoginInput Component === */
@@ -89,7 +88,7 @@ input {
   font-family: 'Nunito', sans-serif;  
   border: none; 
   border-radius: 20px;  
-  display: flex;
+  display: center;
   justify-content: center;
   align-items: center;
   padding: 5px 10px;
@@ -98,6 +97,26 @@ input {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);  
   transition: background-color 0.3s ease;  
 }
+
+/* === Register Component === */
+.Register-button {
+  background-color: var(--button-blue); 
+  color: rgb(255, 255, 255);
+  font-size: 14px;  
+  font-family: 'Nunito', sans-serif;  
+  border: none; 
+  border-radius: 30px;  
+  display: center;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  width: 95px;  
+  height: 40px;  
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);  
+  transition: background-color 0.3s ease;  
+}
+
+
 
 
 
