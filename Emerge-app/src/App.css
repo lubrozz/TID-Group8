@@ -75,9 +75,9 @@
   justify-content: space-between;
   background-color: var(--sand-color);
   border-top: 1px solid var(--sand-color);
-  padding: 1.2rem 0.75rem;
-  width: 100%; /* ensures it fits chat width */
-  box-sizing: border-box; /* includes padding in width */
+  padding: 0.5rem 0.75rem;
+  width: 100%;             /* ensures it fits chat width */
+  box-sizing: border-box;  /* includes padding in width */
 }
 
 /* --- Icon section (left side) --- */
@@ -198,8 +198,8 @@
 
 /* === NotesBar component === */
 .notes-bar {
-  width: 298px;
-  height: 1010px;
+  width: 198px;
+  height: 651px;
   display: flex;
   flex-direction: column;
   align-items: center;
