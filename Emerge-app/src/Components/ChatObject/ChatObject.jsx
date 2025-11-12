@@ -44,10 +44,10 @@ export default function ChatObject({ chat, onSend }) {
           />
         )}
       />
-      <div className="textbar">
+  
           <TextBar onSend={onSend} />
         </div>
-      </div>
+     
 
          {/* Right side: notes */}
          <div className="chatobject-notes">
