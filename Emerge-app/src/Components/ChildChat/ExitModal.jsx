@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import { Link } from "react-router-dom";
-import "../../chat.css";
+import "../../child-chat.css";
 
 export default function ExitModal() {
   const [open, setOpen] = useState(false);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ChatObject from "../Components/ChatObject/ChatObject";
 import { Link } from "react-router-dom"; 
-import "../Prof-chat.css";
+import "../prof-chat.css";
 
 export default function ProfChat() {
  // State: all conversations
@@ -79,7 +79,7 @@ export default function ProfChat() {
 
   // --- Return Layout ---
   return (
-    <div className="container">
+   
       
     <div className="chat">
       
@@ -140,7 +140,6 @@ export default function ProfChat() {
   
       </div>
 
-    </div>
     </div>
 
 

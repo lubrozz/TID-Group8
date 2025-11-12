@@ -1,6 +1,6 @@
 // To be deleted. Is now in ExitModal.jsx --Lukas
 
-import "../../chat.css";
+import "../../child-chat.css";
 import ExitChatButton from "./ExitChatButton";
 
 export default function ExitWarning({ onCancel, onConfirm }) {
