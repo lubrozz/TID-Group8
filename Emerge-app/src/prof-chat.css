@@ -19,10 +19,6 @@
     justify-content: center;
   }
   
-  .container {
-    width: 100vw;
-    height: 100vh;
-  }
   /* === Professional Chat Page Layout === */
 .prof-layout {
   display: grid;
@@ -109,7 +105,7 @@
   
   /* Right side: notes panel (per chat) */
   .chatobject-notes {
-    width: 320px; /* slightly slimmer */
+
     min-width: 320px;
     padding: 1rem;
     background-color: var(--white-bg-color);
@@ -118,6 +114,26 @@
     flex-direction: column;
     justify-content: flex-start;
   }
+
+  /* === NotesBar component === */
+.notes-bar {
+  width: 298px;
+  height: 1100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: transparent;
+  padding: 100px 0;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.notes-bar-add-button {
+  margin-top: auto;
+  
+  padding-top: 8px;
+}
   
   /* When no chat selected */
   .empty-state {

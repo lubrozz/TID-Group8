@@ -1,6 +1,6 @@
 // To be deleted. Used in MessageBubble.jsx --lukas
 
-import "../../chat.css";
+import "../../child-chat.css";
 
 export default function IncomingMessage() {
   return (

@@ -24,15 +24,6 @@ body {
   height: 100vh;
 }
 
-.chatProf {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  height: 100%;
-  width: 100%;
-}
 
 .chat {
   flex: 1;
@@ -173,63 +164,15 @@ body {
   }
 
   .bottom {
-    padding: 20px;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-top: 1px solid black;
-    gap: 20px;
+    border-top: 1px solid rgb(0, 0, 0);
+    gap: 10px;
     margin-top: auto;
     background-color: var(--sand-color);
 
-    .icons {
-      display: flex;
-      gap: 20px;
-
-      .plusButton {
-        background-color: transparent;
-        color: black;
-        padding: 5px 10px;
-        cursor: pointer;
-        border: none;
-      }
-    }
-
-    input {
-      flex: 1;
-      background-color: var(--white-bg-color);
-      border: none;
-      outline: none;
-      color: var(--dark-brown-text-color);
-      padding: 20px;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-
-    .emoji {
-      position: relative;
-
-      .emojiButton {
-        background-color: transparent;
-        color: black;
-        padding: 5px 10px;
-        cursor: pointer;
-        border: none;
-      }
-
-      .picker {
-        position: absolute;
-        bottom: 50px;
-        left: 0;
-      }
-    }
-
-    .sendButton {
-      background-color: transparent;
-      color: black;
-      padding: 10px 20px;
-      cursor: pointer;
-      border: none;
-    }
+  
   }
 }
