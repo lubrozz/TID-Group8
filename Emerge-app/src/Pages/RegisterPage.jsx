@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import LoginInput from "../Components/Shared/LoginInput";  
-import LoginButton from '../Components/Shared/LoginButton';  
-import NavigateButton from '../Components/Shared/NavigateButton';
-import "../LoginPage.css";
+import LoginInput from '../Components/Shared/LoginInput';  
+import RegisterButton from '../Components/Shared/RegisterButton';
+import NavigateButton from "../Components/Shared/NavigateButton";
+import "../LoginPage.css";  
 
 
 
-export default function LoginPage() {
+export default function Register() {
   const [username, setUsername] = useState('');  // store username input
   const [password, setPassword] = useState('');  // store password input
 
@@ -22,13 +22,13 @@ export default function LoginPage() {
   return (
     <div className="login-page">
       <div className="login-form">
-        <h2>Login</h2>
+        <h2>Register</h2>
         
         {/* Username Input Area */}
         <div className="input-group">
           <label htmlFor="username">Username:</label>
           <LoginInput
-            placeholder="Enter your username"
+            placeholder="Enter your new username"
             value={username}
             onChange={setUsername}
           />
@@ -38,28 +38,16 @@ export default function LoginPage() {
         <div className="input-group">
           <label htmlFor="password">Password:</label>
           <LoginInput
-            placeholder="Enter your password"
+            placeholder="Enter your new password"
             value={password}
             onChange={setPassword}
           />
         </div>
 
         {/* LoginButton */}
-        <LoginButton onClick={handleLogin} />
+  
+        <RegisterButton onClick={handleLogin} />
 
-        {/* register-link */}
-        <p className="register-link">
-          Don’t have an account? 
-          </p>
-    
-          <NavigateButton
-            styleClass="register-link a"
-            page="/register"
-            buttonText="Register"
-          /> 
-        
-
-        
        
       </div>
     </div>
