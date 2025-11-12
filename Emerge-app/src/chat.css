@@ -24,6 +24,16 @@ body {
   height: 100vh;
 }
 
+.chatProf {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  height: 100%;
+  width: 100%;
+}
+
 .chat {
   flex: 1;
   border-left: 1px solid black;
@@ -56,6 +66,42 @@ body {
       border: none;
       border-radius: 5px;
       cursor: pointer;
+    }
+
+    .popup {
+      background-color: var(--light-sand-color);
+      text-align: center;
+      padding: 10px 20px;
+      border-radius: 12px;
+
+      .warningText {
+        h1 {
+          color: var(--dark-brown-text-color);
+        }
+      }
+      .actionButtons {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+      }
+
+      .cancelExitButton {
+        background-color: var(--light-sand-color);
+        color: purple;
+        padding: 5px 15px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+      }
+
+      .confirmExitButton {
+        background-color: purple;
+        color: var(--light-sand-color);
+        padding: 5px 15px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+      }
     }
 
     .texts {
@@ -122,54 +168,6 @@ body {
         span {
           font-size: 13px;
         }
-      }
-    }
-
-    .popup-bg {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(18, 19, 18, 0.338);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .popup {
-        background-color: var(--light-sand-color);
-        text-align: center;
-        padding: 10px 20px;
-        border-radius: 12px;
-
-        .warningText {
-          h1 {
-            color: var(--dark-brown-text-color);
-          }
-        }
-      }
-      .actionButtons {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px;
-      }
-
-      .cancelExitButton {
-        background-color: var(--light-sand-color);
-        color: purple;
-        padding: 5px 15px;
-        cursor: pointer;
-        border: none;
-        border-radius: 5px;
-      }
-
-      .confirmExitButton {
-        background-color: purple;
-        color: var(--light-sand-color);
-        padding: 5px 15px;
-        cursor: pointer;
-        border: none;
-        border-radius: 5px;
       }
     }
   }

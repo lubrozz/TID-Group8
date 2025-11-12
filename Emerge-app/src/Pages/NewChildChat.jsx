@@ -1,27 +1,17 @@
 import "../chat.css";
 
 import ChildTextBar from "../Components/ChildChat/ChildTextBar";
-import ExitBar from "../Components/ChildChat/ExitBar";
-import IncomingMessage from "../Components/ChildChat/IncomingMessage";
-import OutgoingMessage from "../Components/ChildChat/OutgoingMessage";
-import ExitButton from "../Components/ChildChat/ExitButton";
-import ExitWarning from "../Components/ChildChat/ExitWarning";
-import { useState } from "react";
+import ExitModal from "../Components/ChildChat/ExitModal";
+import MessageBubble from "../Components/ChildChat/MessageBubble";
 
 const NewChildChat = () => {
-  const [showExit, setShowExit] = useState(false);
-
   return (
     <div className="container">
       <div className="chat">
-        <div className="top">
-          <ExitBar />
-          <ExitButton onClick={() => setShowExit(true)} />
-        </div>
+        <ExitModal />
         <div className="center">
-          {showExit && <ExitWarning onCancel={() => setShowExit(false)} />}
-          <IncomingMessage />
-          <OutgoingMessage />
+          <MessageBubble bubbleStyle="message" isProf={true} />
+          <MessageBubble bubbleStyle="message own" isProf={false} />
         </div>
         <div className="bottom">
           <ChildTextBar />

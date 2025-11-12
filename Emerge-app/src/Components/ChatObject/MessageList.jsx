@@ -5,5 +5,6 @@ export default function MessageList({ messages, renderItem }) {
         {messages.map((m) => renderItem(m))}
       </div>
     );
+    
   }
   
