@@ -7,10 +7,8 @@ import {
 import HomePage from "./Pages/HomePage";
 import ProfChat from "./Pages/ProfChat";
 import LoginPage from "./Pages/LoginPage";
-import LoginPage from "./Pages/LoginPage";
 import NewChildChat from "./Pages/NewChildChat";
 import Register from "./Pages/RegisterPage";
-
 
 export default function App() {
   return (
