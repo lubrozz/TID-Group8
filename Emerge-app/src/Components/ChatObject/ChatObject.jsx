@@ -1,9 +1,10 @@
 // src/Components/ChatObject/ChatObject.jsx
 import MessageList from "../ChatObject/MessageList";
 import MessageBubble from "../ChatObject/MessageBubble";
-import TextBar from "../ChatObject/TextBar";
+import TextBar from "../Shared/TextBar";
 import NotesBar from "../Shared/NotesBar";
 import "../../prof-chat.css";
+
 import { useState } from "react";
 
 export default function ChatObject({ chat, onSend }) {
@@ -43,10 +44,10 @@ export default function ChatObject({ chat, onSend }) {
           />
         )}
       />
-      <div className="textbar-wrap">
+  
           <TextBar onSend={onSend} />
         </div>
-      </div>
+     
 
          {/* Right side: notes */}
          <div className="chatobject-notes">

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import LoginInput from '../Components/Shared/LoginInput';  
+import LoginInput from "../Components/Shared/LoginInput";  
 import LoginButton from '../Components/Shared/LoginButton';  
-import '../LoginPage.css' 
+import NavigateButton from '../Components/Shared/NavigateButton';
+import "../LoginPage.css";
 import { useNavigate } from 'react-router-dom';     // this is for navigation
-import Parse from 'parse/dist/parse.min.js';        // use Parse to log in
+import Parse from "parse";  // do not change import, otherwise can not run      
 
 
 
@@ -31,7 +32,7 @@ export default function LoginPage() {
       console.log('Logged in:', user?.get('username'));
 
       // Redirect to our target page (adjust based on our source URL)
-      navigate('/ProfChat'); 
+      navigate('/prof-chat'); 
     } catch (e) {
       // show error information when login fails
       // common mistakes：101 = Invalid username/password.
@@ -77,8 +78,18 @@ export default function LoginPage() {
 
         {/* register-link */}
         <p className="register-link">
-          Don’t have an account? <a href="/register">Register</a>
-        </p>
+          Don’t have an account? 
+          </p>
+    
+          <NavigateButton
+            styleClass="register-link a"
+            page="/register"
+            buttonText="Register"
+          /> 
+        
+
+        
+       
       </div>
     </div>
   );

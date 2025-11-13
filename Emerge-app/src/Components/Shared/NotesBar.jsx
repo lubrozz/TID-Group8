@@ -1,7 +1,7 @@
 import NoteTaking from "./NoteTaking";
 import AddNoteButton from "./AddNoteButton";
 import { useEffect, useRef } from "react";
-import "../../App.css";
+import "../../prof-chat.css";
 
 
 export default function NotesBar({
@@ -28,7 +28,7 @@ export default function NotesBar({
   const otherEntries = entries.filter(([id]) => id !== selectedMessageId);
 
   return (
-    <aside className="notes-bar">
+    <div className="notes-bar">
       {/* The currently selected note is at the top. */}
       {selectedEntry.map(([id, text]) => (
         <div key={id} ref={topNoteRef}>
@@ -53,6 +53,6 @@ export default function NotesBar({
       <div className="notes-bar-add-button">
         <AddNoteButton onClick={onAddNoteForSelected} />
       </div>
-    </aside>
+    </div>
   );
 }

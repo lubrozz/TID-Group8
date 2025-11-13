@@ -1,4 +1,4 @@
-import "../../chat.css";
+import "../../child-chat.css";
 
 export default function MessageBubble({ bubbleStyle, isProf }) {
   return (

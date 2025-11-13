@@ -60,91 +60,8 @@
   background: var(--light-sand-color);
 }
 
-.textbar-wrap {
-  border-top: 2px solid var(--sand-color);
-  padding: 0rem 0rem;
-  background: var(--white-bg-color);
-  display: flex;
-  justify-content: center;
-}
 
-/* --- Text bar container --- */
-.textbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--sand-color);
-  border-top: 1px solid var(--sand-color);
-  padding: 1.2rem 0.75rem;
-  width: 100%; /* ensures it fits chat width */
-  box-sizing: border-box; /* includes padding in width */
-}
 
-/* --- Icon section (left side) --- */
-.textbar-icons {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-right: 0.5rem;
-}
-
-/* --- Input field --- */
-.textbar-input {
-  flex: 1;
-  background-color: var(--white-bg-color);
-  border: none;
-  border-radius: 999px;
-  padding: 0.5rem 1rem;
-  color: var(--dark-brown-text-color);
-  font-size: 14px;
-  outline: none;
-  height: 36px;
-  margin: 0 auto; /* centers horizontally */
-  box-sizing: border-box;
-}
-
-/* --- Reusable icon button --- */
-.icon-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* --- Send button tweak --- */
-.send-btn {
-  margin-left: 0.5rem;
-}
-
-/* === TextBar input styling === */
-.textbar-input {
-  max-block-size: 10px;
-  margin-trim: center;
-  background-color: var(--white-bg-color);
-  border: none;
-  border-radius: 100px; /* fully rounded “pill” shape */
-  padding: 10px 16px;
-  color: var(--dark-brown-text-color);
-  font-size: 14px;
-  outline: var(--dark-brown-text-color); /* removes blue focus border */
-  height: 36px;
-}
-
-/* === AddAttachmentButton styling === */
-.add-attachment-button {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid #000000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
-  cursor: pointer;
-  padding: 0;
-}
 
 /* === AddNoteButton styling === */
 .add-note-button {
@@ -189,6 +106,7 @@
   font-weight: 400;
   line-height: 1.5;
   border-radius: 16px;
+  
   padding: 16px;
   box-sizing: border-box;
   resize: none;
@@ -196,24 +114,7 @@
   border: none;
 }
 
-/* === NotesBar component === */
-.notes-bar {
-  width: 298px;
-  height: 1010px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  background-color: transparent;
-  padding: 10px 0;
-  gap: 12px;
-  overflow-y: auto;
-}
 
-.notes-bar-add-button {
-  margin-top: auto;
-  padding-top: 8px;
-}
 
 /* === SearchBar component === */
 .search-bar {
@@ -268,14 +169,7 @@
   text-align: center;
 }
 
-/* right notes area */
-.notes-area {
-  flex: 1;
-  width: 240px;
-  border-left: 1px solid var(--sand-color);
-  background-color: var(--white-bg-color);
-  padding: 0.75rem;
-}
+
 
 /* bottom bar (TextBar container) */
 .bottom {
