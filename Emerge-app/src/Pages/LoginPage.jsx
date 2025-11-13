@@ -7,6 +7,16 @@ import { useNavigate } from 'react-router-dom';     // this is for navigation
 import Parse from "parse";  // do not change import, otherwise can not run      
 
 
+// --- Test Parse login ---
+(async () => {
+   try {
+      let user = await Parse.User.logIn("pro2@demo.com", "1234");
+      console.log("logged in user: ", user);
+   } catch(error) {
+      console.error("error while logging in user: ", error);
+   }
+})();
+
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');  // store username input
