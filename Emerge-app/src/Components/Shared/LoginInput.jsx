@@ -1,22 +1,15 @@
-import React, { useState } from 'react';
 import '../../LoginPage.css'; 
 
-export default function LoginInput({ placeholder, onChange }) {
-  const [inputValue, setInputValue] = useState('');
 
-  // to deal with the change of LoginInput component
-  const handleChange = (e) => {
-    setInputValue(e.target.value);
-    onChange && onChange(e.target.value);  // if there is a onChange for parent component
-  };
-
+export default function LoginInput({ placeholder, onChange, value, type = 'text' }) {
   return (
     <input
-      type="text"
+      type={type} // this is for hiding the password 
       placeholder={placeholder}
-      value={inputValue}
-      onChange={handleChange}
+      value={value}
+      onChange={(e) => onChange && onChange(e.target.value)}
       className="login-input"  
     />
   );
 }
+

@@ -10,6 +10,7 @@ import LoginPage from "./Pages/LoginPage";
 import NewChildChat from "./Pages/NewChildChat";
 import Register from "./Pages/RegisterPage";
 
+
 export default function App() {
   return (
     <Router>
