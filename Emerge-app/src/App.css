@@ -76,7 +76,17 @@
   cursor: pointer;
   box-shadow: none;
   padding: 0;
+  transition: transform 0.1s ease;
 }
+
+.add-note-button:active {
+  transform: scale(0.9);
+}
+
+
+
+
+
 
 /* === Ellipsis component === */
 .ellipsis-container {
