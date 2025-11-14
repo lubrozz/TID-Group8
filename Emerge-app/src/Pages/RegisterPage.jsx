@@ -1,52 +1,80 @@
 import React, { useState } from 'react';
 import LoginInput from '../Components/Shared/LoginInput';  
 import RegisterButton from '../Components/Shared/RegisterButton';
-import NavigateButton from "../Components/Shared/NavigateButton";
-import "../LoginPage.css";  
+import "../RegisterPage.css";  
+import Parse from "parse"; // <-- Important
+import { useNavigate } from "react-router-dom";
 
 
 
 export default function Register() {
   const [username, setUsername] = useState('');  // store username input
   const [password, setPassword] = useState('');  // store password input
+  const [error, setError]       = useState("");
+  const [loading, setLoading]   = useState(false);
 
-  const handleLogin = () => {
-    // the login logic
-    if (username && password) {
-      console.log('Logged in with', username, password);
-    } else {
-      console.log('Please enter both username and password');
+  const navigate = useNavigate();
+
+
+  const handleRegister = async () => {
+    setError("");
+
+    try {
+      setLoading(true);
+
+      const user = new Parse.User();
+      user.set("username", username);
+      user.set("password", password);
+
+      await user.signUp(); // Create user in DB
+
+      console.log("User registered:", user);
+
+      // Redirect user back to login
+      navigate("/login");
+    } catch (e) {
+      console.error("Registration error:", e);
+      setError(e?.message || "Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
 
+
   return (
-    <div className="login-page">
-      <div className="login-form">
+    <div className="register-page">
+      <div className="register-form">
         <h2>Register</h2>
+
+        {error && <div className="error-message">{error}</div>}
         
         {/* Username Input Area */}
+      
         <div className="input-group">
-          <label htmlFor="username">Username:</label>
+          <label>Username:</label>
           <LoginInput
             placeholder="Enter your new username"
             value={username}
             onChange={setUsername}
+            type="text"
           />
         </div>
 
         {/* Password Input Area */}
+     
         <div className="input-group">
-          <label htmlFor="password">Password:</label>
+          <label>Password:</label>
           <LoginInput
             placeholder="Enter your new password"
             value={password}
             onChange={setPassword}
+            type="password"
           />
         </div>
 
         {/* LoginButton */}
   
-        <RegisterButton onClick={handleLogin} />
+        <RegisterButton onClick={handleRegister} loading={loading} />
 
        
       </div>
