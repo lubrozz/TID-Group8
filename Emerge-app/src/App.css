@@ -10,3 +10,185 @@
 .child-splash-bg {
   background-color: var(--light-sand-color);
 }
+
+.chat-list-item:hover {
+  background-color: var(--light-sand-color);
+}
+
+.chat-list-item.active {
+  background-color: var(--sand-color);
+}
+
+.center-text {
+  text-align: center;
+}
+
+.bg-sand {
+  background-color: var(--light-sand-color);
+}
+.bg-white {
+  background-color: var(--white-bg-color);
+}
+.text-brown {
+  color: var(--dark-brown-text-color);
+}
+.text-brown-2 {
+  color: var(--dark-brown-color);
+}
+.border-sand {
+  border-color: var(--sand-color);
+}
+
+.child-splash-bg {
+  background-color: var(--light-sand-color);
+}
+
+.chat-list-item:hover {
+  background-color: var(--light-sand-color);
+}
+.chat-list-item.active {
+  background-color: var(--sand-color);
+}
+
+/* utility spacing/shapes that you repeat often */
+
+/*Keep message-bubbles strucuted and bacgorund colour ligt-sand */
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background: var(--light-sand-color);
+}
+
+
+
+
+/* === AddNoteButton styling === */
+.add-note-button {
+  background-color: var(--sand-color);
+  border: 1px solid #464740;
+  border-radius: 20px;
+  width: 180px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: none;
+  padding: 0;
+  transition: transform 0.1s ease;
+}
+
+.add-note-button:active {
+  transform: scale(0.9);
+}
+
+
+
+
+
+
+/* === Ellipsis component === */
+.ellipsis-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.ellipsis-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #464740;
+  margin: 0 2px;
+}
+
+/* === NoteTaking component === */
+.note-taking-textarea {
+  width: 204px;
+  height: 162px;
+  background-color: #5b5d52;
+  color: white;
+  font-family: "Nunito", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  border-radius: 16px;
+  
+  padding: 16px;
+  box-sizing: border-box;
+  resize: none;
+  outline: none;
+  border: none;
+}
+
+
+
+/* === SearchBar component === */
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 193px;
+  height: 42px;
+  background-color: rgba(120, 120, 128, 0.16);
+  border: 1px solid #000000;
+  border-radius: 100px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 0 12px;
+}
+
+.search-bar-icon {
+  margin-right: 8px;
+}
+
+.search-bar-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 17px;
+  color: #999999;
+}
+
+/* === ReportButton component === */
+.report-button {
+  background-color: #da6565;
+  color: #464740;
+  border: 2px solid #464740;
+  border-radius: 5px;
+  padding: 12px 30px;
+  font-size: 11px;
+  font-family: "Nunito", sans-serif;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+/* === ReportNotification component === */
+.report-notification {
+  background-color: #c7c4b1;
+  color: #464740;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+
+/* bottom bar (TextBar container) */
+.bottom {
+  border-top: 1px solid var(--sand-color);
+  padding: 0.5rem 1rem;
+  background-color: var(--sand-color);
+}
+
+/* For visual testing*/
+/* .prof-layout > div {
+  border: 1px dashed red;
+} */
