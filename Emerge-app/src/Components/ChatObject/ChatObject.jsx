@@ -44,11 +44,9 @@ export default function ChatObject({ chat, onSend }) {
           />
         )}
       />
-  
           <TextBar onSend={onSend} />
         </div>
      
-
          {/* Right side: notes */}
          <div className="chatobject-notes">
         <NotesBar
