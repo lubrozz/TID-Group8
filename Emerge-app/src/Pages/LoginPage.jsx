@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import LoginInput from "../Components/Shared/LoginInput";  
+import Input from "../Components/Shared/Input";  
 import LoginButton from '../Components/Shared/LoginButton';  
 import NavigateButton from '../Components/Shared/NavigateButton';
 import "../LoginPage.css";
@@ -54,7 +54,7 @@ export default function LoginPage() {
         {/* Username Input Area */}
         <div className="input-group">
           <label htmlFor="username">Username:</label>
-          <LoginInput
+          <Input
             placeholder="Enter your username"
             value={username}
             onChange={setUsername}
@@ -65,7 +65,7 @@ export default function LoginPage() {
         {/* Password Input Area */}
         <div className="input-group">
           <label htmlFor="password">Password:</label>
-          <LoginInput
+          <Input
             placeholder="Enter your password"
             value={password}
             onChange={setPassword}
