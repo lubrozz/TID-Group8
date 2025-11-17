@@ -7,13 +7,14 @@ export default function LinkButton({
   page,
   buttonText,
   buttonIcon,
+  onClick,
 }) {
   return (
-    <div className={styleName}>
+    <button onClick={onClick} className={styleName}>
       <Link to={page} className="texts">
         <p>{buttonText}</p>
         {buttonIcon}
       </Link>
-    </div>
+    </button>
   );
 }
