@@ -8,7 +8,9 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function Register() {
+  const [fullname, setFullname] = useState('');  // store Fullname input
   const [username, setUsername] = useState('');  // store username input
+  const [role, setRole] = useState('');  // store FullName input
   const [password, setPassword] = useState('');  // store password input
   const [error, setError]       = useState("");
   const [loading, setLoading]   = useState(false);
@@ -21,10 +23,11 @@ export default function Register() {
 
     try {
       setLoading(true);
-
       const user = new Parse.User();
+      user.set("fullName", fullname);
       user.set("username", username);
       user.set("password", password);
+      user.set("roleLabel", role);
 
       await user.signUp(); // Create user in DB
 
@@ -40,6 +43,14 @@ export default function Register() {
     }
   };
 
+  const roles = [
+    "Psychologist",
+    "Social worker",
+    "Volunteer"
+  ];
+
+
+
 
   return (
     <div className="register-page">
@@ -48,7 +59,19 @@ export default function Register() {
 
         {error && <div className="error-message">{error}</div>}
         
-        {/* Username Input Area */}
+        {/* Full Name Input Area */}
+
+        <div className="input-group">
+          <label>Full name:</label>
+          <LoginInput
+            placeholder="Enter your full name"
+            value={fullname}
+            onChange={setFullname}
+            type="text"
+          />
+        </div>
+
+         {/* Username Input Area */}
       
         <div className="input-group">
           <label>Username:</label>
@@ -71,6 +94,24 @@ export default function Register() {
             type="password"
           />
         </div>
+
+      {/* Role Input Area */}
+
+      <div className="input-group">
+  <label>Professional Role:</label>
+  <select
+    className="register-select"
+    value={role}
+    onChange={(e) => setRole(e.target.value)}
+>
+    <option value="">Select your role...</option>
+    {roles.map((r) => (
+      <option key={r} value={r}>
+        {r}
+      </option>
+    ))}
+  </select>
+</div>
 
         {/* LoginButton */}
   

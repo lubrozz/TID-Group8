@@ -59,6 +59,17 @@
   .Register-button:active {
     transform: scale(0.9);
   }
+
+  .register-select {
+        margin-bottom: 20px;
+       width: 88%;
+       font-size: 12px;  
+       border: 1px solid var(--outline);
+    border-radius: 8px;
+
+  
+  }
+
   
   /* === Register Error Notification (used in the Register Page) === */
 .error-message {
