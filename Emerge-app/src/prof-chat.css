@@ -69,14 +69,7 @@
   overflow: hidden; /* prevents overflow beyond screen */
 }
 
-/* --- ChatObject layout --- */
-.chatobject-wrapper {
-    display: flex;
-    flex: 1;
-    height: 100%;
-    width: 100%;
-    background-color: var(--white-bg-color);
-  }
+
   
   /* Left side: chat messages + text bar */
   .chatobject-messages {
@@ -105,7 +98,6 @@
   
   /* Right side: notes panel (per chat) */
   .chatobject-notes {
-
     min-width: 320px;
     padding: 1rem;
     background-color: var(--white-bg-color);
@@ -131,7 +123,6 @@
 
 .notes-bar-add-button {
   margin-top: auto;
-  
   padding-top: 8px;
 }
   
@@ -212,7 +203,7 @@
     color: var(--dark-brown-text-color);
   }
   
-  /* 🖥️ Large screens: wider bubbles, more padding */
+  /* Large screens: wider bubbles, more padding */
   @media (min-width: 1200px) {
     .message-bubble {
       padding: 1.1rem 1.6rem;
@@ -223,7 +214,7 @@
     }
   }
   
-  /* 📱 Small screens: tighter bubbles */
+  /* Small screens: tighter bubbles */
   @media (max-width: 768px) {
     .message-bubble {
       padding: 0.7rem 1rem;
@@ -289,8 +280,51 @@
   }
 }
 
+/* Don't change or delete this */
+.chatobject-wrapper {
+  position: relative;
+  padding-top: 40px;  /* it is for the space of report-notification */
+  height: 100%;
+  display: flex;
+}
+
+.padded-for-report {
+  padding-top: 40px !important;
+}
 
 
-  
+/* Don't change or delete this */
+.chatobject-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
 
+.chatobject-header {
+  flex: 0 0 auto;  
+  width: 100%;  
+  z-index: 20;    
+}
 
+.chatobject-body {
+  flex: 1 1 auto;
+  display: flex;
+  overflow: hidden;
+}
+
+/* messages column */
+.chatobject-messages {
+  flex: 6;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* notes column */
+.chatobject-notes {
+  flex: 0 0 20%;
+  overflow-y: auto;
+}
