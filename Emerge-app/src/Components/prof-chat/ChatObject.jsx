@@ -2,8 +2,8 @@
 import MessageList from "./MessageList";
 import MessageBubble from "./MessageBubble";
 import TextBar from "../Shared/TextBar";
-import NotesBar from "../Shared/NotesBar";
-import "../../prof-chat.css";
+import NotesBar from "../prof-chat/NotesBar";
+import "../../styles/prof-chat.css";
 
 import { useState } from "react";
 

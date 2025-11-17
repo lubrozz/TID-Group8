@@ -1,6 +1,6 @@
-import "../../homePage.css";
+import "../../styles/homePage.css";
 
-import NavigateButton from "./NavigateButton";
+import NavigateButton from "../Buttons/NavigateButton";
 
 export default function WelcomeSplash() {
   return (

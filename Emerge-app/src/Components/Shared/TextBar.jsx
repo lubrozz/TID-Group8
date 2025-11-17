@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Plus, Smile, Send } from "lucide-react";
 import EmojiPicker from "emoji-picker-react";
 
-import "../../textbar.css"
+import "../../styles/textbar.css";
 
 // The TextBar component represents the message input area
 // at the bottom of the chat window. It collects user input
@@ -21,28 +21,27 @@ export default function TextBar({ onSend }) {
   };
 
   return (
-    
     <div className="textbar">
       {/* --- Left icons: Plus + Smile --- */}
       <div className="textbar-icons">
         <button className="icon-btn">
-          <Plus size={18} color="var(--dark-brown-text-color)" strokeWidth={2} />
+          <Plus
+            size={18}
+            color="var(--dark-brown-text-color)"
+            strokeWidth={2}
+          />
         </button>
-          <button
-            className="icon-btn"
-            onClick={() => setOpen((prev) => !prev)}
-          >
-            <Smile
-              size={18}
-              color="var(--dark-brown-text-color)"
-              strokeWidth={2}
-            />
-          </button>
-          <div className="picker">
-            <EmojiPicker open={open} onEmojiClick={handleEmoji} />
-          </div>
+        <button className="icon-btn" onClick={() => setOpen((prev) => !prev)}>
+          <Smile
+            size={18}
+            color="var(--dark-brown-text-color)"
+            strokeWidth={2}
+          />
+        </button>
+        <div className="picker">
+          <EmojiPicker open={open} onEmojiClick={handleEmoji} />
         </div>
-   
+      </div>
 
       {/* --- Input field --- */}
       <input
@@ -66,6 +65,3 @@ export default function TextBar({ onSend }) {
     </div>
   );
 }
-
-
-

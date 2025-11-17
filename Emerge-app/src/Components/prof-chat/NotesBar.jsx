@@ -1,7 +1,7 @@
 import NoteTaking from "./NoteTaking";
 import AddNoteButton from "../Buttons/AddNoteButton";
 import { useEffect, useRef } from "react";
-import "../../prof-chat.css";
+import "../../styles/prof-chat.css";
 
 export default function NotesBar({
   notesByMessageId = {},

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import ChatObject from "../Components/ChatObject/ChatObject";
+import ChatObject from "../Components/prof-chat/ChatObject";
 import { Link } from "react-router-dom";
-import "../prof-chat.css";
+import "../styles/prof-chat.css";
 
 export default function ProfChat() {
   // State: all conversations

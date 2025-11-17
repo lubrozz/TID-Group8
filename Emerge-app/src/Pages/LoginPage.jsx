@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import LoginInput from "../Components/Shared/LoginInput";
-import LoginButton from "../Components/Shared/LoginButton";
+import LoginInput from "../Components/LoginPage/LoginInput";
+import LoginButton from "../Components/Buttons/LoginButton";
 import NavigateButton from "../Components/Buttons/NavigateButton";
-import "../LoginPage.css";
+import "../styles/LoginPage.css";
 import { useNavigate } from "react-router-dom"; // this is for navigation
 import Parse from "parse"; // do not change import, otherwise can not run
 

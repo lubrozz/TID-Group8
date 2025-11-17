@@ -1,6 +1,6 @@
-import "../homePage.css";
+import "../styles/homePage.css";
 import WelcomeSplash from "../Components/Shared/WelcomeSplash";
-import NavigateButton from "../Components/Shared/NavigateButton";
+import NavigateButton from "../Components/Buttons/NavigateButton";
 
 const HomePage = () => {
   return (
@@ -12,16 +12,16 @@ const HomePage = () => {
           </div>
 
           <div classname="buttons-container">
-          <NavigateButton
-            styleClass="toProfButton"
-            page="/prof-chat"
-            buttonText="Go to Professional Chat"
-          />
-          <NavigateButton
-            styleClass="toProfLoginButton"
-            page="/prof-login"
-            buttonText="Go to Professional Login Page"
-          />
+            <NavigateButton
+              styleClass="toProfButton"
+              page="/prof-chat"
+              buttonText="Go to Professional Chat"
+            />
+            <NavigateButton
+              styleClass="toProfLoginButton"
+              page="/prof-login"
+              buttonText="Go to Professional Login Page"
+            />
           </div>
         </div>
         <div className="center">

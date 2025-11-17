@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import "../../child-chat.css";
+import "../../styles/child-chat.css";
 
 export default function ExitModal() {
   const [open, setOpen] = useState(false);
@@ -28,21 +28,21 @@ export default function ExitModal() {
         </button>
       </div>
       <dialog className="dialog" ref={dialogRef} onClose={handleClose}>
-          <h2>Exit and delete this chat?</h2>
-          <p>If you exit the chat, your conversation will be deleted. But you
-              are always welcome to come back to have another chat.</p>
-          <div className="actionButtons">
-            <button className="cancelExitButton" onClick={handleClose}>
-              <p className="texts">
-                Back to chat
-              </p>
-              </button>
-              <button className="confirmExitButton">
-                <Link to="/" className="texts">
-                  Exit Chat
-                </Link>
-              </button>
-          </div>
+        <h2>Exit and delete this chat?</h2>
+        <p>
+          If you exit the chat, your conversation will be deleted. But you are
+          always welcome to come back to have another chat.
+        </p>
+        <div className="actionButtons">
+          <button className="cancelExitButton" onClick={handleClose}>
+            <p className="texts">Back to chat</p>
+          </button>
+          <button className="confirmExitButton">
+            <Link to="/" className="texts">
+              Exit Chat
+            </Link>
+          </button>
+        </div>
       </dialog>
     </div>
   );
