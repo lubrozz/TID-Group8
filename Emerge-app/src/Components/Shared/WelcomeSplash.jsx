@@ -3,10 +3,12 @@ import { useState } from "react";
 
 import LinkButton from "./LinkButton";
 import { createNewChatRoom } from "../../services/chatService";
+import { useNavigate } from "react-router-dom";
 
 export default function WelcomeSplash() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleNewChatRoom = async () => {
     setError("");
@@ -15,6 +17,7 @@ export default function WelcomeSplash() {
     try {
       const savedRoom = await createNewChatRoom();
       console.log("Chat created:", savedRoom);
+      navigate(`/chat/${savedRoom.id}`);
     } catch (e) {
       console.error(e);
       setError(e?.message || "Failed to create chatroom");
@@ -43,7 +46,6 @@ export default function WelcomeSplash() {
         />
         <LinkButton
           styleName={"newChatButton"}
-          page={"/new-child-chat"}
           buttonText={"New Chat"}
           buttonIcon={<span>&#10140;</span>}
           loading={loading}
