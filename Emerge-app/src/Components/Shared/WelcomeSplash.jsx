@@ -1,11 +1,33 @@
 import "../../styles/homePage.css";
+import { useState } from "react";
 
 import LinkButton from "./LinkButton";
+import { createNewChatRoom } from "../../services/chatService";
 
 export default function WelcomeSplash() {
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleNewChatRoom = async () => {
+    setError("");
+    setLoading(true);
+
+    try {
+      const savedRoom = await createNewChatRoom();
+      console.log("Chat created:", savedRoom);
+    } catch (e) {
+      console.error(e);
+      setError(e?.message || "Failed to create chatroom");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="centerSplash">
       <div className="headerWrapper">
+        {error && <div className="error-message">{error}</div>}
+
         <h1 className="mainHeader">Welcome</h1>
         <h2 className="subHeader">
           This is a safe and private space where you can chat and share your
@@ -24,6 +46,8 @@ export default function WelcomeSplash() {
           page={"/new-child-chat"}
           buttonText={"New Chat"}
           buttonIcon={<span>&#10140;</span>}
+          loading={loading}
+          onClick={handleNewChatRoom}
         />
       </div>
     </div>

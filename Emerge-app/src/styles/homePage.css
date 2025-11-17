@@ -51,7 +51,6 @@ body {
       }
     }
 
-
     .toProfLoginButton {
       background-color: #51ad90;
       padding: 5px 15px;
@@ -76,20 +75,20 @@ body {
     }
 
     /* Group both buttons together */
-.buttons-container {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* space between them */
-}
+    .buttons-container {
+      display: flex;
+      align-items: center;
+      gap: 10px; /* space between them */
+    }
 
-/* Optional: stack vertically on smaller screens */
-@media (max-width: 600px) {
-  .buttons-container {
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-  }
-}
+    /* Optional: stack vertically on smaller screens */
+    @media (max-width: 600px) {
+      .buttons-container {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+      }
+    }
   }
 
   .center {
@@ -119,6 +118,16 @@ body {
         display: flex;
         flex-direction: column;
         gap: 10px;
+      }
+
+      .error-message {
+        color: #b00020;
+        background: #fdecea;
+        border: 1px solid #f5c2c7;
+        border-radius: 8px;
+        padding: 8px 12px;
+        margin-bottom: 12px;
+        font-size: 14px;
       }
 
       /* Main header */
