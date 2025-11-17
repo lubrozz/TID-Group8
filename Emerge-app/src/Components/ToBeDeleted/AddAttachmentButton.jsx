@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import IconButton from "../Buttons/IconButton";
+import IconButton from "./IconButton";
 import "../../App.css";
 
 export default function AddAttachmentButton({ onClick }) {

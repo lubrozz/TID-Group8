@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import LoginInput from "../Components/LoginPage/LoginInput";
-import RegisterButton from "../Components/Buttons/RegisterButton";
 import "../styles/RegisterPage.css";
 import Parse from "parse"; // <-- Important
 import { useNavigate } from "react-router-dom";
+import Button from "../Components/Shared/button";
 
 export default function Register() {
   const [username, setUsername] = useState(""); // store username input
@@ -69,8 +69,12 @@ export default function Register() {
         </div>
 
         {/* LoginButton */}
-
-        <RegisterButton onClick={handleRegister} loading={loading} />
+        <Button
+          styleName={"Register-button"}
+          onClick={handleRegister}
+          loading={loading}
+          buttonText={"Register"}
+        />
       </div>
     </div>
   );

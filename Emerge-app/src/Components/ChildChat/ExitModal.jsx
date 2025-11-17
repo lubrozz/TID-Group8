@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import "../../styles/child-chat.css";
+import Button from "../Shared/button";
+import LinkButton from "../Shared/LinkButton";
 
 export default function ExitModal() {
   const [open, setOpen] = useState(false);
@@ -23,9 +24,11 @@ export default function ExitModal() {
         <div className="exitBar">
           <p>You can at anytime exit and delete the chat here.</p>
         </div>
-        <button className="exitButton" onClick={handleOpen}>
-          Exit
-        </button>
+        <Button
+          styleName={"exitButton"}
+          onClick={handleOpen}
+          buttonText={"Exit"}
+        />
       </div>
       <dialog className="dialog" ref={dialogRef} onClose={handleClose}>
         <h2>Exit and delete this chat?</h2>
@@ -34,14 +37,16 @@ export default function ExitModal() {
           always welcome to come back to have another chat.
         </p>
         <div className="actionButtons">
-          <button className="cancelExitButton" onClick={handleClose}>
-            <p className="texts">Back to chat</p>
-          </button>
-          <button className="confirmExitButton">
-            <Link to="/" className="texts">
-              Exit Chat
-            </Link>
-          </button>
+          <Button
+            styleName={"cancelExitButton"}
+            onClick={handleClose}
+            buttonText={"Back to chat"}
+          />
+          <LinkButton
+            styleName={"confirmExitButton"}
+            page={"/"}
+            buttonText={"Exit Chat"}
+          />
         </div>
       </dialog>
     </div>

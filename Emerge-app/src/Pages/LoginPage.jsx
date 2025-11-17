@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import LoginInput from "../Components/LoginPage/LoginInput";
-import LoginButton from "../Components/Buttons/LoginButton";
-import NavigateButton from "../Components/Buttons/NavigateButton";
 import "../styles/LoginPage.css";
 import { useNavigate } from "react-router-dom"; // this is for navigation
 import Parse from "parse"; // do not change import, otherwise can not run
+import LinkButton from "../Components/Shared/LinkButton";
+import Button from "../Components/Shared/button";
 
 export default function LoginPage() {
   const [username, setUsername] = useState(""); // store username input
@@ -72,15 +72,18 @@ export default function LoginPage() {
         </div>
 
         {/* LoginButton */}
-        <LoginButton onClick={handleLogin} />
+        <Button
+          styleName={"login-button"}
+          onClick={handleLogin}
+          buttonText={"Log in"}
+        />
 
         {/* register-link */}
         <p className="register-link">Don’t have an account?</p>
-
-        <NavigateButton
-          styleClass="register-link a"
-          page="/register"
-          buttonText="Register"
+        <LinkButton
+          styleName={"register-link a"}
+          page={"/register"}
+          buttonText={"Register"}
         />
       </div>
     </div>

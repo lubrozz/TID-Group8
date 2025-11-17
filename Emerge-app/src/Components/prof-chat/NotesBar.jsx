@@ -1,7 +1,8 @@
 import NoteTaking from "./NoteTaking";
-import AddNoteButton from "../Buttons/AddNoteButton";
+import { FilePlus } from "lucide-react";
 import { useEffect, useRef } from "react";
 import "../../styles/prof-chat.css";
+import Button from "../Shared/button";
 
 export default function NotesBar({
   notesByMessageId = {},
@@ -50,7 +51,9 @@ export default function NotesBar({
 
       {/* Add button at the bottom */}
       <div className="notes-bar-add-button">
-        <AddNoteButton onClick={onAddNoteForSelected} />
+        <Button onClick={onAddNoteForSelected} styleName={"add-note-button"}>
+          <FilePlus size={14} color="#000000" strokeWidth={2} />
+        </Button>
       </div>
     </div>
   );
