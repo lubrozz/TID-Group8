@@ -1,6 +1,6 @@
 // src/Components/ChatObject/ChatObject.jsx
-import MessageList from "../ChatObject/MessageList";
-import MessageBubble from "../ChatObject/MessageBubble";
+import MessageList from "./MessageList";
+import MessageBubble from "./MessageBubble";
 import TextBar from "../Shared/TextBar";
 import NotesBar from "../Shared/NotesBar";
 import "../../prof-chat.css";
@@ -33,24 +33,23 @@ export default function ChatObject({ chat, onSend }) {
     <div className="chatobject-wrapper">
       {/* Left side: message area */}
       <div className="chatobject-messages">
-      <MessageList
-        messages={chat.messages}
-        renderItem={(m) => (
-          <MessageBubble
-            key={m.id}
-            text={m.text}
-            sender={m.sender}
-            timestamp={m.timestamp}
-          />
-        )}
-      />
-  
-          <TextBar onSend={onSend} />
-        </div>
-     
+        <MessageList
+          messages={chat.messages}
+          renderItem={(m) => (
+            <MessageBubble
+              key={m.id}
+              text={m.text}
+              sender={m.sender}
+              timestamp={m.timestamp}
+            />
+          )}
+        />
 
-         {/* Right side: notes */}
-         <div className="chatobject-notes">
+        <TextBar onSend={onSend} />
+      </div>
+
+      {/* Right side: notes */}
+      <div className="chatobject-notes">
         <NotesBar
           notesByMessageId={notesByMessageId}
           selectedMessageId={selectedMessageId}
@@ -58,7 +57,6 @@ export default function ChatObject({ chat, onSend }) {
           onAddNoteForSelected={handleAddNoteForSelected}
         />
       </div>
-      
     </div>
   );
 }

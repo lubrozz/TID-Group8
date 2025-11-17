@@ -1,7 +1,12 @@
-import Ellipsis from "../Shared/Ellipsis";
+import Ellipsis from "./Ellipsis";
 import "../../prof-chat.css";
 
-export default function MessageBubble({ text, sender, timestamp, onEllipsisClick }) {
+export default function MessageBubble({
+  text,
+  sender,
+  timestamp,
+  onEllipsisClick,
+}) {
   const isPro = sender === "professional";
 
   return (

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import ChatObject from "../Components/ChatObject/ChatObject";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import "../prof-chat.css";
 
 export default function ProfChat() {
- // State: all conversations
+  // State: all conversations
   const [chats, setChats] = useState([
     {
       id: 1,
@@ -28,14 +28,15 @@ export default function ProfChat() {
     },
   ]);
 
-   
-
   // Track which chat is selected
   const [selectedChat, setSelectedChat] = useState(null);
 
   const handleSendMessage = (chatId, newText) => {
-    const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  
+    const now = new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
     setChats((prev) =>
       prev.map((chat) =>
         chat.id === chatId
@@ -51,17 +52,16 @@ export default function ProfChat() {
                     hour: "2-digit",
                     minute: "2-digit",
                   }),
-                }
+                },
               ],
             }
           : chat
       )
     );
   };
-  
 
-   //new: update notes inside the correct chat
-   const handleUpdateNotes = (chatId, updatedNotes) => {
+  //new: update notes inside the correct chat
+  const handleUpdateNotes = (chatId, updatedNotes) => {
     setChats((prevChats) =>
       prevChats.map((chat) =>
         chat.id === chatId ? { ...chat, notes: updatedNotes } : chat
@@ -79,69 +79,58 @@ export default function ProfChat() {
 
   // --- Return Layout ---
   return (
-   
-      
     <div className="chat">
-      
       <div className="top">
-        
-    <div className="prof-layout">
-      
-      {/* LEFT COLUMN: Conversations */}
-      <div className="prof-chat-list">
-      <button
-    onClick={() => setSelectedChat(null)} // clears selected chat
-  >
-    <h1>Conversations</h1>
-  </button>
-        {chats.map((chat) => (
-          <div
-            key={chat.id}
-            className={`prof-chat-list-item ${
-              selectedChat?.id === chat.id ? "active" : ""
-            }`}
-            onClick={() => setSelectedChat(selectedChat?.id == chat.id ? null : chat)}
-          >
-            <strong>{chat.name}</strong>
-          <p>{chat.preview}</p>
-          
+        <div className="prof-layout">
+          {/* LEFT COLUMN: Conversations */}
+          <div className="prof-chat-list">
+            <button
+              onClick={() => setSelectedChat(null)} // clears selected chat
+            >
+              <h1>Conversations</h1>
+            </button>
+            {chats.map((chat) => (
+              <div
+                key={chat.id}
+                className={`prof-chat-list-item ${
+                  selectedChat?.id === chat.id ? "active" : ""
+                }`}
+                onClick={() =>
+                  setSelectedChat(selectedChat?.id == chat.id ? null : chat)
+                }
+              >
+                <strong>{chat.name}</strong>
+                <p>{chat.preview}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* RIGHT: Chat + Notes (combined in ChatObject) */}
+
+          <div className="prof-chat-center">
+            {selectedChat ? (
+              <ChatObject
+                key={selectedChat.id}
+                chat={selectedChat}
+                onSend={(msg) => handleSendMessage(selectedChat.id, msg)}
+                onUpdateNotes={(notes) =>
+                  handleUpdateNotes(selectedChat.id, notes)
+                }
+              />
+            ) : (
+              <div className="welcome-screen">
+                <h2>Welcome back</h2>
+                <p>Select a conversation on the left to begin chatting.</p>
+                <div className="welcome-divider"></div>
+                <p className="welcome-tip">
+                  You can also take notes while chatting — they’ll stay linked
+                  to each child.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-        
-      ))}
-        
-      
-    </div>
-    
-
-           {/* RIGHT: Chat + Notes (combined in ChatObject) */}
-
- <div className="prof-chat-center">
-    {selectedChat ? (
-      <ChatObject
-        key={selectedChat.id}
-        chat={selectedChat}
-        onSend={(msg) => handleSendMessage(selectedChat.id, msg)}
-        onUpdateNotes={(notes) => handleUpdateNotes(selectedChat.id, notes)}
-      />
-    ) : (
-      <div className="welcome-screen">
-        <h2>Welcome back</h2>
-        <p>Select a conversation on the left to begin chatting.</p>
-        <div className="welcome-divider"></div>
-        <p className="welcome-tip">
-          You can also take notes while chatting — they’ll stay linked to each child.
-        </p>
       </div>
-    )}
-  </div>
-</div>
-
-  
-  
-      </div>
-
     </div>
-
-
   );
 }
