@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import LoginInput from '../Components/Shared/LoginInput';  
+import Input from '../Components/Shared/Input';  
 import RegisterButton from '../Components/Shared/RegisterButton';
 import "../RegisterPage.css";  
 import Parse from "parse"; // <-- Important
@@ -63,7 +63,7 @@ export default function Register() {
 
         <div className="input-group">
           <label>Full name:</label>
-          <LoginInput
+          <Input
             placeholder="Enter your full name"
             value={fullname}
             onChange={setFullname}
@@ -75,7 +75,7 @@ export default function Register() {
       
         <div className="input-group">
           <label>Username:</label>
-          <LoginInput
+          <Input
             placeholder="Enter your new username"
             value={username}
             onChange={setUsername}
@@ -87,7 +87,7 @@ export default function Register() {
      
         <div className="input-group">
           <label>Password:</label>
-          <LoginInput
+          <Input
             placeholder="Enter your new password"
             value={password}
             onChange={setPassword}

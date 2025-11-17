@@ -1,7 +1,7 @@
 import '../../LoginPage.css'; 
 
 
-export default function LoginInput({ placeholder, onChange, value, type = 'text' }) {
+export default function Input({ placeholder, onChange, value, type = 'text' }) {
   return (
     <input
       type={type} // this is for hiding the password 
