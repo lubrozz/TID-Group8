@@ -9,7 +9,6 @@ export default function ReportButton({ onReport }) {
     setIsReported(true);
     onReport(); // Trigger parent function to handle the reporting action
   };
-
   return (
     <button 
       onDoubleClick={handleDoubleClick} 
