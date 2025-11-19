@@ -27,7 +27,7 @@ export default function Register() {
       user.set("fullName", fullname);
       user.set("username", username);
       user.set("password", password);
-      user.set("roleLabel", role);
+      user.set("subRoleLabel", role);
 
       await user.signUp(); // Create user in DB
 
