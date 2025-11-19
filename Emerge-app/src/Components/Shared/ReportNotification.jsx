@@ -1,27 +1,44 @@
 import React, { useState } from "react";
-import "../../App.css";
-import ReportButton from "./ReportButton"; 
-
+import "../../Report.css";
+import ReportButton from "./ReportButton";
+import ReportModal from "./ReportModal";
 
 export default function ReportNotification() {
   const [isReported, setIsReported] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const handleReport = () => {
-    setIsReported(true); // set the report state as "already sent"
+  const handleClickReport = () => {
+    if (!isReported) setShowModal(true);
+  };
+
+  const confirmReport = () => {
+    setIsReported(true);
+    setShowModal(false);
+  };
+
+  const cancelReport = () => {
+    setShowModal(false);
   };
 
   return (
     <div className="report-notification">
-      {/* Text Content */}
-      <p>
-        {isReported
-          ? "You have reported user's self-harm behavior!"
-          : "Double-click to report the user's self-harm behavior"}
-      </p>
 
-      {/* ReportButton Component */}
-      <ReportButton onClick={handleReport} />
+      <span className="report-label">
+        {isReported
+          ? "You have reported the user's self-harm behavior."
+          : "Click to report the user's self-harm behavior"}
+      </span>
+
+      <div className="report-button-wrapper">
+        <ReportButton onClick={handleClickReport} isReported={isReported} />
+      </div>
+
+      {showModal && (
+        <ReportModal
+          onConfirm={confirmReport}
+          onCancel={cancelReport}
+        />
+      )}
     </div>
   );
 }
-

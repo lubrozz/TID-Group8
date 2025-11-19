@@ -1,0 +1,110 @@
+/* Report button */
+.report-button {
+  background-color: #e57373;
+  color: white;
+  padding: 4px 10px;
+  font-size: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;          
+}
+
+.report-button:disabled {
+  background-color: #bdbdbd; /* grey */
+  cursor: default;
+}
+
+.report-button:hover {
+  background-color: #b94f4f;
+}
+
+
+/* Top banner section */
+.report-notification {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: calc(100% - 391px); /* leave space for right notes panel */
+  height: 36px;
+
+  background: #d9d6c7;
+  padding: 0 20px;
+  border-bottom: 1px solid #c1bdab;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 50;
+  font-size: 14px;
+}
+
+.report-button-wrapper {
+  position: absolute;
+  right: 20px;      /* to make the report button stay on the right */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.report-label {
+  flex: 0 1 auto;
+  text-align: center;
+  width: 100%;
+}
+
+
+/* Modal background */
+.report-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* Modal box */
+.report-modal {
+  background: white;
+  padding: 22px;
+  width: 260px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+
+/* Modal buttons */
+.report-modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 18px;
+}
+
+.modal-confirm {
+  background-color: #e57373;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.modal-cancel {
+  background-color: #bdbdbd;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+
+  
+
+

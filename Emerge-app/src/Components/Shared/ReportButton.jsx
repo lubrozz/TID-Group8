@@ -1,22 +1,13 @@
-import React, { useState } from "react";
-import "../../App.css";
+import "../../Report.css";
 
-export default function ReportButton({ onReport }) {
-  const [isReported, setIsReported] = useState(false);
-
-  // Handle the double click action
-  const handleDoubleClick = () => {
-    setIsReported(true);
-    onReport(); // Trigger parent function to handle the reporting action
-  };
-
+export default function ReportButton({ onClick, isReported }) {
   return (
-    <button 
-      onDoubleClick={handleDoubleClick} 
+    <button
       className="report-button"
+      onClick={onClick}
+      disabled={isReported}
     >
-      {isReported ? "You have reported user's self-harm behavior!" : "Double-click to report the user’s self-harm behavior"}
+      {isReported ? "Reported" : "Report"}
     </button>
   );
 }
-

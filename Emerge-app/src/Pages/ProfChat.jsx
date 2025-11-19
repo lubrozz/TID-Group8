@@ -3,6 +3,7 @@ import ChatObject from "../Components/ChatObject/ChatObject";
 import { Link } from "react-router-dom"; 
 import "../prof-chat.css";
 
+
 export default function ProfChat() {
  // State: all conversations
   const [chats, setChats] = useState([
@@ -33,6 +34,7 @@ export default function ProfChat() {
   // Track which chat is selected
   const [selectedChat, setSelectedChat] = useState(null);
 
+  // Sending messages
   const handleSendMessage = (chatId, newText) => {
     const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   
@@ -117,12 +119,14 @@ export default function ProfChat() {
 
  <div className="prof-chat-center">
     {selectedChat ? (
+
       <ChatObject
         key={selectedChat.id}
         chat={selectedChat}
         onSend={(msg) => handleSendMessage(selectedChat.id, msg)}
         onUpdateNotes={(notes) => handleUpdateNotes(selectedChat.id, notes)}
       />
+      
     ) : (
       <div className="welcome-screen">
         <h2>Welcome back</h2>
