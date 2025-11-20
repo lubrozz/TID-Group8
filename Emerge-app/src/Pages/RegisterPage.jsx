@@ -1,20 +1,17 @@
-import React, { useState } from 'react';
-import LoginInput from '../Components/Shared/LoginInput';  
-import RegisterButton from '../Components/Shared/RegisterButton';
-import "../RegisterPage.css";  
+import React, { useState } from "react";
+import LoginInput from "../Components/LoginPage/LoginInput";
+import "../styles/RegisterPage.css";
 import Parse from "parse"; // <-- Important
 import { useNavigate } from "react-router-dom";
-
-
+import Button from "../Components/Shared/button";
 
 export default function Register() {
-  const [username, setUsername] = useState('');  // store username input
-  const [password, setPassword] = useState('');  // store password input
-  const [error, setError]       = useState("");
-  const [loading, setLoading]   = useState(false);
+  const [username, setUsername] = useState(""); // store username input
+  const [password, setPassword] = useState(""); // store password input
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-
 
   const handleRegister = async () => {
     setError("");
@@ -40,16 +37,15 @@ export default function Register() {
     }
   };
 
-
   return (
     <div className="register-page">
       <div className="register-form">
         <h2>Register</h2>
 
         {error && <div className="error-message">{error}</div>}
-        
+
         {/* Username Input Area */}
-      
+
         <div className="input-group">
           <label>Username:</label>
           <LoginInput
@@ -61,7 +57,7 @@ export default function Register() {
         </div>
 
         {/* Password Input Area */}
-     
+
         <div className="input-group">
           <label>Password:</label>
           <LoginInput
@@ -73,10 +69,12 @@ export default function Register() {
         </div>
 
         {/* LoginButton */}
-  
-        <RegisterButton onClick={handleRegister} loading={loading} />
-
-       
+        <Button
+          styleName={"Register-button"}
+          onClick={handleRegister}
+          loading={loading}
+          buttonText={"Register"}
+        />
       </div>
     </div>
   );

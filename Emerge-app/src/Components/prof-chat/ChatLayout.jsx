@@ -1,7 +1,11 @@
-import ConversationList from "../ChatObject/ConversationList";
-import ChatObject from "../ChatObject/ChatObject";
+import ConversationList from "./ConversationList";
+import ChatObject from "./ChatObject";
 
-export default function ChatLayout({ conversations, selectedChat, onSelectChat }) {
+export default function ChatLayout({
+  conversations,
+  selectedChat,
+  onSelectChat,
+}) {
   return (
     <div
       style={{
@@ -38,11 +42,14 @@ export default function ChatLayout({ conversations, selectedChat, onSelectChat }
         }}
       >
         {selectedChat ? (
-          <ChatObject chat={selectedChat} onSend={(msg) => console.log("send:", msg)} />
+          <ChatObject
+            chat={selectedChat}
+            onSend={(msg) => console.log("send:", msg)}
+          />
         ) : (
-          <div style={{ textAlign: "center", marginTop: "100%", color: "gray" }}>
-         
-          </div>
+          <div
+            style={{ textAlign: "center", marginTop: "100%", color: "gray" }}
+          ></div>
         )}
       </div>
     </div>

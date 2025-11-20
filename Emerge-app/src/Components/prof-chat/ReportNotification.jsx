@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../../Report.css";
-import ReportButton from "./ReportButton";
-import ReportModal from "./ReportModal";
+import ReportButton from "../Buttons/ReportButton.jsx";
+import ReportModal from "../Shared/ReportModal.jsx";
 
 export default function ReportNotification() {
   const [isReported, setIsReported] = useState(false);

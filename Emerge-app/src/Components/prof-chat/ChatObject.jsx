@@ -1,10 +1,10 @@
 // src/Components/ChatObject/ChatObject.jsx
-import MessageList from "../ChatObject/MessageList";
-import MessageBubble from "../ChatObject/MessageBubble";
-import TextBar from "../Shared/TextBar";
-import NotesBar from "../Shared/NotesBar";
-import "../../prof-chat.css";
-import ReportNotification from "../Shared/ReportNotification";
+import MessageList from "./MessageList";
+import MessageBubble from "./MessageBubble.jsx"; 
+import TextBar from "../Shared/TextBar.jsx";
+import NotesBar from "./NotesBar.jsx";
+import "../../styles/prof-chat.css";   
+import ReportNotification from "./ReportNotification.jsx";
 import { useState } from "react";
 
 
