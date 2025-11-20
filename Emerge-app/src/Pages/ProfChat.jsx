@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import ChatObject from "../Components/prof-chat/ChatObject";
-import { Link } from "react-router-dom";
+import ChatObject from "../Components/prof-chat/ChatObject.jsx";
 import "../styles/prof-chat.css";
+
 
 export default function ProfChat() {
   // State: all conversations
@@ -31,6 +31,7 @@ export default function ProfChat() {
   // Track which chat is selected
   const [selectedChat, setSelectedChat] = useState(null);
 
+  // Sending messages
   const handleSendMessage = (chatId, newText) => {
     const now = new Date().toLocaleTimeString([], {
       hour: "2-digit",
@@ -107,29 +108,31 @@ export default function ProfChat() {
 
           {/* RIGHT: Chat + Notes (combined in ChatObject) */}
 
-          <div className="prof-chat-center">
-            {selectedChat ? (
-              <ChatObject
-                key={selectedChat.id}
-                chat={selectedChat}
-                onSend={(msg) => handleSendMessage(selectedChat.id, msg)}
-                onUpdateNotes={(notes) =>
-                  handleUpdateNotes(selectedChat.id, notes)
-                }
-              />
-            ) : (
-              <div className="welcome-screen">
-                <h2>Welcome back</h2>
-                <p>Select a conversation on the left to begin chatting.</p>
-                <div className="welcome-divider"></div>
-                <p className="welcome-tip">
-                  You can also take notes while chatting — they’ll stay linked
-                  to each child.
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
+ <div className="prof-chat-center">
+    {selectedChat ? (
+
+      <ChatObject
+        key={selectedChat.id}
+        chat={selectedChat}
+        onSend={(msg) => handleSendMessage(selectedChat.id, msg)}
+        onUpdateNotes={(notes) => handleUpdateNotes(selectedChat.id, notes)}
+      />
+      
+    ) : (
+      <div className="welcome-screen">
+        <h2>Welcome back</h2>
+        <p>Select a conversation on the left to begin chatting.</p>
+        <div className="welcome-divider"></div>
+        <p className="welcome-tip">
+          You can also take notes while chatting — they’ll stay linked to each child.
+        </p>
+      </div>
+    )}
+  </div>
+</div>
+
+  
+  
       </div>
     </div>
   );
