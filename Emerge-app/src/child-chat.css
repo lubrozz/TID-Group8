@@ -24,11 +24,8 @@ body {
   height: 100vh;
 }
 
-
 .chat {
   flex: 1;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -59,42 +56,6 @@ body {
       cursor: pointer;
     }
 
-    .popup {
-      background-color: var(--light-sand-color);
-      text-align: center;
-      padding: 10px 20px;
-      border-radius: 12px;
-
-      .warningText {
-        h1 {
-          color: var(--dark-brown-text-color);
-        }
-      }
-      .actionButtons {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px;
-      }
-
-      .cancelExitButton {
-        background-color: var(--light-sand-color);
-        color: purple;
-        padding: 5px 15px;
-        cursor: pointer;
-        border: none;
-        border-radius: 5px;
-      }
-
-      .confirmExitButton {
-        background-color: purple;
-        color: var(--light-sand-color);
-        padding: 5px 15px;
-        cursor: pointer;
-        border: none;
-        border-radius: 5px;
-      }
-    }
-
     .texts {
       display: flex;
       flex-direction: column;
@@ -103,6 +64,68 @@ body {
       p {
         font-size: 14px;
         font-weight: 300;
+      }
+    }
+  }
+
+  .dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    background-color: var(--light-sand-color);
+    box-shadow: hsl(0 0% 0% / 10%) 0 0 0.5rem 0.25rem;
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: 2px solid black;
+    width: 80%;
+
+    .warningText {
+      h1 {
+        color: var(--dark-brown-text-color);
+      }
+    }
+    .actionButtons {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    .cancelExitButton {
+      background-color: var(--light-sand-color);
+      padding: 5px 15px;
+      cursor: pointer;
+      border: 2px solid purple;
+      border-radius: 5px;
+      .texts {
+        color: purple;
+        gap: 5px;
+        text-decoration: none;
+
+        p {
+          font-size: 14px;
+          font-weight: 300;
+        }
+      }
+    }
+
+    .confirmExitButton {
+      background-color: purple;
+      padding: 5px 15px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+
+      .texts {
+        color: var(--light-sand-color);
+        gap: 5px;
+        text-decoration: none;
+
+        p {
+          font-size: 14px;
+          font-weight: 300;
+        }
       }
     }
   }
@@ -172,7 +195,9 @@ body {
     gap: 10px;
     margin-top: auto;
     background-color: var(--sand-color);
-
-  
   }
+}
+
+.dialog::backdrop {
+  background: hsla(0, 0%, 0%, 0.4);
 }
