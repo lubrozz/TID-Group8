@@ -1,21 +1,27 @@
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
-import ChildChat from "./Pages/ChildChat";
+import {
+  HashRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import HomePage from "./Pages/HomePage";
 import ProfChat from "./Pages/ProfChat";
-import Home from "./Pages/home";
+import LoginPage from "./Pages/LoginPage";
+import NewChildChat from "./Pages/NewChildChat";
+import Register from "./Pages/RegisterPage";
 
-function App() {
+
+export default function App() {
   return (
-    <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/ChildChat" element={<ChildChat />} />
-          <Route path="/ProfChat" element={<ProfChat />} />
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/prof-chat" element={<ProfChat />} />
+        <Route path="/prof-login" element={<LoginPage />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/new-child-chat" element={<NewChildChat />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
   );
 }
-
-export default App;
