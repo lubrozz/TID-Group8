@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Input from "../Components/LoginPage/Input";
+import LoginInput from "../Components/LoginPage/LoginInput";
+import Input from "../Components/Shared/Input";
 import "../styles/LoginPage.css";
 import { useNavigate } from "react-router-dom"; // this is for navigation
 import Parse from "parse"; // do not change import, otherwise can not run
@@ -63,7 +64,7 @@ export default function LoginPage() {
         {/* Password Input Area */}
         <div className="input-group">
           <label htmlFor="password">Password:</label>
-          <Input
+          <LoginInput
             placeholder="Enter your password"
             value={password}
             onChange={setPassword}
