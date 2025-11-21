@@ -49,19 +49,19 @@ export default function ChatObject({ chat, onSend }) {
               />
             )}
           />
+        )}
+      />
           <TextBar onSend={onSend} />
         </div>
-
-        {/* Right: notes */}
-        <div className="chatobject-notes">
-          <NotesBar
-            notesByMessageId={notesByMessageId}
-            selectedMessageId={selectedMessageId}
-            onUpdateNote={handleUpdateNote}
-            onAddNoteForSelected={handleAddNoteForSelected}
-          />
-        </div>
-
+     
+         {/* Right side: notes */}
+         <div className="chatobject-notes">
+        <NotesBar
+          notesByMessageId={notesByMessageId}
+          selectedMessageId={selectedMessageId}
+          onUpdateNote={handleUpdateNote}
+          onAddNoteForSelected={handleAddNoteForSelected}
+        />
       </div>
     </div>
   );
