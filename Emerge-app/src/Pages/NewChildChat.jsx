@@ -1,5 +1,5 @@
-import "../child-chat.css";
-import "../textbar.css";
+import "../styles/child-chat.css";
+import "../styles/textbar.css";
 import TextBar from "../Components/Shared/TextBar";
 import ExitModal from "../Components/ChildChat/ExitModal";
 import MessageBubble from "../Components/ChildChat/MessageBubble";
@@ -14,13 +14,12 @@ const NewChildChat = () => {
           <MessageBubble bubbleStyle="message own" isProf={false} />
         </div>
         <div className="bottom">
-        <div className="textbar">
-          <TextBar/>
+          <div className="textbar">
+            <TextBar />
           </div>
         </div>
-        </div>
       </div>
-   
+    </div>
   );
 };
 export default NewChildChat;

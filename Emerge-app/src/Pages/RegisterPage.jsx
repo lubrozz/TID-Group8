@@ -1,22 +1,33 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import Input from '../Components/Shared/Input';  
 import RegisterButton from '../Components/Shared/RegisterButton';
 import "../RegisterPage.css";  
+=======
+import React, { useState } from "react";
+import LoginInput from "../Components/LoginPage/LoginInput";
+import "../styles/RegisterPage.css";
+>>>>>>> a05d1b49c264a2712a71700cf9f941a78fd6cbc4
 import Parse from "parse"; // <-- Important
 import { useNavigate } from "react-router-dom";
-
-
+import Button from "../Components/Shared/button";
 
 export default function Register() {
+<<<<<<< HEAD
   const [fullname, setFullname] = useState('');  // store Fullname input
   const [username, setUsername] = useState('');  // store username input
   const [role, setRole] = useState('');  // store FullName input
   const [password, setPassword] = useState('');  // store password input
   const [error, setError]       = useState("");
   const [loading, setLoading]   = useState(false);
+=======
+  const [username, setUsername] = useState(""); // store username input
+  const [password, setPassword] = useState(""); // store password input
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+>>>>>>> a05d1b49c264a2712a71700cf9f941a78fd6cbc4
 
   const navigate = useNavigate();
-
 
   const handleRegister = async () => {
     setError("");
@@ -43,6 +54,7 @@ export default function Register() {
     }
   };
 
+<<<<<<< HEAD
   const roles = [
     "Psychologist",
     "Social worker",
@@ -52,12 +64,15 @@ export default function Register() {
 
 
 
+=======
+>>>>>>> a05d1b49c264a2712a71700cf9f941a78fd6cbc4
   return (
     <div className="register-page">
       <div className="register-form">
         <h2>Register</h2>
 
         {error && <div className="error-message">{error}</div>}
+<<<<<<< HEAD
         
         {/* Full Name Input Area */}
 
@@ -73,6 +88,11 @@ export default function Register() {
 
          {/* Username Input Area */}
       
+=======
+
+        {/* Username Input Area */}
+
+>>>>>>> a05d1b49c264a2712a71700cf9f941a78fd6cbc4
         <div className="input-group">
           <label>Username:</label>
           <Input
@@ -84,7 +104,7 @@ export default function Register() {
         </div>
 
         {/* Password Input Area */}
-     
+
         <div className="input-group">
           <label>Password:</label>
           <Input
@@ -114,10 +134,12 @@ export default function Register() {
 </div>
 
         {/* LoginButton */}
-  
-        <RegisterButton onClick={handleRegister} loading={loading} />
-
-       
+        <Button
+          styleName={"Register-button"}
+          onClick={handleRegister}
+          loading={loading}
+          buttonText={"Register"}
+        />
       </div>
     </div>
   );
