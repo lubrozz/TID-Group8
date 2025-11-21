@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import LoginInput from "../Components/LoginPage/LoginInput";
-import "../styles/RegisterPage.css";
-import Parse from "parse"; // <-- Important
+import React, { useState } from 'react';
+import Input from '../Components/Shared/Input';  
+import "../styles/RegisterPage.css";  
 import { useNavigate } from "react-router-dom";
 import Button from "../Components/Shared/button";
 
 export default function Register() {
-  const [username, setUsername] = useState(""); // store username input
-  const [password, setPassword] = useState(""); // store password input
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [fullname, setFullname] = useState("");  // store Fullname input
+  const [username, setUsername] = useState('');  // store username input
+  const [role, setRole] = useState("");  // store FullName input
+  const [password, setPassword] = useState("");  // store password input
+  const [error, setError]       = useState("");
+  const [loading, setLoading]   = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -18,11 +20,12 @@ export default function Register() {
 
     try {
       setLoading(true);
-
       const user = new Parse.User();
+      user.set("fullName", fullname);
       user.set("username", username);
       user.set("password", password);
-
+      user.set("subRoleLabel", role);
+   
       await user.signUp(); // Create user in DB
 
       console.log("User registered:", user);
@@ -37,18 +40,39 @@ export default function Register() {
     }
   };
 
+  const roles = [
+    "Psychologist",
+    "Social worker",
+    "Volunteer"
+  ];
+
+
   return (
     <div className="register-page">
       <div className="register-form">
         <h2>Register</h2>
 
         {error && <div className="error-message">{error}</div>}
-
-        {/* Username Input Area */}
+        
+        {/* Full Name Input Area */}
 
         <div className="input-group">
+          <label>Full name:</label>
+          <Input
+            placeholder="Enter your full name"
+            value={fullname}
+            onChange={setFullname}
+            type="text"
+          />
+        </div>
+
+        
+
+         {/* Username Input Area */}
+      
+        <div className="input-group">
           <label>Username:</label>
-          <LoginInput
+          <Input
             placeholder="Enter your new username"
             value={username}
             onChange={setUsername}
@@ -57,10 +81,10 @@ export default function Register() {
         </div>
 
         {/* Password Input Area */}
-
+     
         <div className="input-group">
           <label>Password:</label>
-          <LoginInput
+          <Input
             placeholder="Enter your new password"
             value={password}
             onChange={setPassword}
@@ -68,7 +92,25 @@ export default function Register() {
           />
         </div>
 
-        {/* LoginButton */}
+      {/* Role Input Area */}
+
+      <div className="input-group">
+  <label>Professional Role:</label>
+  <select
+    className="register-select"
+    value={role}
+    onChange={(e) => setRole(e.target.value)}
+>
+    <option value="">Select your role...</option>
+    {roles.map((r) => (
+      <option key={r} value={r}>
+        {r}
+      </option>
+    ))}
+  </select>
+</div>
+
+        {/* RegisterButton */}
         <Button
           styleName={"Register-button"}
           onClick={handleRegister}
@@ -79,3 +121,4 @@ export default function Register() {
     </div>
   );
 }
+

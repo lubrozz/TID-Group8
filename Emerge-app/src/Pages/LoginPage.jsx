@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import LoginInput from "../Components/LoginPage/LoginInput";
+import Input from "../Components/Shared/Input";
 import "../styles/LoginPage.css";
 import { useNavigate } from "react-router-dom"; // this is for navigation
 import Parse from "parse"; // do not change import, otherwise can not run
@@ -52,7 +53,7 @@ export default function LoginPage() {
         {/* Username Input Area */}
         <div className="input-group">
           <label htmlFor="username">Username:</label>
-          <LoginInput
+          <Input
             placeholder="Enter your username"
             value={username}
             onChange={setUsername}

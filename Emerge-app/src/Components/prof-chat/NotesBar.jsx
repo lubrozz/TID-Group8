@@ -1,3 +1,4 @@
+
 import NoteTaking from "./NoteTaking";
 import { FilePlus } from "lucide-react";
 import { useEffect, useRef } from "react";
