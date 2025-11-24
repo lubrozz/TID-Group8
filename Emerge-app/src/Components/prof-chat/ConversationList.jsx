@@ -1,23 +1,24 @@
-// Components/Chat/ConversationList.jsx
-export default function ConversationList({ title="Conversations", items, selectedId, onSelect }) {
-    return (
-      <aside className="chat-sidebar">
-        <div className="chat-sidebar__title">{title}</div>
-        <div className="chat-list">
-          {items.map((chat) => (
-            <div
-              key={chat.id}
-              className={`chat-list-item ${selectedId === chat.id ? "active" : ""}`}
-              onClick={() => onSelect(chat)}
-              style={{ padding: "1rem", borderBottom: "1px solid var(--sand-color)", cursor: "pointer" }}
-            >
-              <strong>{chat.name}</strong>
-              <p style={{ fontSize: ".9rem", marginTop: ".25rem", color: "var(--dark-brown-text-color)" }}>
-                {chat.preview || "—"}
-              </p>
-            </div>
-          ))}
+export default function ConversationList({ chats, selectedChat, onSelect }) {
+  return (
+    <div className="prof-chat-list">
+      <button onClick={() => onSelect(null)}>
+        <h1>Conversations</h1>
+      </button>
+
+      {chats.map((chat) => (
+        <div
+          key={chat.id}
+          className={`prof-chat-list-item ${
+            selectedChat?.id === chat.id ? "active" : ""
+          }`}
+          onClick={() =>
+            onSelect(selectedChat?.id === chat.id ? null : chat)
+          }
+        >
+          <strong>{chat.name}</strong>
+          <p>{chat.preview}</p>
         </div>
-      </aside>
-    );
-  }
+      ))}
+    </div>
+  );
+}
