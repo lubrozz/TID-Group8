@@ -1,6 +1,5 @@
 import "../../styles/homePage.css";
 import { useState } from "react";
-
 import LinkButton from "./LinkButton";
 import { createNewChatRoom } from "../../services/chatService";
 import { useNavigate } from "react-router-dom";

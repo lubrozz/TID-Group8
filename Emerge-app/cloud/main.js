@@ -36,12 +36,12 @@ Parse.Cloud.define("createNewChatRoom", async () => {
   const randomProfUser =
     allProfUsers[Math.floor(Math.random() * allProfUsers.length)]; // random prof user
 
-  const setProfUser = await userQuery.get("VjOI0Guycq"); // constant user for testing.
+  const setProfUser = await userQuery.get("kbi2p0aoXq", { useMasterKey: true }); // constant user for testing.
 
   // Create a new anonymous user
   const anonUser = new Parse.User();
   anonUser.set("username", "anon_" + Date.now());
-  anonUser.set("password", Parse.Object.generateKey());
+  anonUser.set("password", Parse.User.generatePassword());
   anonUser.set("roleLabel", "Anonymous");
   anonUser.set("fullName", "Anon Ymous");
 
