@@ -34,7 +34,9 @@ Parse.Cloud.define("createNewChatRoom", async () => {
   const allProfUsers = await userQuery.find({ useMasterKey: true }); //might have to remove useMasterKey since it overrides everything
 
   const randomProfUser =
-    allProfUsers[Math.floor(Math.random() * allProfUsers.length)];
+    allProfUsers[Math.floor(Math.random() * allProfUsers.length)]; // random prof user
+
+  const setProfUser = await userQuery.get("VjOI0Guycq"); // constant user for testing.
 
   // Create a new anonymous user
   const anonUser = new Parse.User();
@@ -47,7 +49,7 @@ Parse.Cloud.define("createNewChatRoom", async () => {
 
   // Create new Chat Room
   const newChatRoom = new Parse.Object("ChatRoom");
-  newChatRoom.set("pro", randomProfUser);
+  newChatRoom.set("pro", setProfUser);
   newChatRoom.set("anon", newAnon);
   newChatRoom.set("status", "open");
   newChatRoom.set("deleteAfter", deleteAfter);
@@ -56,8 +58,8 @@ Parse.Cloud.define("createNewChatRoom", async () => {
   // Set ACL so only pro/anon can read/write to chatroom
   const acl = new Parse.ACL();
 
-  acl.setReadAccess(randomProfUser, true);
-  acl.setWriteAccess(randomProfUser, true);
+  acl.setReadAccess(setProfUser, true);
+  acl.setWriteAccess(setProfUser, true);
   acl.setReadAccess(newAnon, true);
   acl.setWriteAccess(newAnon, true);
 
