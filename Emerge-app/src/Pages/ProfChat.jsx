@@ -35,11 +35,7 @@ export default function ProfChat() {
 
   // Sending messages
   const handleSendMessage = (chatId, newText) => {
-    const now = new Date().toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
+  };
   const handleUpdateNotes = (chatId, updatedNotes) => {
     setChats((prev) =>
       prev.map((chat) =>
@@ -74,5 +70,4 @@ export default function ProfChat() {
       </div>
     </div>
   );
-}
 }
