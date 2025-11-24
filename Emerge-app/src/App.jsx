@@ -10,7 +10,6 @@ import LoginPage from "./Pages/LoginPage";
 import NewChildChat from "./Pages/NewChildChat";
 import Register from "./Pages/RegisterPage";
 
-
 export default function App() {
   return (
     <Router>
@@ -20,6 +19,7 @@ export default function App() {
         <Route path="/prof-login" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/new-child-chat" element={<NewChildChat />} />
+        <Route path="/chat/:chatRoomId" element={<NewChildChat />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
