@@ -53,5 +53,51 @@ Parse.Cloud.define("createNewChatRoom", async () => {
   newChatRoom.set("deleteAfter", deleteAfter);
   newChatRoom.set("anonDisplayName", "anon" + Date.now());
 
-  return await newChatRoom.save();
+  // Set ACL so only pro/anon can read/write to chatroom
+  const acl = new Parse.ACL();
+
+  acl.setReadAccess(randomProfUser, true);
+  acl.setWriteAccess(randomProfUser, true);
+  acl.setReadAccess(newAnon, true);
+  acl.setWriteAccess(newAnon, true);
+
+  newChatRoom.setACL(acl);
+
+  const savedRoom = await newChatRoom.save(null, { useMasterKey: true });
+
+  return { chatRoomId: savedRoom.id, anonUserId: newAnon.id };
+});
+
+Parse.Cloud.define("getMessages", async (request) => {
+  const { roomId } = request.params;
+  if (!roomId) throw "roomId is required";
+
+  // pointer to chatroom
+  const ChatRoom = Parse.Object.extend("ChatRoom");
+  const roomPointer = new ChatRoom();
+  roomPointer.id = roomId;
+
+  // Get messages from the chatroom (even though empty)
+  const Message = Parse.Object.extend("Message");
+  const q = new Parse.Query(Message);
+  q.equalTo("chat", roomPointer);
+  q.ascending("createdAt");
+  q.include("sender");
+  q.limit(1000); // how many messages to fetch
+
+  const messages = await q.find({ useMasterKey: true });
+  return messages.map((m) => {
+    return {
+      id: m.id,
+      text: m.get("text"),
+      createdAt: m.createdAt,
+      sender: m.get("sender")
+        ? {
+            id: m.get("sender").id,
+            fullName: m.get("sender").get("fullName"),
+            roleLabel: m.get("sender").get("roleLabel"),
+          }
+        : null,
+    };
+  });
 });

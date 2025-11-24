@@ -6,6 +6,7 @@ import MessageBubble from "../Components/ChildChat/MessageBubble";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { sendMessage } from "../services/chatService";
+import Parse from "parse";
 
 export default function NewChildChat() {
   const { chatRoomId } = useParams(); // read from URL (set from WelcomeSplash.jsx)
@@ -16,20 +17,17 @@ export default function NewChildChat() {
 
   useEffect(() => {
     const loadChatRoom = async () => {
-      const Message = Parse.Object.extend("Message");
-      const query = new Parse.Query(Message);
-
-      const ChatRoom = Parse.Object.extend("ChatRoom");
-      const roomPointer = new ChatRoom();
-      roomPointer.id = chatRoomId;
-
-      query.equalTo("chatRoom", roomPointer);
-      query.ascending("createdAt");
-      query.include("sender");
-
-      const results = await query.find();
-      setMessages(results);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const results = await Parse.Cloud.run("getMessages", {
+          roomId: chatRoomId,
+        });
+        setMessages(results || []);
+      } catch (err) {
+        console.error("loadMessages error:", err);
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadChatRoom();
