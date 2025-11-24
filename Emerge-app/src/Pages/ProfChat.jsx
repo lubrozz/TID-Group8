@@ -36,6 +36,7 @@ export default function ProfChat() {
   // Sending messages
   const handleSendMessage = (chatId, newText) => {
   };
+
   const handleUpdateNotes = (chatId, updatedNotes) => {
     setChats((prev) =>
       prev.map((chat) =>
