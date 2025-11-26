@@ -22,6 +22,8 @@
   6. (deploy by running) b4a deploy
  */
 
+const crypto = require("crypto");
+
 Parse.Cloud.define("createNewChatRoom", async () => {
   const deleteAfter = new Date(Date.now());
   deleteAfter.setUTCDate(deleteAfter.getUTCDate() + 30);
@@ -38,10 +40,11 @@ Parse.Cloud.define("createNewChatRoom", async () => {
 
   const setProfUser = await userQuery.get("kbi2p0aoXq", { useMasterKey: true }); // constant user for testing.
 
+  const anonPassword = crypto.randomBytes(32).toString("hex");
   // Create a new anonymous user
   const anonUser = new Parse.User();
   anonUser.set("username", "anon_" + Date.now());
-  anonUser.set("password", Parse.User.generatePassword());
+  anonUser.set("password", anonPassword);
   anonUser.set("roleLabel", "Anonymous");
   anonUser.set("fullName", "Anon Ymous");
 
@@ -67,7 +70,12 @@ Parse.Cloud.define("createNewChatRoom", async () => {
 
   const savedRoom = await newChatRoom.save(null, { useMasterKey: true });
 
-  return { chatRoomId: savedRoom.id, anonUserId: newAnon.id };
+  return {
+    chatRoomId: savedRoom.id,
+    anonUserId: newAnon.id,
+    anonUserName: newAnon.get("username"),
+    anonPassword: anonPassword,
+  };
 });
 
 Parse.Cloud.define("getMessages", async (request) => {
@@ -88,18 +96,6 @@ Parse.Cloud.define("getMessages", async (request) => {
   q.limit(1000); // how many messages to fetch
 
   const messages = await q.find({ useMasterKey: true });
-  return messages.map((m) => {
-    return {
-      id: m.id,
-      text: m.get("text"),
-      createdAt: m.createdAt,
-      sender: m.get("sender")
-        ? {
-            id: m.get("sender").id,
-            fullName: m.get("sender").get("fullName"),
-            roleLabel: m.get("sender").get("roleLabel"),
-          }
-        : null,
-    };
-  });
+
+  return messages;
 });
