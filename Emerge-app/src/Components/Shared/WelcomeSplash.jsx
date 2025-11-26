@@ -16,7 +16,7 @@ export default function WelcomeSplash() {
     try {
       const savedRoom = await createNewChatRoom();
       console.log("Chat created:", savedRoom);
-      navigate(`/chat/${savedRoom.id}`);
+      navigate(`/chat/${savedRoom.chatRoomId}`);
     } catch (e) {
       console.error(e);
       setError(e?.message || "Failed to create chatroom");
