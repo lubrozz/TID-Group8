@@ -5,6 +5,7 @@ import WelcomeScreen from "../Components/prof-chat/WelcomeScreen.jsx";
 import Parse from "parse";
 import "../styles/prof-chat.css";
 
+
 export default function ProfChat() {
   // State: all conversations
   const [chats, setChats] = useState([
@@ -47,6 +48,7 @@ export default function ProfChat() {
   
   return (
     <div className="chat">
+
       <div className="top">
         <div className="prof-layout">
 
