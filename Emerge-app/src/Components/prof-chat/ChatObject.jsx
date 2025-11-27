@@ -6,7 +6,7 @@ import NotesBar from "./NotesBar.jsx";
 import "../../styles/prof-chat.css";   
 import ReportNotification from "./ReportNotification.jsx";
 import { useState } from "react";
-
+import ProfessionalMenu from "./ProfessionalMenu.jsx";
 
 
 export default function ChatObject({ chat, onSend }) {
@@ -32,6 +32,7 @@ export default function ChatObject({ chat, onSend }) {
       {/* Report bar stays at top ALWAYS */}
       <div className="chatobject-header">
         <ReportNotification />
+        <ProfessionalMenu />
       </div>
 
       <div className="chatobject-body">
@@ -54,6 +55,8 @@ export default function ChatObject({ chat, onSend }) {
 
         {/* Right: notes */}
         <div className="chatobject-notes">
+          <div className="notes-header">
+          </div>
           <NotesBar
             notesByMessageId={notesByMessageId}
             selectedMessageId={selectedMessageId}
@@ -61,7 +64,6 @@ export default function ChatObject({ chat, onSend }) {
             onAddNoteForSelected={handleAddNoteForSelected}
           />
         </div>
-
       </div>
     </div>
   );

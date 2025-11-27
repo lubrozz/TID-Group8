@@ -280,13 +280,7 @@
   }
 }
 
-/* Don't change or delete this */
-.chatobject-wrapper {
-  position: relative;
-  padding-top: 40px;  /* it is for the space of report-notification */
-  height: 100%;
-  display: flex;
-}
+
 
 .padded-for-report {
   padding-top: 40px !important;
@@ -306,7 +300,8 @@
 .chatobject-header {
   flex: 0 0 auto;  
   width: 100%;  
-  z-index: 20;    
+  z-index: 20;
+  position: relative; 
 }
 
 .chatobject-body {
@@ -325,6 +320,79 @@
 
 /* notes column */
 .chatobject-notes {
-  flex: 0 0 20%;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0;
+  margin-top: 0;
 }
+
+.notes-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.5rem 1rem 0.25rem 1rem;
+  border-bottom: 1px solid var(--sand-color);
+  background-color: var(--white-bg-color);
+  margin-top: 0; 
+}
+
+
+
+
+
+/* These are for the ProfessionalMenu component */
+.pro-menu-wrapper {
+  position: absolute;
+  top: 4px;
+  right: 20px;
+  margin-top: 0;
+}
+
+.pro-avatar-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: #4f6f7b; /* ToDO: change the color */
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pro-menu-dropdown {
+  position: absolute;
+  right: 0;
+  margin-top: 0.5rem;
+  background-color: #ffffff;
+  border: 1px solid var(--sand-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  min-width: 140px;
+  z-index: 1000;
+  padding: 0;
+  overflow: hidden;
+}
+
+.pro-menu-item {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.pro-menu-item:hover {
+  background-color: #f5f1e8;
+}
+
+.prof-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; 
+  padding: 0.5rem 1.5rem;
+  border-bottom: 1px solid var(--sand-color);
+  background-color: var(--white-bg-color);
+}
+
