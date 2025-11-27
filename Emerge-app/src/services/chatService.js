@@ -19,6 +19,10 @@ export async function createNewChatRoom() {
   return { chatRoomId, anonUserId };
 }
 
+export async function getOldChatRoom(inputCode) {
+  // inputCode == ChatRoom objectId
+}
+
 export async function deleteChatRoom(chatRoomId) {
   if (!chatRoomId) throw new Error("chatRoomId is required");
 

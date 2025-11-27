@@ -4,7 +4,7 @@ import LinkButton from "./LinkButton";
 import { createNewChatRoom } from "../../services/chatService";
 import { useNavigate } from "react-router-dom";
 
-export default function WelcomeSplash() {
+export default function WelcomeSplash({ onOldChatClick }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -39,9 +39,9 @@ export default function WelcomeSplash() {
       <div className="buttonWrapper">
         <LinkButton
           styleName={"oldChatButton"}
-          page={"/new-child-chat"}
           buttonText={"Old chat"}
           buttonIcon={<span>&#10560;</span>}
+          onClick={onOldChatClick}
         />
         <LinkButton
           styleName={"newChatButton"}
