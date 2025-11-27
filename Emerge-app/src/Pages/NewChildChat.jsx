@@ -67,7 +67,7 @@ export default function NewChildChat() {
   return (
     <div className="container">
       <div className="chat">
-        <ExitModal />
+        <ExitModal chatRoomId={chatRoomId} />
         <div className="center">
           {messages.map((msg) => {
             console.log(

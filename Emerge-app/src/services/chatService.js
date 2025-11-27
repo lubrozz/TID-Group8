@@ -19,6 +19,22 @@ export async function createNewChatRoom() {
   return { chatRoomId, anonUserId };
 }
 
+export async function deleteChatRoom(chatRoomId) {
+  if (!chatRoomId) throw new Error("chatRoomId is required");
+
+  try {
+    const result = await Parse.Cloud.run("deleteChatAndMessages", {
+      roomId: chatRoomId,
+    });
+
+    console.log("Chatroom deleted: ", result);
+    return result;
+  } catch (error) {
+    console.error("Error deleting chatroom: ", error);
+    throw error;
+  }
+}
+
 export async function sendMessage(text, chatRoomId) {
   const Message = Parse.Object.extend("Message");
   const message = new Message();

@@ -79,6 +79,7 @@ Parse.Cloud.define("createNewChatRoom", async () => {
 });
 
 Parse.Cloud.define("getMessages", async (request) => {
+  // request contains all params given to cloud code and current user logged in
   const { roomId } = request.params;
   if (!roomId) throw "roomId is required";
 
@@ -98,4 +99,35 @@ Parse.Cloud.define("getMessages", async (request) => {
   const messages = await q.find({ useMasterKey: true });
 
   return messages;
+});
+
+Parse.Cloud.define("deleteChatAndMessages", async (request) => {
+  const { roomId } = request.params;
+  if (!roomId) throw "roomId is required";
+
+  const ChatRoom = Parse.Object.extend("ChatRoom");
+  const Message = Parse.Object.extend("Message");
+
+  // Get the chatroom object
+  const currentRoom = await new Parse.Query(ChatRoom).get(roomId, {
+    useMasterKey: true,
+  });
+  if (!currentRoom) throw "Chat room not found";
+
+  // get the pointer to the chatroom
+  const roomPointer = new ChatRoom();
+  roomPointer.id = roomId;
+
+  // delete all messages that fit the current chatroom
+  const msgQuery = new Parse.Query(Message);
+  msgQuery.equalTo("chat", roomPointer);
+  // msgQuery.limit(1000) <--- unsure about having a limit or not. Could take longer time?
+  const messages = await msgQuery.find({ useMasterKey: true });
+
+  await Parse.Object.destroyAll(messages, { useMasterKey: true });
+
+  // delete the chatroom object
+  await currentRoom.destroy({ useMasterKey: true });
+
+  return "ok";
 });
