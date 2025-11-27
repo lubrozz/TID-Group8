@@ -22,6 +22,8 @@
   6. (deploy by running) b4a deploy
  */
 
+const crypto = require("crypto");
+
 Parse.Cloud.define("createNewChatRoom", async () => {
   const deleteAfter = new Date(Date.now());
   deleteAfter.setUTCDate(deleteAfter.getUTCDate() + 30);
@@ -34,12 +36,15 @@ Parse.Cloud.define("createNewChatRoom", async () => {
   const allProfUsers = await userQuery.find({ useMasterKey: true }); //might have to remove useMasterKey since it overrides everything
 
   const randomProfUser =
-    allProfUsers[Math.floor(Math.random() * allProfUsers.length)];
+    allProfUsers[Math.floor(Math.random() * allProfUsers.length)]; // random prof user
 
+  const setProfUser = await userQuery.get("kbi2p0aoXq", { useMasterKey: true }); // constant user for testing.
+
+  const anonPassword = crypto.randomBytes(32).toString("hex");
   // Create a new anonymous user
   const anonUser = new Parse.User();
   anonUser.set("username", "anon_" + Date.now());
-  anonUser.set("password", Parse.Object.generateKey());
+  anonUser.set("password", anonPassword);
   anonUser.set("roleLabel", "Anonymous");
   anonUser.set("fullName", "Anon Ymous");
 
@@ -47,7 +52,7 @@ Parse.Cloud.define("createNewChatRoom", async () => {
 
   // Create new Chat Room
   const newChatRoom = new Parse.Object("ChatRoom");
-  newChatRoom.set("pro", randomProfUser);
+  newChatRoom.set("pro", setProfUser);
   newChatRoom.set("anon", newAnon);
   newChatRoom.set("status", "open");
   newChatRoom.set("deleteAfter", deleteAfter);
@@ -56,8 +61,8 @@ Parse.Cloud.define("createNewChatRoom", async () => {
   // Set ACL so only pro/anon can read/write to chatroom
   const acl = new Parse.ACL();
 
-  acl.setReadAccess(randomProfUser, true);
-  acl.setWriteAccess(randomProfUser, true);
+  acl.setReadAccess(setProfUser, true);
+  acl.setWriteAccess(setProfUser, true);
   acl.setReadAccess(newAnon, true);
   acl.setWriteAccess(newAnon, true);
 
@@ -65,10 +70,16 @@ Parse.Cloud.define("createNewChatRoom", async () => {
 
   const savedRoom = await newChatRoom.save(null, { useMasterKey: true });
 
-  return { chatRoomId: savedRoom.id, anonUserId: newAnon.id };
+  return {
+    chatRoomId: savedRoom.id,
+    anonUserId: newAnon.id,
+    anonUserName: newAnon.get("username"),
+    anonPassword: anonPassword,
+  };
 });
 
 Parse.Cloud.define("getMessages", async (request) => {
+  // request contains all params given to cloud code and current user logged in
   const { roomId } = request.params;
   if (!roomId) throw "roomId is required";
 
@@ -86,18 +97,37 @@ Parse.Cloud.define("getMessages", async (request) => {
   q.limit(1000); // how many messages to fetch
 
   const messages = await q.find({ useMasterKey: true });
-  return messages.map((m) => {
-    return {
-      id: m.id,
-      text: m.get("text"),
-      createdAt: m.createdAt,
-      sender: m.get("sender")
-        ? {
-            id: m.get("sender").id,
-            fullName: m.get("sender").get("fullName"),
-            roleLabel: m.get("sender").get("roleLabel"),
-          }
-        : null,
-    };
+
+  return messages;
+});
+
+Parse.Cloud.define("deleteChatAndMessages", async (request) => {
+  const { roomId } = request.params;
+  if (!roomId) throw "roomId is required";
+
+  const ChatRoom = Parse.Object.extend("ChatRoom");
+  const Message = Parse.Object.extend("Message");
+
+  // Get the chatroom object
+  const currentRoom = await new Parse.Query(ChatRoom).get(roomId, {
+    useMasterKey: true,
   });
+  if (!currentRoom) throw "Chat room not found";
+
+  // get the pointer to the chatroom
+  const roomPointer = new ChatRoom();
+  roomPointer.id = roomId;
+
+  // delete all messages that fit the current chatroom
+  const msgQuery = new Parse.Query(Message);
+  msgQuery.equalTo("chat", roomPointer);
+  // msgQuery.limit(1000) <--- unsure about having a limit or not. Could take longer time?
+  const messages = await msgQuery.find({ useMasterKey: true });
+
+  await Parse.Object.destroyAll(messages, { useMasterKey: true });
+
+  // delete the chatroom object
+  await currentRoom.destroy({ useMasterKey: true });
+
+  return "ok";
 });

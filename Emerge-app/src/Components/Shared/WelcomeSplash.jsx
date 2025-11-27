@@ -1,6 +1,5 @@
 import "../../styles/homePage.css";
 import { useState } from "react";
-
 import LinkButton from "./LinkButton";
 import { createNewChatRoom } from "../../services/chatService";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +16,7 @@ export default function WelcomeSplash() {
     try {
       const savedRoom = await createNewChatRoom();
       console.log("Chat created:", savedRoom);
-      navigate(`/chat/${savedRoom.id}`);
+      navigate(`/chat/${savedRoom.chatRoomId}`);
     } catch (e) {
       console.error(e);
       setError(e?.message || "Failed to create chatroom");

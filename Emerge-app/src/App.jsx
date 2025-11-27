@@ -9,8 +9,26 @@ import ProfChat from "./Pages/ProfChat";
 import LoginPage from "./Pages/LoginPage";
 import NewChildChat from "./Pages/NewChildChat";
 import Register from "./Pages/RegisterPage";
+import { useEffect } from "react";
+import { Parse } from "parse";
 
 export default function App() {
+  // Restore Anon user on page reload, but not after page closure.
+  useEffect(() => {
+    const restoreAnonUser = async () => {
+      const token = sessionStorage.getItem("anonUserSessionToken");
+      if (token) {
+        try {
+          await Parse.User.become(token);
+          console.log("Restored anon user:", Parse.User.current());
+        } catch (err) {
+          console.error("Failed to restore anon user:", err);
+        }
+      }
+    };
+    restoreAnonUser();
+  }, []);
+
   return (
     <Router>
       <Routes>

@@ -5,7 +5,11 @@ import ExitModal from "../Components/ChildChat/ExitModal";
 import MessageBubble from "../Components/ChildChat/MessageBubble";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { sendMessage } from "../services/chatService";
+import {
+  sendMessage,
+  setSubscriptionToMessages,
+  unsubscribeFromMessages,
+} from "../services/chatService";
 import Parse from "parse";
 
 export default function NewChildChat() {
@@ -35,27 +39,47 @@ export default function NewChildChat() {
 
   /* loading component while data is being fetched */
 
+  useEffect(() => {
+    let subscription;
+
+    const initSubscription = async () => {
+      subscription = await setSubscriptionToMessages(chatRoomId, (msg) => {
+        setMessages((prev) => [...prev, msg]); // onCreate callback
+      });
+    };
+
+    initSubscription();
+
+    return () => {
+      unsubscribeFromMessages(subscription);
+    };
+  }, [chatRoomId]);
+
   if (loading) return <div>loading chat...</div>; //can always make a prettier loading element...
 
   /* save message to database */
   const handleSendMessage = async (text) => {
     const sentMessage = await sendMessage(text, chatRoomId);
-    console.log("message *" + sentMessage + "* sent");
+    setMessages((prev) => [...prev, sentMessage]);
+    console.log("message *" + sentMessage + "* sent" + chatRoomId);
   };
 
   return (
     <div className="container">
       <div className="chat">
-        <ExitModal />
+        <ExitModal chatRoomId={chatRoomId} />
         <div className="center">
           {messages.map((msg) => {
+            console.log(
+              "the sender is: " + msg.get("sender")?.get("roleLabel")
+            );
             const isProf =
               msg.get("sender")?.get("roleLabel") === "Professional";
 
             return (
               <MessageBubble
                 key={msg.id}
-                bubbleStyle={isProf ? "message" : "message.own"}
+                bubbleStyle={isProf ? "message" : "message-child"}
                 isProf={isProf}
               >
                 {/* Override inner text */}
