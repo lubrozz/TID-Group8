@@ -74,7 +74,7 @@ export default function NewChildChat() {
               "the sender is: " + msg.get("sender")?.get("roleLabel")
             );
             const isProf =
-              msg.get("sender")?.get("roleLabel") === "Anonymous";
+              msg.get("sender")?.get("roleLabel") === "Professional";
 
             return (
               <MessageBubble
