@@ -12,8 +12,11 @@ import Parse from "parse";
 import "../styles/prof-chat.css";
 
 export default function ProfChat() {
-  const { chatRoomId } = useParams(); 
+  const { chatRoomId } = useParams();
+  // State: all conversations
   const [chats, setChats] = useState([]);
+
+  // Track which chat is selected
   const [selectedChat, setSelectedChat] = useState(null);
 
   // -------------------------
