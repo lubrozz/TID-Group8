@@ -12,29 +12,9 @@ import Parse from "parse";
 import "../styles/prof-chat.css";
 
 export default function ProfChat() {
+  const { chatRoomId } = useParams();
   // State: all conversations
-  const [chats, setChats] = useState([
-    {
-      id: "7oz5uDoouN", // for testing the notes-db feature
-      name: "Chat1",
-      preview: "Hi, I’m feeling a bit sad today.",
-      messages: [
-        { id: 1, sender: "child", text: "Hi, I’m feeling a bit sad today." },
-        { id: 2, sender: "professional", text: "Do you want to tell me why?" },
-      ],
-      notes: {},
-    },
-    {
-      id: "YF66cPZbMF", // for testing the notes-db feature
-      name: "Chat2",
-      preview: "Can we talk about what happened?",
-      messages: [
-        { id: 1, sender: "child", text: "Can we talk about what happened?" },
-        { id: 2, sender: "professional", text: "Of course, I’m listening." },
-      ],
-      notes: {},
-    },
-  ]);
+  const [chats, setChats] = useState([]);
 
   // Track which chat is selected
   const [selectedChat, setSelectedChat] = useState(null);
