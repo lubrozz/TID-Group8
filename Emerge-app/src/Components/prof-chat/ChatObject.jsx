@@ -191,22 +191,43 @@ export default function ChatObject({ chat, onSend }) {
           <ProfessionalMenu />
         </div>
 
-        <div className="chatobject-body">
-          {/* Left: messages + input */}
-          <div className="chatobject-messages">
-            <MessageList
-              messages={chat.messages}
-              renderItem={(m) => (
-                <MessageBubble
-                  key={m.id}
-                  text={m.text}
-                  sender={m.sender}
-                  timestamp={m.timestamp}
-                />
-              )}
-            />
-            <TextBar onSend={onSend} />
-          </div>
+      <div className="chatobject-body">
+        
+        {/* Left: messages */}
+        <div className="chatobject-messages">
+        <MessageList
+  messages={chat.messages}
+  renderItem={(m) => {
+    // m is Parse.Object("Message")
+    const senderUser = m.get("sender");
+    const roleLabel = senderUser?.get("roleLabel");
+
+    // What MessageBubble expects:
+    const sender =
+      roleLabel === "Professional" ? "Anonymous" : "Professional";
+
+    const deliveredAt = m.get("deliveredAt") || m.createdAt;
+    const timestamp = deliveredAt
+      ? deliveredAt.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      : "";
+
+    return (
+      <MessageBubble
+        key={m.id}
+        text={m.get("body")}
+        sender={sender}        // ← ✔ FIXED — now using computed label
+        timestamp={timestamp}
+      />
+    );
+  }}
+/>
+
+          
+          <TextBar onSend={onSend} />
+        </div>
 
           {/* Right: notes */}
           <div className="chatobject-notes">
