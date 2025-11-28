@@ -7,21 +7,32 @@ export default function MessageBubble({
   timestamp,
   onEllipsisClick,
 }) {
-  const isPro = sender === "professional";
+  // Normalise sender: string | Parse.User | plain object
+  let senderLabel = "";
+
+  if (typeof sender === "string") {
+    senderLabel = sender;
+  } else if (sender?.get) {
+    senderLabel = sender.get("roleLabel");
+  } else if (sender?.roleLabel) {
+    senderLabel = sender.roleLabel;
+  }
+
+  const isPro = senderLabel?.toLowerCase() === "professional";
 
   return (
     <div
-      className={`message-bubble-row ${isPro ? "sent" : "received"}`}
+      className={`message-bubble-row ${!isPro ? "sent" : "received"}`}
       style={{ width: "100%" }}
     >
       {/* Ellipsis on the left for received (child) */}
       {!isPro && <Ellipsis onClick={onEllipsisClick} />}
 
       {/* Message bubble */}
-      <div className={`message-bubble ${isPro ? "sent" : "received"}`}>
+      <div className={`message-bubble ${!isPro ? "sent" : "received"}`}>
         <p className="message-text">{text}</p>
         <span className="message-timestamp">
-          {timestamp ? timestamp : "3 min ago"}
+          {timestamp || "3 min ago"}
         </span>
       </div>
 

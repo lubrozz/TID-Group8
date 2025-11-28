@@ -3,7 +3,7 @@ import Input from '../Components/Shared/Input';
 import "../styles/RegisterPage.css";  
 import { useNavigate } from "react-router-dom";
 import Button from "../Components/Shared/button";
-
+import Parse from "parse";
 export default function Register() {
   const [fullname, setFullname] = useState("");  // store Fullname input
   const [username, setUsername] = useState('');  // store username input

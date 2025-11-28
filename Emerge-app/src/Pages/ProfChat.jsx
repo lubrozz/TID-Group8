@@ -1,138 +1,116 @@
 import { useState, useEffect } from "react";
-import ChatObject from "../Components/prof-chat/ChatObject.jsx";
+import ConversationList from "../Components/prof-chat/ConversationList.jsx";
+import ChatWindow from "../Components/prof-chat/ChatWindow.jsx";
+import WelcomeScreen from "../Components/prof-chat/WelcomeScreen.jsx";
+import { useParams } from "react-router-dom";
+import {
+  sendMessage,
+  setSubscriptionToMessages,
+  unsubscribeFromMessages,
+} from "../services/chatService";
+import Parse from "parse";
 import "../styles/prof-chat.css";
 
-
 export default function ProfChat() {
+  const { chatRoomId } = useParams();
   // State: all conversations
-  const [chats, setChats] = useState([
-    {
-      id: 1,
-      name: "Chat1",
-      preview: "Hi, I’m feeling a bit sad today.",
-      messages: [
-        { id: 1, sender: "child", text: "Hi, I’m feeling a bit sad today." },
-        { id: 2, sender: "professional", text: "Do you want to tell me why?" },
-      ],
-      notes: {},
-    },
-    {
-      id: 2,
-      name: "Chat2",
-      preview: "Can we talk about what happened?",
-      messages: [
-        { id: 1, sender: "child", text: "Can we talk about what happened?" },
-        { id: 2, sender: "professional", text: "Of course, I’m listening." },
-      ],
-      notes: {},
-    },
-  ]);
+  const [chats, setChats] = useState([]);
 
   // Track which chat is selected
   const [selectedChat, setSelectedChat] = useState(null);
 
-  // Sending messages
-  const handleSendMessage = (chatId, newText) => {
-    const now = new Date().toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
-    setChats((prev) =>
-      prev.map((chat) =>
-        chat.id === chatId
-          ? {
-              ...chat,
-              messages: [
-                ...chat.messages,
-                {
-                  id: chat.messages.length + 1,
-                  sender: "professional",
-                  text: newText,
-                  timestamp: new Date().toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  }),
-                },
-              ],
-            }
-          : chat
-      )
-    );
-  };
-
-  //new: update notes inside the correct chat
-  const handleUpdateNotes = (chatId, updatedNotes) => {
-    setChats((prevChats) =>
-      prevChats.map((chat) =>
-        chat.id === chatId ? { ...chat, notes: updatedNotes } : chat
-      )
-    );
-  };
-
-  // Keep selectedChat in sync with updated chats
+  // -------------------------
+  // 1. LOAD CHATROOMS
+  // -------------------------
   useEffect(() => {
-    if (selectedChat) {
-      const updated = chats.find((c) => c.id === selectedChat.id);
-      if (updated) setSelectedChat(updated);
-    }
-  }, [chats]);
+    const loadChatRooms = async () => {
+      const currentUser = Parse.User.current();
+      if (!currentUser) return;
 
-  // --- Return Layout ---
+      const ChatRoom = Parse.Object.extend("ChatRoom");
+      const query = new Parse.Query(ChatRoom);
+      query.equalTo("pro", currentUser);
+      query.include("anon");
+
+      const rooms = await query.find();
+
+      const uiChats = rooms.map((room) => ({
+        id: room.id,
+        name: room.get("anonDisplayName") || "Anonymous",
+        preview: room.get("status") || "Open chat",
+        messages: [],
+        parseObj: room,   // keep pointer
+      }));
+
+      setChats(uiChats);
+    };
+
+    loadChatRooms();
+  }, []);
+
+  useEffect(() => {
+    let subscription;
+
+    const initSubscription = async () => {
+      subscription = await setSubscriptionToMessages(chatRoomId, (msg) => {
+        setMessages((prev) => [...prev, msg]); // onCreate callback
+      });
+    };
+
+    initSubscription();
+
+    return () => {
+      unsubscribeFromMessages(subscription);
+    };
+  }, [chatRoomId]);
+
+
+  // -------------------------
+  // 2. LOAD MESSAGES FOR ONE CHAT
+  // -------------------------
+  const loadMessages = async (chatRoomId) => {
+    const results = await Parse.Cloud.run("getMessages", { roomId: chatRoomId });
+    return results; // these are Parse objects!
+  };
+
+  // -------------------------
+  // 3. SEND MESSAGE
+  // -------------------------
+  const handleSendMessage = async (chatId, text) => {
+    const sent = await sendMessage(text, chatId);
+
+    // Update UI for selected chat
+    setSelectedChat((prev) =>
+      prev && prev.id === chatId ? { ...prev, messages: [...prev.messages, sent] } : prev
+    );
+  };
+
   return (
     <div className="chat">
       <div className="top">
         <div className="prof-layout">
-          {/* LEFT COLUMN: Conversations */}
-          <div className="prof-chat-list">
-            <button
-              onClick={() => setSelectedChat(null)} // clears selected chat
-            >
-              <h1>Conversations</h1>
-            </button>
-            {chats.map((chat) => (
-              <div
-                key={chat.id}
-                className={`prof-chat-list-item ${
-                  selectedChat?.id === chat.id ? "active" : ""
-                }`}
-                onClick={() =>
-                  setSelectedChat(selectedChat?.id == chat.id ? null : chat)
-                }
-              >
-                <strong>{chat.name}</strong>
-                <p>{chat.preview}</p>
-              </div>
-            ))}
-          </div>
 
-          {/* RIGHT: Chat + Notes (combined in ChatObject) */}
+          <ConversationList
+            chats={chats}
+            selectedChat={selectedChat}
+            onSelect={async (chat) => {
+              if (!chat) return setSelectedChat(null);
 
- <div className="prof-chat-center">
-    {selectedChat ? (
+              const msgs = await loadMessages(chat.id);
+              setSelectedChat({ ...chat, messages: msgs });
+            }}
+          />
 
-      <ChatObject
-        key={selectedChat.id}
-        chat={selectedChat}
-        onSend={(msg) => handleSendMessage(selectedChat.id, msg)}
-        onUpdateNotes={(notes) => handleUpdateNotes(selectedChat.id, notes)}
-      />
-      
-    ) : (
-      <div className="welcome-screen">
-        <h2>Welcome back</h2>
-        <p>Select a conversation on the left to begin chatting.</p>
-        <div className="welcome-divider"></div>
-        <p className="welcome-tip">
-          You can also take notes while chatting — they’ll stay linked to each child.
-        </p>
-      </div>
-    )}
-  </div>
-</div>
+          {selectedChat ? (
+            <ChatWindow
+              chat={selectedChat}
+              onSend={handleSendMessage}
+            />
+          ) : (
+            <WelcomeScreen />
+          )}
 
-  
-  
+        </div>
       </div>
     </div>
   );

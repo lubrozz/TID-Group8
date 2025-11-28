@@ -2,11 +2,21 @@ import { useEffect, useRef, useState } from "react";
 import "../../styles/child-chat.css";
 import Button from "../Shared/button";
 import LinkButton from "../Shared/LinkButton";
+import { deleteChatRoom } from "../../services/chatService";
 
-export default function ExitModal() {
+export default function ExitModal({ chatRoomId }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleDeleteChat = async () => {
+    try {
+      await deleteChatRoom(chatRoomId);
+      console.log("Chat deleted");
+    } catch (error) {
+      console.error("Failed to delete the chat", error);
+    }
+  };
 
   const dialogRef = useRef();
 
@@ -23,6 +33,7 @@ export default function ExitModal() {
       <div className="top">
         <div className="exitBar">
           <p>You can at anytime exit and delete the chat here.</p>
+          <p>Your chat key is: {chatRoomId}</p>
         </div>
         <Button
           styleName={"exitButton"}
@@ -44,6 +55,7 @@ export default function ExitModal() {
           />
           <LinkButton
             styleName={"confirmExitButton"}
+            onClick={handleDeleteChat}
             page={"/"}
             buttonText={"Exit Chat"}
           />
