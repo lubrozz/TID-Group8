@@ -10,7 +10,7 @@ export default function ProfChat() {
   // State: all conversations
   const [chats, setChats] = useState([
     {
-      id: 1,
+      id: "7oz5uDoouN", // for testing the notes-db feature
       name: "Chat1",
       preview: "Hi, I’m feeling a bit sad today.",
       messages: [
@@ -20,7 +20,7 @@ export default function ProfChat() {
       notes: {},
     },
     {
-      id: 2,
+      id: "YF66cPZbMF", // for testing the notes-db feature
       name: "Chat2",
       preview: "Can we talk about what happened?",
       messages: [
