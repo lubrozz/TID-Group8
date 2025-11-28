@@ -1,0 +1,398 @@
+:root {
+    --sand-color: #c7c4b1;
+    --light-sand-color: #f6f0e7;
+    --dark-brown-color: #5b5d52;
+    --blue-green-color: #00afbc;
+    --dark-brown-text-color: #464740;
+    --white-bg-color: #ffffff;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
+  }
+  
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* === Professional Chat Page Layout === */
+.prof-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr; /* left: list, middle: chat, right: notes */
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--light-sand-color);
+  color: var(--dark-brown-text-color);
+  overflow: hidden;
+}
+
+/* Left: conversation list */
+.prof-chat-list {
+  background-color: var(--white-bg-color);
+  border-right: 1px solid var(--sand-color);
+  overflow-y: auto;
+  height:  100vh;
+}
+
+.prof-chat-list h3 {
+  padding: 1rem;
+  border-bottom: 1px solid var(--sand-color);
+  font-weight: 600;
+}
+
+.prof-chat-list-item {
+  padding: 1rem;
+  border-bottom: 1px solid var(--sand-color);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.prof-chat-list-item:hover {
+  background-color: var(--light-sand-color);
+}
+
+.prof-chat-list-item.active {
+  background-color: var(--sand-color);
+}
+
+/* Middle: chat window (reuse your .chat structure here) */
+.prof-chat-center {
+  background-color: var(--white-bg-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%; /* fill entire grid column */
+  overflow: hidden; /* prevents overflow beyond screen */
+}
+
+
+  
+  /* Left side: chat messages + text bar */
+  .chatobject-messages {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--sand-color);
+    min-width: 10;
+    align-items: stretch;
+  }
+  
+  /* Message area takes all available space above text bar */
+  .chatobject-messages .message-list {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* makes .message-bubble-row take full width */
+  }
+  
+  /* Text bar stays pinned below message area */
+  .chatobject-messages .textbar-wrap {
+    flex-shrink: 0;
+    border-top: 1px solid var(--sand-color);
+    background-color: var(--sand-color);
+    padding: 0.5rem;
+  }
+  
+  /* Right side: notes panel (per chat) */
+  .chatobject-notes {
+    min-width: 320px;
+    padding: 1rem;
+    background-color: var(--white-bg-color);
+    border-left: 1px solid var(--sand-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  /* === NotesBar component === */
+.notes-bar {
+  width: 298px;
+  height: 1100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: transparent;
+  padding: 100px 0;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.notes-bar-add-button {
+  margin-top: auto;
+  padding-top: 8px;
+}
+  
+  /* When no chat selected */
+  .empty-state {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dark-brown-text-color);
+    opacity: 0.7;
+    font-style: italic;
+  }
+
+
+  
+/* for message-bubbles */
+
+
+.message-bubble-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    gap: 6px;
+    width: 100%;
+  }
+  
+  .message-bubble-row.sent {
+    justify-content: flex-end;
+  }
+  
+  .message-bubble-row.received {
+    justify-content: flex-start;
+  }
+  
+
+  .message-bubble {
+    position: relative;
+    display: inline-block;
+    padding: 0.8rem 1rem 1.2rem; /* extra bottom padding for timestamp */
+    border-radius: 16px;
+    max-width: 90%;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+
+  .message-text {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* --- Timestamp styling --- */
+  .message-timestamp {
+    position: absolute;
+    bottom: 6px;
+    right: 10px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    opacity: 0.8;
+  }
+  
+  /* For received messages (lighter text color on beige background) */
+  .message-bubble.received .message-timestamp {
+    color: var(--dark-brown-text-color);
+    opacity: 0.6;
+  }
+  
+  /* Professional side (right) */
+  .message-bubble.sent {
+    background-color: var(--blue-green-color);
+    color: var(--white-bg-color);
+
+  }
+  
+  /* Child side (left) */
+  .message-bubble.received {
+    background-color: var(--sand-color);
+    color: var(--dark-brown-text-color);
+  }
+  
+  /* Large screens: wider bubbles, more padding */
+  @media (min-width: 1200px) {
+    .message-bubble {
+      padding: 1.1rem 1.6rem;
+    }
+    .message-bubble.sent,
+    .message-bubble.received {
+      max-width: 92%;
+    }
+  }
+  
+  /* Small screens: tighter bubbles */
+  @media (max-width: 768px) {
+    .message-bubble {
+      padding: 0.7rem 1rem;
+    }
+    .message-bubble.sent,
+    .message-bubble.received {
+      max-width: 95%;
+    }
+  }
+
+
+  .welcome-screen {
+    grid-column: 2 / 3; /* occupy the middle column */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--dark-brown-text-color);
+    background-color: var(--white-bg-color);
+    border-left: 1px solid var(--sand-color);
+    border-right: 1px solid var(--sand-color);
+    padding: 2rem;
+    height: 100%;
+  }
+  
+  .welcome-screen h2 {
+    font-size: 1.6rem;
+    color: var(--dark-brown-color);
+    margin-bottom: 0.5rem;
+  }
+  
+  .welcome-screen p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .welcome-divider {
+    width: 40%;
+    height: 1px;
+    background-color: var(--sand-color);
+    margin: 1rem 0;
+  }
+  
+  .welcome-tip {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    font-style: italic;
+  }
+  
+  .welcome-screen {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+.padded-for-report {
+  padding-top: 40px !important;
+}
+
+
+/* Don't change or delete this */
+.chatobject-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.chatobject-header {
+  flex: 0 0 auto;  
+  width: 100%;  
+  z-index: 20;
+  position: relative; 
+}
+
+.chatobject-body {
+  flex: 1 1 auto;
+  display: flex;
+  overflow: hidden;
+}
+
+/* messages column */
+.chatobject-messages {
+  flex: 6;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* notes column */
+.chatobject-notes {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.notes-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.5rem 1rem 0.25rem 1rem;
+  border-bottom: 1px solid var(--sand-color);
+  background-color: var(--white-bg-color);
+  margin-top: 0; 
+}
+
+
+
+
+
+/* These are for the ProfessionalMenu component */
+.pro-menu-wrapper {
+  position: absolute;
+  top: 4px;
+  right: 20px;
+  margin-top: 0;
+}
+
+.pro-avatar-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: #4f6f7b; /* ToDO: change the color */
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pro-menu-dropdown {
+  position: absolute;
+  right: 0;
+  margin-top: 0.5rem;
+  background-color: #ffffff;
+  border: 1px solid var(--sand-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  min-width: 140px;
+  z-index: 1000;
+  padding: 0;
+  overflow: hidden;
+}
+
+.pro-menu-item {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.pro-menu-item:hover {
+  background-color: #f5f1e8;
+}
+
+.prof-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; 
+  padding: 0.5rem 1.5rem;
+  border-bottom: 1px solid var(--sand-color);
+  background-color: var(--white-bg-color);
+}
+
