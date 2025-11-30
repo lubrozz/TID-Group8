@@ -43,14 +43,30 @@ export async function sendMessage(text, chatRoomId) {
   const roomPointer = new ChatRoom();
   roomPointer.id = chatRoomId;
 
+  // fetch the whole chatroom and the two users
+  const queryChatRoom = await new Parse.Query("ChatRoom").get(chatRoomId);
+
+  const anon = queryChatRoom.get("anon");
+  const prof = queryChatRoom.get("pro");
+  const currentUser = Parse.User.current();
+
+  // register opposite user in chatroom
+  const otherUser = anon.id === currentUser.id ? prof : anon;
+
   message.set("body", text);
   message.set("chat", roomPointer);
-  message.set("sender", Parse.User.current());
+  message.set("sender", currentUser);
   message.set("deliveredAt", new Date());
 
   const acl = new Parse.ACL();
-  acl.setReadAccess(Parse.User.current(), true);
-  acl.setWriteAccess(Parse.User.current(), true);
+  acl.setReadAccess(currentUser.id, true);
+  acl.setWriteAccess(currentUser.id, true);
+
+  // Give read access to the opposite user
+  if (otherUser) {
+    acl.setReadAccess(otherUser.id, true);
+  }
+
   message.setACL(acl);
 
   const savedMessage = await message.save();
@@ -67,11 +83,14 @@ export async function setSubscriptionToMessages(chatRoomId, onMessageCreated) {
 
     // create a query for messages in the chatroom
     const query = new Parse.Query("Message");
+
     query.equalTo("chat", roomPointer); // only messages from the created chatroom
     query.ascending("createdAt"); // newest messages first
     query.include("sender"); // query should also return who the sender is
 
     const subscription = await query.subscribe();
+
+    subscription.on("open", () => console.log("LiveQuery connected"));
 
     // Handling new messages live
     // The users subscribe on the creation of every message object created

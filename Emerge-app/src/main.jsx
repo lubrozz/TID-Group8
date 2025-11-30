@@ -11,8 +11,9 @@ Parse.initialize(
   "zMmQlW49bZ8poXbFzKOokRbWvlwJf2Jd9BYqjvTI",
   "LmonXzQwyZ5p5qp1TxiI3tVrRcg2PZ89ug9I5iai"
 );
-Parse.serverURL = "https://parseapi.back4app.com";
-Parse.liveQueryServerURL = "wss.//tidgroup8app.b4a.io";
+Parse.serverURL = "https://parseapi.back4app.com/";
+
+Parse.liveQueryServerURL = "wss://tidgroup8app.b4a.io"; // WebSocket URL for LiveQuery
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

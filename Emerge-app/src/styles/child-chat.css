@@ -140,7 +140,7 @@ body {
     gap: 20px;
 
     .message {
-      max-width: 70%;
+      max-width: 30%;
       display: flex;
       gap: 20px;
 
@@ -203,7 +203,7 @@ body {
 
         p {
           padding: 20px;
-          background-color: var(--dark-brown-color);
+          background-color: var(--blue-green-color);
           color: var(--light-sand-color);
           border-radius: 10px;
         }

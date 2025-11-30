@@ -17,7 +17,7 @@ export default function NewChildChat() {
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
 
-  /* Load current chatroom and it's messages (even if there are none) */
+  /* Load current chatroom and it's messages (even if there are none) (used for refresh) */
 
   useEffect(() => {
     const loadChatRoom = async () => {
@@ -44,6 +44,14 @@ export default function NewChildChat() {
 
     const initSubscription = async () => {
       subscription = await setSubscriptionToMessages(chatRoomId, (msg) => {
+        console.log(
+          "LiveQuery create event for chatRoomId",
+          chatRoomId,
+          "msgId:",
+          msg.id,
+          "body:",
+          msg.get("body")
+        );
         setMessages((prev) => [...prev, msg]); // onCreate callback
       });
     };

@@ -12,12 +12,12 @@ import Parse from "parse";
 import "../styles/prof-chat.css";
 
 export default function ProfChat() {
-  const { chatRoomId } = useParams();
   // State: all conversations
   const [chats, setChats] = useState([]);
 
   // Track which chat is selected
   const [selectedChat, setSelectedChat] = useState(null);
+  const chatRoomId = selectedChat?.id;
 
   // -------------------------
   // 1. LOAD CHATROOMS
@@ -39,7 +39,7 @@ export default function ProfChat() {
         name: room.get("anonDisplayName") || "Anonymous",
         preview: room.get("status") || "Open chat",
         messages: [],
-        parseObj: room,   // keep pointer
+        parseObj: room, // keep pointer
       }));
 
       setChats(uiChats);
@@ -49,6 +49,8 @@ export default function ProfChat() {
   }, []);
 
   useEffect(() => {
+    if (!chatRoomId) return;
+
     let subscription;
 
     const initSubscription = async () => {
@@ -64,12 +66,13 @@ export default function ProfChat() {
     };
   }, [chatRoomId]);
 
-
   // -------------------------
   // 2. LOAD MESSAGES FOR ONE CHAT
   // -------------------------
   const loadMessages = async (chatRoomId) => {
-    const results = await Parse.Cloud.run("getMessages", { roomId: chatRoomId });
+    const results = await Parse.Cloud.run("getMessages", {
+      roomId: chatRoomId,
+    });
     return results; // these are Parse objects!
   };
 
@@ -81,7 +84,9 @@ export default function ProfChat() {
 
     // Update UI for selected chat
     setSelectedChat((prev) =>
-      prev && prev.id === chatId ? { ...prev, messages: [...prev.messages, sent] } : prev
+      prev && prev.id === chatId
+        ? { ...prev, messages: [...prev.messages, sent] }
+        : prev
     );
   };
 
@@ -89,7 +94,6 @@ export default function ProfChat() {
     <div className="chat">
       <div className="top">
         <div className="prof-layout">
-
           <ConversationList
             chats={chats}
             selectedChat={selectedChat}
@@ -102,14 +106,10 @@ export default function ProfChat() {
           />
 
           {selectedChat ? (
-            <ChatWindow
-              chat={selectedChat}
-              onSend={handleSendMessage}
-            />
+            <ChatWindow chat={selectedChat} onSend={handleSendMessage} />
           ) : (
             <WelcomeScreen />
           )}
-
         </div>
       </div>
     </div>
