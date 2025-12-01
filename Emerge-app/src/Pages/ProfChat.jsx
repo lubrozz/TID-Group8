@@ -13,78 +13,89 @@ import Parse from "parse";
 import "../styles/prof-chat.css";
 
 export default function ProfChat() {
-  const { chatRoomId } = useParams();
-  // State: all conversations
-  const [chats, setChats] = useState([]);
+// Read the chatRoomId from the URL (e.g. /chat/abc123)
+const { chatRoomId } = useParams();
 
-  // Track which chat is selected
-  const [selectedChat, setSelectedChat] = useState(null);
+// All chatrooms assigned to this professional
+const [chats, setChats] = useState([]);
 
-  // -------------------------
-  // 1. LOAD CHATROOMS
-  // -------------------------
-  useEffect(() => {
-    const loadChatRooms = async () => {
-      const currentUser = Parse.User.current();
-      if (!currentUser) return;
+// Currently selected chatroom (the one being viewed)
+const [selectedChat, setSelectedChat] = useState(null);
 
-      const ChatRoom = Parse.Object.extend("ChatRoom");
-      const query = new Parse.Query(ChatRoom);
-      query.equalTo("pro", currentUser);
-      query.include("anon");
+  // ---------------------------------------
+  // 1. Load all chatrooms for this pro
+  // ---------------------------------------
 
-      const rooms = await query.find();
+useEffect(() => {
+  // Runs once on mount (empty dependency array)
+  async function loadRooms() {
+    // Get currently logged-in user (should be a professional)
+    const user = Parse.User.current();
+    if (!user) return; // If no user is logged in, do nothing
 
-      const uiChats = rooms.map((room) => ({
-        id: room.id,
-        name: room.get("anonDisplayName") || "Anonymous",
-        preview: room.get("status") || "Open chat",
-        messages: [],
-        parseObj: room,   // keep pointer
-      }));
+    // Query ChatRoom objects where this user is the assigned professional
+    const query = new Parse.Query("ChatRoom")
+      .equalTo("pro", user)  // only rooms assigned to this pro
+      .include("anon");      // also fetch the linked anonymous user (child)
 
-      setChats(uiChats);
-    };
+    // Fetch matching chatrooms from the backend
+    const rooms = await query.find();
 
-    loadChatRooms();
-  }, []);
-
-  useEffect(() => {
-    let subscription;
-
-    const initSubscription = async () => {
-      subscription = await setSubscriptionToMessages(chatRoomId, (msg) => {
-        setMessages((prev) => [...prev, msg]); // onCreate callback
-      });
-    };
-
-    initSubscription();
-
-    return () => {
-      unsubscribeFromMessages(subscription);
-    };
-  }, [chatRoomId]);
-
-
-  // -------------------------
-  // 2. LOAD MESSAGES FOR ONE CHAT
-  // -------------------------
-  const loadMessages = async (chatRoomId) => {
-    const results = await Parse.Cloud.run("getMessages", { roomId: chatRoomId });
-    return results; // these are Parse objects!
-  };
-
-  // -------------------------
-  // 3. SEND MESSAGE
-  // -------------------------
-  const handleSendMessage = async (chatId, text) => {
-    const sent = await sendMessage(text, chatId);
-
-    // Update UI for selected chat
-    setSelectedChat((prev) =>
-      prev && prev.id === chatId ? { ...prev, messages: [...prev.messages, sent] } : prev
+    // Map Parse objects → plain objects used by the UI
+    setChats(
+      rooms.map((room) => ({
+        id: room.id,                                      // ChatRoom ID
+        name: room.get("anonDisplayName") ?? "Anonymous", // name shown in chat list
+        preview: room.get("status") ?? "Open chat",       // short status/preview text
+        messages: [],                                     // messages will be loaded later
+        parseObj: room,                                   // keep original Parse object if needed
+      }))
     );
-  };
+  }
+  loadRooms();
+}, []); // [] → run only once when the component mounts
+  
+  // ---------------------------------------
+  // 2. Live subscription for incoming msgs
+  // ---------------------------------------
+  useEffect(() => {
+    if (!chatRoomId) return;
+  
+    let sub;
+  
+    (async () => {
+      sub = await setSubscriptionToMessages(chatRoomId, (msg) => {
+        // Append message to the open chat
+        setSelectedChat((prev) =>
+          prev && prev.id === chatRoomId
+            ? { ...prev, messages: [...prev.messages, msg] }
+            : prev
+        );
+      });
+    })();
+  
+    return () => sub && unsubscribeFromMessages(sub);
+  }, [chatRoomId]);
+  
+  
+  // ---------------------------------------
+  // 3. Load messages for a specific chat
+  // ---------------------------------------
+  async function loadMessages(chatId) {
+    return await Parse.Cloud.run("getMessages", { roomId: chatId });
+  }
+  // ---------------------------------------
+  // 4. Send a message
+  // ---------------------------------------
+  async function handleSendMessage(chatId, text) {
+    const sent = await sendMessage(text, chatId);
+  
+    setSelectedChat((prev) =>
+      prev && prev.id === chatId
+        ? { ...prev, messages: [...prev.messages, sent] }
+        : prev
+    );
+  }
 
   return (
     <div className="chat">
@@ -109,12 +120,9 @@ export default function ProfChat() {
             />
             
           ) : (
-    
-          
-           
-            <WelcomeScreen />
+             <WelcomeScreen/>
           )}
-             <ProfessionalMenu />
+             <ProfessionalMenu/>
 
         </div>
       </div>
