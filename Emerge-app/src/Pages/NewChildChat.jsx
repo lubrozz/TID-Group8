@@ -17,6 +17,24 @@ export default function NewChildChat() {
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
 
+  useEffect(() => {
+    let subscription;
+
+    const initSubscription = async () => {
+      subscription = await setSubscriptionToMessages(chatRoomId, (msg) => {
+        setMessages((prev) => {
+          if (prev.find((m) => m.id === msg.id)) return prev; // <-- prevents duplicates
+          return [...prev, msg];
+        }); // onCreate callback
+      });
+    };
+
+    initSubscription();
+
+    return () => {
+      unsubscribeFromMessages(subscription);
+    };
+  }, [chatRoomId]);
   /* Load current chatroom and it's messages (even if there are none) */
 
   useEffect(() => {
@@ -26,7 +44,12 @@ export default function NewChildChat() {
         const results = await Parse.Cloud.run("getMessages", {
           roomId: chatRoomId,
         });
-        setMessages(results || []);
+        setMessages((prev) => {
+          const newOnes = results.filter(
+            (r) => !prev.some((m) => m.id === r.id)
+          );
+          return [...prev, ...newOnes];
+        });
       } catch (err) {
         console.error("loadMessages error:", err);
       } finally {
@@ -39,28 +62,12 @@ export default function NewChildChat() {
 
   /* loading component while data is being fetched */
 
-  useEffect(() => {
-    let subscription;
-
-    const initSubscription = async () => {
-      subscription = await setSubscriptionToMessages(chatRoomId, (msg) => {
-        setMessages((prev) => [...prev, msg]); // onCreate callback
-      });
-    };
-
-    initSubscription();
-
-    return () => {
-      unsubscribeFromMessages(subscription);
-    };
-  }, [chatRoomId]);
-
   if (loading) return <div>loading chat...</div>; //can always make a prettier loading element...
 
   /* save message to database */
   const handleSendMessage = async (text) => {
     const sentMessage = await sendMessage(text, chatRoomId);
-    setMessages((prev) => [...prev, sentMessage]);
+    //setMessages((prev) => [...prev, sentMessage]);
     console.log("message *" + sentMessage + "* sent" + chatRoomId);
   };
 

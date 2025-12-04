@@ -1,14 +1,13 @@
 // src/Components/ChatObject/ChatObject.jsx
 import MessageList from "./MessageList";
-import MessageBubble from "./MessageBubble.jsx"; 
+import MessageBubble from "./MessageBubble.jsx";
 import TextBar from "../Shared/TextBar.jsx";
 import NotesBar from "./NotesBar.jsx";
-import "../../styles/prof-chat.css";   
+import "../../styles/prof-chat.css";
 import ReportNotification from "./ReportNotification.jsx";
 import { useState, useEffect, useRef } from "react";
 import ProfessionalMenu from "./ProfessionalMenu.jsx";
 import Parse from "parse";
-
 
 export default function ChatObject({ chat, onSend }) {
   const [selectedMessageId, setSelectedMessageId] = useState(null);
@@ -36,29 +35,29 @@ export default function ChatObject({ chat, onSend }) {
         const chatRoom = new Parse.Object("ChatRoom");
         chatRoom.id = chat.id;
 
-        query.equalTo("chat", chatRoom);            // we only get the note of "this chatroom"
-        query.equalTo("isPrivate", true);           // we only uese private note
+        query.equalTo("chat", chatRoom); // we only get the note of "this chatroom"
+        query.equalTo("isPrivate", true); // we only uese private note
 
         const currentUser = Parse.User.current();
         if (currentUser) {
-          query.equalTo("author", currentUser);     // we only use this current prof user's note
+          query.equalTo("author", currentUser); // we only use this current prof user's note
         }
 
         query.ascending("createdAt");
 
         const results = await query.find();
         console.log(
-          "loadNotes for chat", 
-          chat.id, 
-          "found", 
-          results.length, 
+          "loadNotes for chat",
+          chat.id,
+          "found",
+          results.length,
           "notes"
         );
 
-        // change to the structure of NotesBar: {localId: text} 
+        // change to the structure of NotesBar: {localId: text}
         const map = {};
         results.forEach((note, index) => {
-          const key = `note-${index}-${note.id}`;   // The locally used key does not need to correspond one-to-one with the database ID
+          const key = `note-${index}-${note.id}`; // The locally used key does not need to correspond one-to-one with the database ID
           map[key] = note.get("body") || "";
         });
 
@@ -74,172 +73,165 @@ export default function ChatObject({ chat, onSend }) {
     loadNotes();
   }, [chat?.id]);
 
+  // 2. save the contents of the current `notesByMessageId` to the `Note` table
+  const persistNotesForChat = async (notesMap) => {
+    if (!chat?.id) return;
 
-    // 2. save the contents of the current `notesByMessageId` to the `Note` table
-    const persistNotesForChat = async (notesMap) => {
-      if (!chat?.id) return;
+    const currentUser = Parse.User.current();
+    if (!currentUser) {
+      console.warn("No authenticated user – skipping save of notes.");
+      return;
+    }
 
-      const currentUser = Parse.User.current();
-      if (!currentUser) {
-        console.warn("No authenticated user – skipping save of notes.");
-        return;
+    // Extract non-empty text from notesMap first
+    const noteTexts = Object.values(notesMap)
+      .map((t) => (t || "").trim())
+      .filter((t) => t.length > 0);
+
+    // If the current snapshot contains no non-empty notes, skip it entirely without deleting any backend data
+    if (noteTexts.length === 0) {
+      console.log("No non-empty notes, skip saving to avoid wiping backend.");
+      return;
+    }
+
+    console.log("persistNotesForChat for chat", chat.id, "notesMap:", notesMap);
+
+    try {
+      const Note = Parse.Object.extend("Note");
+      const query = new Parse.Query(Note);
+
+      const chatRoom = new Parse.Object("ChatRoom");
+      chatRoom.id = chat.id;
+
+      // Find all old notes from the current chat + current professional users + private
+      query.equalTo("chat", chatRoom);
+      query.equalTo("isPrivate", true);
+      query.equalTo("author", currentUser);
+
+      const existing = await query.find();
+
+      // delete the previous version of this chat + user (only delete own private notes)
+      if (existing.length > 0) {
+        await Parse.Object.destroyAll(existing);
       }
 
-      // Extract non-empty text from notesMap first
-      const noteTexts = Object.values(notesMap)
-        .map((t) => (t || "").trim())
-        .filter((t) => t.length > 0);
+      // Regenerate the Note object and write it back to the database
+      const newNotes = noteTexts.map((text) => {
+        const note = new Note();
+        note.set("chat", chatRoom);
+        note.set("author", currentUser);
+        note.set("body", text);
+        note.set("isPrivate", true);
+        return note;
+      });
 
-      // If the current snapshot contains no non-empty notes, skip it entirely without deleting any backend data
-      if (noteTexts.length === 0) {
-        console.log("No non-empty notes, skip saving to avoid wiping backend.");
-        return;
-      }
+      await Parse.Object.saveAll(newNotes);
 
-      console.log("persistNotesForChat for chat", chat.id, "notesMap:", notesMap);
+      console.log(
+        `Saved ${newNotes.length} notes for chat ${chat.id} to Note table.`
+      );
+    } catch (err) {
+      console.error("Failed to save notes for chat:", err);
+    }
+  };
 
-      try {
-        const Note = Parse.Object.extend("Note");
-        const query = new Parse.Query(Note);
+  // 3. Notes: Local update: Only modify the state, do not directly update the backend
+  const handleUpdateNote = (messageId, nextText) => {
+    setNotesByMessageId((prev) => ({
+      ...prev,
+      [messageId]: nextText,
+    }));
+  };
 
-        const chatRoom = new Parse.Object("ChatRoom");
-        chatRoom.id = chat.id;
+  const handleAddNoteForSelected = () => {
+    const newNoteId = `note-${Date.now()}`;
+    setNotesByMessageId((prev) => ({
+      ...prev,
+      [newNoteId]: "",
+    }));
+    setSelectedMessageId(newNoteId);
+  };
 
-        // Find all old notes from the current chat + current professional users + private
-        query.equalTo("chat", chatRoom);
-        query.equalTo("isPrivate", true);
-        query.equalTo("author", currentUser);
+  // 4. When notesByMessageId changes, only one snapshot is saved to the database within 500ms
+  useEffect(() => {
+    if (!chat?.id) return;
 
-        const existing = await query.find();
+    // If the initial notes for this chat haven't finished loading, do not save them to avoid “an empty snapshot clearing the backend.”
+    if (!hasLoadedInitialNotes.current) return;
 
-        // delete the previous version of this chat + user (only delete own private notes)
-        if (existing.length > 0) {
-          await Parse.Object.destroyAll(existing);
-        }
-      
-        // Regenerate the Note object and write it back to the database
-        const newNotes = noteTexts.map((text) => {
-          const note = new Note();
-          note.set("chat", chatRoom);
-          note.set("author", currentUser);
-          note.set("body", text);
-          note.set("isPrivate", true);
-          return note;
-        });
+    // Each time notes change, clear the previous timer first
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
 
-        await Parse.Object.saveAll(newNotes);
+    // Save the current snapshot after 500ms
+    saveTimeoutRef.current = setTimeout(() => {
+      persistNotesForChat(notesByMessageId);
+    }, 500);
 
-        console.log(
-          `Saved ${newNotes.length} notes for chat ${chat.id} to Note table.`
-        );
-      } catch (err) {
-        console.error("Failed to save notes for chat:", err);
-      }
-    }; 
-
-
-    // 3. Notes: Local update: Only modify the state, do not directly update the backend
-    const handleUpdateNote = (messageId, nextText) => {
-      setNotesByMessageId((prev) => ({
-        ...prev,
-        [messageId]: nextText,
-      }));
-    };
-
-    const handleAddNoteForSelected = () => {
-      const newNoteId = `note-${Date.now()}`;
-      setNotesByMessageId((prev) => ({
-        ...prev,
-        [newNoteId]: "",
-      }));
-      setSelectedMessageId(newNoteId);
-    };
-
-
-    // 4. When notesByMessageId changes, only one snapshot is saved to the database within 500ms
-    useEffect(() => {
-      if (!chat?.id) return;
-
-      // If the initial notes for this chat haven't finished loading, do not save them to avoid “an empty snapshot clearing the backend.”
-      if (!hasLoadedInitialNotes.current) return;
-      
-      // Each time notes change, clear the previous timer first
+    // Cleanup function to prevent timers from lingering after component unmounting
+    return () => {
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
       }
+    };
+  }, [notesByMessageId, chat?.id]); // Switching between notes content or chat will trigger
 
-      // Save the current snapshot after 500ms
-      saveTimeoutRef.current = setTimeout(() => {
-        persistNotesForChat(notesByMessageId);
-      }, 500);
-
-      // Cleanup function to prevent timers from lingering after component unmounting
-      return () => {
-        if (saveTimeoutRef.current) {
-          clearTimeout(saveTimeoutRef.current);
-        }
-      };
-    }, [notesByMessageId, chat?.id]); // Switching between notes content or chat will trigger
-
-
-    return (
-      <div className="chatobject-wrapper">
-
-        {/* Report bar stays at top ALWAYS */}
-        <div className="chatobject-header">
-          <ReportNotification />
-          <ProfessionalMenu />
-        </div>
+  return (
+    <div className="chatobject-wrapper">
+      {/* Report bar stays at top ALWAYS */}
+      <div className="chatobject-header">
+        <ReportNotification />
+        <ProfessionalMenu />
+      </div>
 
       <div className="chatobject-body">
-        
         {/* Left: messages */}
         <div className="chatobject-messages">
-        <MessageList
-  messages={chat.messages}
-  renderItem={(m) => {
-    // m is Parse.Object("Message")
-    const senderUser = m.get("sender");
-    const roleLabel = senderUser?.get("roleLabel");
+          <MessageList
+            messages={chat.messages}
+            renderItem={(m) => {
+              // m is Parse.Object("Message")
+              const senderUser = m.get("sender");
+              const roleLabel = senderUser?.get("roleLabel");
 
-    // What MessageBubble expects:
-    const sender =
-      roleLabel === "Professional" ? "Anonymous" : "Professional";
+              // What MessageBubble expects:
+              const sender =
+                roleLabel === "Professional" ? "Anonymous" : "Professional";
 
-    const deliveredAt = m.get("deliveredAt") || m.createdAt;
-    const timestamp = deliveredAt
-      ? deliveredAt.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        })
-      : "";
+              const deliveredAt = m.get("deliveredAt") || m.createdAt;
+              const timestamp = deliveredAt
+                ? deliveredAt.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })
+                : "";
 
-    return (
-      <MessageBubble
-        key={m.id}
-        text={m.get("body")}
-        sender={sender}        // ← ✔ FIXED — now using computed label
-        timestamp={timestamp}
-      />
-    );
-  }}
-/>
+              return (
+                <MessageBubble
+                  key={m.id}
+                  text={m.get("body")}
+                  sender={sender} // ← ✔ FIXED — now using computed label
+                  timestamp={timestamp}
+                />
+              );
+            }}
+          />
 
-          
           <TextBar onSend={onSend} />
         </div>
 
-          {/* Right: notes */}
-          <div className="chatobject-notes">
-            <div className="notes-header"></div>
-            <NotesBar
-              notesByMessageId={notesByMessageId}
-              selectedMessageId={selectedMessageId}
-              onUpdateNote={handleUpdateNote}
-              onAddNoteForSelected={handleAddNoteForSelected}
-            />
-          </div>
+        {/* Right: notes */}
+        <div className="chatobject-notes">
+          <div className="notes-header"></div>
+          <NotesBar
+            notesByMessageId={notesByMessageId}
+            selectedMessageId={selectedMessageId}
+            onUpdateNote={handleUpdateNote}
+            onAddNoteForSelected={handleAddNoteForSelected}
+          />
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
