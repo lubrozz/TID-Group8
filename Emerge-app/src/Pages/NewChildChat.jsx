@@ -17,26 +17,42 @@ export default function NewChildChat() {
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
 
+  // -------------------------
+  // 1. LIVEQUERY SUBSCRIPTION
+  // -------------------------
   useEffect(() => {
+    if (!chatRoomId) return;
+
     let subscription;
 
     const initSubscription = async () => {
       subscription = await setSubscriptionToMessages(chatRoomId, (msg) => {
+        console.log("LiveQuery received message:", msg.id);
+
         setMessages((prev) => {
-          if (prev.find((m) => m.id === msg.id)) return prev; // <-- prevents duplicates
+          // Prevent duplicates
+          if (prev.find((m) => m.id === msg.id)) {
+            console.log("Duplicate message prevented:", msg.id);
+            return prev;
+          }
           return [...prev, msg];
-        }); // onCreate callback
+        });
       });
+
+      console.log("LiveQuery subscription established for room:", chatRoomId);
     };
 
     initSubscription();
 
     return () => {
+      console.log("Unsubscribing from chat:", chatRoomId);
       unsubscribeFromMessages(subscription);
     };
   }, [chatRoomId]);
-  /* Load current chatroom and it's messages (even if there are none) */
 
+  // -------------------------
+  // 2. LOAD INITIAL MESSAGES
+  // -------------------------
   useEffect(() => {
     const loadChatRoom = async () => {
       try {
@@ -44,6 +60,9 @@ export default function NewChildChat() {
         const results = await Parse.Cloud.run("getMessages", {
           roomId: chatRoomId,
         });
+
+        console.log("Loaded initial messages:", results.length);
+
         setMessages((prev) => {
           const newOnes = results.filter(
             (r) => !prev.some((m) => m.id === r.id)
@@ -57,19 +76,38 @@ export default function NewChildChat() {
       }
     };
 
-    loadChatRoom();
+    if (chatRoomId) {
+      loadChatRoom();
+    }
   }, [chatRoomId]);
 
-  /* loading component while data is being fetched */
-
-  if (loading) return <div>loading chat...</div>; //can always make a prettier loading element...
-
-  /* save message to database */
+  // -------------------------
+  // 3. SEND MESSAGE
+  // -------------------------
   const handleSendMessage = async (text) => {
-    const sentMessage = await sendMessage(text, chatRoomId);
-    //setMessages((prev) => [...prev, sentMessage]);
-    console.log("message *" + sentMessage + "* sent" + chatRoomId);
+    if (!chatRoomId || !text.trim()) return;
+
+    try {
+      const sent = await sendMessage(text, chatRoomId);
+      console.log("Message sent:", sent.id);
+
+      // Optimistically update UI (LiveQuery will also trigger, but duplicate prevention handles it)
+      setMessages((prev) => {
+        // Prevent duplicates
+        if (prev.find((m) => m.id === sent.id)) {
+          return prev;
+        }
+        return [...prev, sent];
+      });
+    } catch (err) {
+      console.error("Send message error:", err);
+    }
   };
+
+  // -------------------------
+  // LOADING STATE
+  // -------------------------
+  if (loading) return <div>loading chat...</div>;
 
   return (
     <div className="container">
@@ -77,9 +115,6 @@ export default function NewChildChat() {
         <ExitModal chatRoomId={chatRoomId} />
         <div className="center">
           {messages.map((msg) => {
-            console.log(
-              "the sender is: " + msg.get("sender")?.get("roleLabel")
-            );
             const isProf =
               msg.get("sender")?.get("roleLabel") === "Professional";
 

@@ -47,26 +47,45 @@ export default function ProfChat() {
     loadChatRooms();
   }, []);
 
+  // -------------------------
+  // 2. LIVEQUERY SUBSCRIPTION
+  // -------------------------
   useEffect(() => {
+    if (!chatRoomId) return; // Don't subscribe if no chat selected
+
     let subscription;
 
     const initSubscription = async () => {
-      subscription = await setSubscriptionToMessages(
-        chatRoomId /*,(msg) => {
-        setMessages((prev) => [...prev, msg]); // onCreate callback
-      }*/
-      );
+      subscription = await setSubscriptionToMessages(chatRoomId, (msg) => {
+        console.log("LiveQuery received message:", msg.id);
+
+        // Update the selectedChat's messages
+        setSelectedChat((prev) => {
+          if (!prev || prev.id !== chatRoomId) return prev;
+
+          // Prevent duplicates
+          if (prev.messages.find((m) => m.id === msg.id)) {
+            return prev;
+          }
+
+          return {
+            ...prev,
+            messages: [...prev.messages, msg],
+          };
+        });
+      });
     };
 
     initSubscription();
 
     return () => {
+      console.log("Unsubscribing from chat:", chatRoomId);
       unsubscribeFromMessages(subscription);
     };
   }, [chatRoomId]);
 
   // -------------------------
-  // 2. LOAD MESSAGES FOR ONE CHAT
+  // 3. LOAD MESSAGES FOR ONE CHAT
   // -------------------------
   const loadMessages = async (chatRoomId) => {
     const results = await Parse.Cloud.run("getMessages", {
@@ -76,17 +95,28 @@ export default function ProfChat() {
   };
 
   // -------------------------
-  // 3. SEND MESSAGE
+  // 4. SEND MESSAGE
   // -------------------------
-  const handleSendMessage = async (chatId, text) => {
-    const sent = await sendMessage(text, chatId);
+  const handleSendMessage = async (chatRoomId, text) => {
+    if (!chatRoomId) return;
 
-    // Update UI for selected chat
-    setSelectedChat((prev) =>
-      prev && prev.id === chatId
-        ? { ...prev, messages: [...prev.messages, sent] }
-        : prev
-    );
+    const sent = await sendMessage(text, chatRoomId);
+    console.log("Message sent:", sent.id);
+
+    // Optimistically update UI (LiveQuery will also trigger, but duplicate prevention handles it)
+    setSelectedChat((prev) => {
+      if (!prev || prev.id !== chatRoomId) return prev;
+
+      // Prevent duplicates
+      if (prev.messages.find((m) => m.id === sent.id)) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        messages: [...prev.messages, sent],
+      };
+    });
   };
 
   return (

@@ -40,6 +40,8 @@ export async function sendMessage(text, chatRoomId) {
   const message = new Message();
 
   const ChatRoom = Parse.Object.extend("ChatRoom");
+  const chatQuery = new Parse.Query(ChatRoom);
+  const chatRoom = await chatQuery.get(chatRoomId);
   const roomPointer = new ChatRoom();
   roomPointer.id = chatRoomId;
 
@@ -49,7 +51,11 @@ export async function sendMessage(text, chatRoomId) {
   message.set("deliveredAt", new Date());
 
   const acl = new Parse.ACL();
-  acl.setReadAccess(Parse.User.current(), true);
+  const anon = chatRoom.get("anon");
+  const prof = chatRoom.get("pro");
+
+  acl.setReadAccess(anon.id, true);
+  acl.setReadAccess(prof.id, true);
   acl.setWriteAccess(Parse.User.current(), true);
   message.setACL(acl);
 
