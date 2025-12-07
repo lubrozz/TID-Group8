@@ -27,6 +27,10 @@ export default function LoginPage() {
       // call Parse's login（username/password）
       const user = await Parse.User.logIn(username, password);
 
+      // Save the current professional user's sessionToken (for recovery after refresh)
+      const token = user.getSessionToken();
+      sessionStorage.setItem("profSessionToken", token);
+
       // when succeed in login，we can get the info of user
       console.log("Logged in:", user?.get("username"));
 

@@ -10,23 +10,34 @@ import LoginPage from "./Pages/LoginPage";
 import NewChildChat from "./Pages/NewChildChat";
 import Register from "./Pages/RegisterPage";
 import { useEffect } from "react";
-import { Parse } from "parse";
+import Parse from "parse";
 
 export default function App() {
   // Restore Anon user on page reload, but not after page closure.
   useEffect(() => {
-    const restoreAnonUser = async () => {
-      const token = sessionStorage.getItem("anonUserSessionToken");
-      if (token) {
-        try {
-          await Parse.User.become(token);
-          console.log("Restored anon user:", Parse.User.current());
-        } catch (err) {
-          console.error("Failed to restore anon user:", err);
+    const restoreUser = async () => {
+      // 1. Restore professional users first
+      const profToken = sessionStorage.getItem("profSessionToken");
+      // 2. If no professional users exist, check for anonymous users
+      const anonToken = sessionStorage.getItem("anonUserSessionToken");
+
+      const tokenToUse = profToken || anonToken;
+      if (!tokenToUse) return;
+
+      try {
+        // If the current user is already present in memory, no need to perform the become operation
+        if (!Parse.User.current()) {
+          await Parse.User.become(tokenToUse);
         }
+        console.log("Restored user from session:", Parse.User.current());
+      } catch (err) {
+        console.error("Failed to restore user from session:", err);
+        // If the token has expired, clear it to avoid persistent errors
+        if (profToken) sessionStorage.removeItem("profSessionToken");
+        if (anonToken) sessionStorage.removeItem("anonUserSessionToken");
       }
     };
-    restoreAnonUser();
+    restoreUser();
   }, []);
 
   return (

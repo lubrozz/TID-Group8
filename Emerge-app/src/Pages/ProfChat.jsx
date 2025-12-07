@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import ConversationList from "../Components/prof-chat/ConversationList.jsx";
 import ChatWindow from "../Components/prof-chat/ChatWindow.jsx";
 import WelcomeScreen from "../Components/prof-chat/WelcomeScreen.jsx";
+import { useParams } from "react-router-dom";
+import ProfessionalMenu from "../Components/prof-chat/ProfessionalMenu.jsx";
 import {
   sendMessage,
   setSubscriptionToMessages,
-  unsubscribeFromMessages,
+  unsubscribeFromMessages, 
 } from "../services/chatService";
 import Parse from "parse";
 import "../styles/prof-chat.css";
@@ -137,8 +139,13 @@ export default function ProfChat() {
           {selectedChat ? (
             <ChatWindow chat={selectedChat} onSend={handleSendMessage} />
           ) : (
+    
+          
+           
             <WelcomeScreen />
           )}
+             <ProfessionalMenu />
+
         </div>
       </div>
     </div>

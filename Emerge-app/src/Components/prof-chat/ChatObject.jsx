@@ -1,12 +1,17 @@
-// src/Components/ChatObject/ChatObject.jsx
 import MessageList from "./MessageList";
 import MessageBubble from "./MessageBubble.jsx";
 import TextBar from "../Shared/TextBar.jsx";
 import NotesBar from "./NotesBar.jsx";
 import "../../styles/prof-chat.css";
 import ReportNotification from "./ReportNotification.jsx";
-import { useState, useEffect, useRef } from "react";
 import ProfessionalMenu from "./ProfessionalMenu.jsx";
+import useChatNotes from "../../hooks/useChatNotes";
+
+export default function ChatObject({ chat, onSend }) {
+  const { notes, updateNote, addNote } = useChatNotes(chat);
+
+  return (
+    <div className="chatobject-wrapper">
 import Parse from "parse";
 
 export default function ChatObject({ chat, onSend }) {
