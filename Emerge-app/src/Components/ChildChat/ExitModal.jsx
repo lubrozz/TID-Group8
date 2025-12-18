@@ -56,7 +56,7 @@ export default function ExitModal({ chatRoomId }) {
           <LinkButton
             styleName={"confirmExitButton"}
             onClick={handleDeleteChat}
-            page={"/"}
+            page={"/child-home"}
             buttonText={"Exit Chat"}
           />
         </div>
