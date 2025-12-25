@@ -20,6 +20,7 @@ export default function OldChatModal({ open, onClose }) {
     try {
       const oldRoom = await enterOldChat(inputValue);
       console.log("Code correct, entering old chat: ", oldRoom);
+      sessionStorage.setItem("conversationCode", inputValue);
       navigate(`/chat/${oldRoom.oldChatRoomId}`);
     } catch (e) {
       console.error(e);
