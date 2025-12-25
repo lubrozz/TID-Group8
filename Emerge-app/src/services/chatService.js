@@ -1,8 +1,13 @@
 import Parse from "parse"; // <-- Important
 
 export async function createNewChatRoom() {
-  const { chatRoomId, anonUserId, anonUserName, anonPassword } =
-    await Parse.Cloud.run("createNewChatRoom");
+  const {
+    chatRoomId,
+    conversationCode,
+    anonUserId,
+    anonUserName,
+    anonPassword,
+  } = await Parse.Cloud.run("createNewChatRoom");
 
   // log in anon user to create a session
   await Parse.User.logIn(anonUserName, anonPassword);
@@ -16,7 +21,28 @@ export async function createNewChatRoom() {
 
   console.log("Client is now logged in as anon user:", Parse.User.current());
 
+  //store conversationCode in sessionStorage
+  sessionStorage.setItem("conversationCode", conversationCode);
+
   return { chatRoomId, anonUserId };
+}
+
+export async function enterOldChat(token) {
+  const { oldChatRoomId, anonUserName, anonPassword } = await Parse.Cloud.run(
+    "enterOldChatRoom",
+    { entryToken: token }
+  );
+
+  await Parse.User.logIn(anonUserName, anonPassword);
+
+  // store session token in sessionStorage
+  // This will make the session token survive page reloads, but not page closure
+  sessionStorage.setItem(
+    "anonUserSessionToken",
+    Parse.User.current().getSessionToken()
+  );
+
+  return { oldChatRoomId };
 }
 
 export async function deleteChatRoom(chatRoomId) {
