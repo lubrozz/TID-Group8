@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function OldChatModal({ open, onClose }) {
   const dialogRef = useRef();
+  const [error, setError] = useState("");
   const [inputValue, setInputValue] = useState("");
   const navigate = useNavigate();
 
@@ -17,6 +18,8 @@ export default function OldChatModal({ open, onClose }) {
   const handleOldChat = async () => {
     if (!codeComplete) return;
 
+    setError("");
+
     try {
       const oldRoom = await enterOldChat(inputValue);
       console.log("Code correct, entering old chat: ", oldRoom);
@@ -24,6 +27,7 @@ export default function OldChatModal({ open, onClose }) {
       navigate(`/chat/${oldRoom.oldChatRoomId}`);
     } catch (e) {
       console.error(e);
+      setError(e?.message || "Invalid conversation code");
     }
   };
 
@@ -40,6 +44,7 @@ export default function OldChatModal({ open, onClose }) {
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
         <h2>Welcome back</h2>
         <p>Please input your conversation code:</p>
+        {error && <div className="error-message">{error}</div>}
         <input type="text" value={inputValue} onChange={handleInputChange} />
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <Button
