@@ -1,4 +1,4 @@
-import Ellipsis from "./Ellipsis";
+import Ellipsis from "../prof-chat/Ellipsis";
 import "../../styles/prof-chat.css";
 
 export default function MessageBubble({
