@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "../../styles/child-chat.css";
-import Button from "../Shared/button";
+import Button from "../Shared/Button";
 import LinkButton from "../Shared/LinkButton";
 import { deleteChatRoom } from "../../services/chatService";
 
@@ -28,12 +28,15 @@ export default function ExitModal({ chatRoomId }) {
     }
   }, [open]);
 
+  // fetch conversationCode from sessionStorage
+  const conversationCode = sessionStorage.getItem("conversationCode");
+
   return (
     <div>
       <div className="top">
         <div className="exitBar">
           <p>You can at anytime exit and delete the chat here.</p>
-          <p>Your chat key is: {chatRoomId}</p>
+          <p>Your chat key is: {conversationCode}</p>
         </div>
         <Button
           styleName={"exitButton"}
@@ -56,7 +59,7 @@ export default function ExitModal({ chatRoomId }) {
           <LinkButton
             styleName={"confirmExitButton"}
             onClick={handleDeleteChat}
-            page={"/"}
+            page={"/child-home"}
             buttonText={"Exit Chat"}
           />
         </div>

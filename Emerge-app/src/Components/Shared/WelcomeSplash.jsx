@@ -3,8 +3,10 @@ import { useState } from "react";
 import LinkButton from "./LinkButton";
 import { createNewChatRoom } from "../../services/chatService";
 import { useNavigate } from "react-router-dom";
+import OldChatModal from "../ChildChat/OldChatModal";
 
 export default function WelcomeSplash() {
+  const [openOldChat, setOpenOldChat] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -27,6 +29,12 @@ export default function WelcomeSplash() {
 
   return (
     <div className="centerSplash">
+      {openOldChat && (
+        <OldChatModal
+          open={openOldChat}
+          onClose={() => setOpenOldChat(false)}
+        />
+      )}
       <div className="headerWrapper">
         {error && <div className="error-message">{error}</div>}
 
@@ -39,9 +47,9 @@ export default function WelcomeSplash() {
       <div className="buttonWrapper">
         <LinkButton
           styleName={"oldChatButton"}
-          page={"/new-child-chat"}
           buttonText={"Old chat"}
           buttonIcon={<span>&#10560;</span>}
+          onClick={() => setOpenOldChat(true)}
         />
         <LinkButton
           styleName={"newChatButton"}

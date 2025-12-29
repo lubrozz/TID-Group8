@@ -1,8 +1,13 @@
 import Parse from "parse"; // <-- Important
 
 export async function createNewChatRoom() {
-  const { chatRoomId, anonUserId, anonUserName, anonPassword } =
-    await Parse.Cloud.run("createNewChatRoom");
+  const {
+    chatRoomId,
+    conversationCode,
+    anonUserId,
+    anonUserName,
+    anonPassword,
+  } = await Parse.Cloud.run("createNewChatRoom");
 
   // log in anon user to create a session
   await Parse.User.logIn(anonUserName, anonPassword);
@@ -16,7 +21,28 @@ export async function createNewChatRoom() {
 
   console.log("Client is now logged in as anon user:", Parse.User.current());
 
+  //store conversationCode in sessionStorage
+  sessionStorage.setItem("conversationCode", conversationCode);
+
   return { chatRoomId, anonUserId };
+}
+
+export async function enterOldChat(token) {
+  const { oldChatRoomId, anonUserName, anonPassword } = await Parse.Cloud.run(
+    "enterOldChatRoom",
+    { entryToken: token }
+  );
+
+  await Parse.User.logIn(anonUserName, anonPassword);
+
+  // store session token in sessionStorage
+  // This will make the session token survive page reloads, but not page closure
+  sessionStorage.setItem(
+    "anonUserSessionToken",
+    Parse.User.current().getSessionToken()
+  );
+
+  return { oldChatRoomId };
 }
 
 export async function deleteChatRoom(chatRoomId) {
@@ -100,4 +126,77 @@ export async function unsubscribeFromMessages(subscription) {
       console.error("Error unsubscribing:", error);
     }
   }
+}
+
+/**
+ * Load all private notes for a given chat and professional user.
+ * Returns { noteId: body, ... }
+ */
+export async function getNotesForChat(chatId, user) {
+  if (!chatId || !user) return {};
+
+  const Note = Parse.Object.extend("Note");
+  const query = new Parse.Query(Note);
+
+  const chatRoom = new Parse.Object("ChatRoom");
+  chatRoom.id = chatId;
+
+  query.equalTo("chat", chatRoom);
+  query.equalTo("isPrivate", true);
+  query.equalTo("author", user);
+  query.ascending("createdAt");
+
+  const results = await query.find();
+
+  const map = {};
+  results.forEach((note, index) => {
+    const key = `note-${index}-${note.id}`;
+    map[key] = note.get("body") || "";
+  });
+
+  return map;
+}
+
+/**
+ * Save notes back to Parse. Deletes old notes, writes new ones.
+ */
+export async function saveNotesForChat(chatId, user, notesMap) {
+  if (!chatId || !user) return;
+
+  // Only save non-empty notes
+  const noteTexts = Object.values(notesMap)
+    .map((t) => (t || "").trim())
+    .filter((t) => t.length > 0);
+
+  if (noteTexts.length === 0) {
+    console.log("No non-empty notes, skipping save.");
+    return;
+  }
+
+  const Note = Parse.Object.extend("Note");
+  const query = new Parse.Query(Note);
+
+  const chatRoom = new Parse.Object("ChatRoom");
+  chatRoom.id = chatId;
+
+  query.equalTo("chat", chatRoom);
+  query.equalTo("isPrivate", true);
+  query.equalTo("author", user);
+
+  const existing = await query.find();
+
+  if (existing.length > 0) {
+    await Parse.Object.destroyAll(existing);
+  }
+
+  const newNotes = noteTexts.map((text) => {
+    const note = new Note();
+    note.set("chat", chatRoom);
+    note.set("author", user);
+    note.set("body", text);
+    note.set("isPrivate", true);
+    return note;
+  });
+
+  await Parse.Object.saveAll(newNotes);
 }

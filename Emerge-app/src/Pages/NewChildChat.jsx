@@ -2,7 +2,7 @@ import "../styles/child-chat.css";
 import "../styles/textbar.css";
 import TextBar from "../Components/Shared/TextBar";
 import ExitModal from "../Components/ChildChat/ExitModal";
-import MessageBubble from "../Components/ChildChat/MessageBubble";
+import MessageBubble from "../Components/Shared/MessageBubble";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
@@ -114,23 +114,31 @@ export default function NewChildChat() {
       <div className="chat">
         <ExitModal chatRoomId={chatRoomId} />
         <div className="center">
-          {messages.map((msg) => {
-            const isProf =
-              msg.get("sender")?.get("roleLabel") === "Professional";
+          {messages.map((m) => {
+             // m is Parse.Object("Message")
+             const senderUser = m.get("sender");
+             const roleLabel = senderUser?.get("roleLabel");
 
+             // What MessageBubble expects:
+             const sender =
+             roleLabel === "Professional" ? "Professional" : "Anonymous";
+
+
+             const deliveredAt = m.get("deliveredAt") || m.createdAt;
+             const timestamp = deliveredAt
+               ? deliveredAt.toLocaleTimeString([], {
+                   hour: "2-digit",
+                   minute: "2-digit",
+                 })
+               : "";
             return (
               <MessageBubble
-                key={msg.id}
-                bubbleStyle={isProf ? "message" : "message-child"}
-                isProf={isProf}
-              >
-                {/* Override inner text */}
-                <p>{msg.get("body")}</p>
-                <span>
-                  {new Date(msg.get("deliveredAt")).toLocaleTimeString()}
-                </span>
-              </MessageBubble>
-            );
+                  key={m.id}
+                  text={m.get("body")}
+                  sender={sender}
+                  timestamp={timestamp}
+                />
+              );
           })}
         </div>
         <div className="bottom">

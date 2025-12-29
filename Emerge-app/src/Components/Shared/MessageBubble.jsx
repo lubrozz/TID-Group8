@@ -1,4 +1,4 @@
-import Ellipsis from "./Ellipsis";
+import Ellipsis from "../prof-chat/Ellipsis";
 import "../../styles/prof-chat.css";
 
 export default function MessageBubble({
@@ -8,17 +8,7 @@ export default function MessageBubble({
   onEllipsisClick,
 }) {
   // Normalise sender: string | Parse.User | plain object
-  let senderLabel = "";
-
-  if (typeof sender === "string") {
-    senderLabel = sender;
-  } else if (sender?.get) {
-    senderLabel = sender.get("roleLabel");
-  } else if (sender?.roleLabel) {
-    senderLabel = sender.roleLabel;
-  }
-
-  const isPro = senderLabel?.toLowerCase() === "professional";
+  const isPro = sender === "Professional";
 
   return (
     <div
