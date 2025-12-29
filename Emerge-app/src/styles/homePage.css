@@ -146,6 +146,26 @@ body {
         margin: 0;
       }
 
+      .dialog {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        background-color: var(--light-sand-color);
+        box-shadow: hsl(0 0% 0% / 10%) 0 0 0.5rem 0.25rem;
+        text-align: center;
+        padding: 10px 20px;
+        border-radius: 12px;
+        border: 2px solid black;
+        width: 80%;
+        box-sizing: border-box;
+
+        input {
+          width: 100%;
+          box-sizing: border-box;
+        }
+      }
+
       .buttonWrapper {
         display: flex;
         justify-content: space-between;
@@ -176,6 +196,11 @@ body {
             align-content: center;
           }
         }
+      }
+
+      .newChatButton:disabled {
+        background-color: #aaa;
+        opacity: 0.6;
       }
 
       .oldChatButton {

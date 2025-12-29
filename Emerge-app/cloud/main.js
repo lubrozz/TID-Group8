@@ -1,28 +1,11 @@
-/** Create a chatroom
- * This creates a safe way of accessing the _User table since cloud runs the code on the server instead of the client.
+/**
+ * This creates a safe way of accessing the data tables since cloud runs the code on the server instead of the client.
  * Thus not exposing the data.
  * For now we will have this code in the back4app.
- * Later we will deploy it from here by following these steps:
- * 1. npm install -g b4a
- * 2. b4a login (uses Lukas github login)
- * 3. (in root folder run) b4a init
- * 4. Create a b4a.json in root folder
- * 5. should contain:
- * {
-  "apps": {
-    "default": {
-      "applicationId": "YOUR_APP_ID",
-      "masterKey": null,
-      "javascriptKey": null
-    }
-  },
-  "currentApp": "default",
-  "cloud": "./cloud"
-}
-  6. (deploy by running) b4a deploy
  */
 
 const crypto = require("crypto");
+const { Parse } = require("parse");
 
 Parse.Cloud.define("createNewChatRoom", async () => {
   const deleteAfter = new Date(Date.now());
@@ -58,6 +41,20 @@ Parse.Cloud.define("createNewChatRoom", async () => {
   newChatRoom.set("deleteAfter", deleteAfter);
   newChatRoom.set("anonDisplayName", "anon" + Date.now());
 
+  // set token for re-entry
+  const reentryCode = crypto
+    .randomBytes(5)
+    .toString("base64")
+    .slice(0, 8)
+    .toUpperCase();
+
+  const reentryHash = crypto
+    .createHash("sha256")
+    .update(reentryCode)
+    .digest("hex");
+
+  newChatRoom.set("token", reentryHash);
+
   // Set ACL so only pro/anon can read/write to chatroom
   const acl = new Parse.ACL();
 
@@ -72,6 +69,7 @@ Parse.Cloud.define("createNewChatRoom", async () => {
 
   return {
     chatRoomId: savedRoom.id,
+    conversationCode: reentryCode,
     anonUserId: newAnon.id,
     anonUserName: newAnon.get("username"),
     anonPassword: anonPassword,
@@ -130,4 +128,61 @@ Parse.Cloud.define("deleteChatAndMessages", async (request) => {
   await currentRoom.destroy({ useMasterKey: true });
 
   return "ok";
+});
+
+Parse.Cloud.define("enterOldChatRoom", async (request) => {
+  const { entryToken } = request.params;
+
+  if (!entryToken) {
+    throw new Error("missing chat code");
+  }
+
+  const normalizedToken = entryToken.toUpperCase().trim();
+
+  const providedHash = crypto
+    .createHash("sha256")
+    .update(normalizedToken)
+    .digest("hex");
+
+  const query = await new Parse.Query("ChatRoom");
+  query.equalTo("token", providedHash);
+
+  const chatRoom = await query.first({ useMasterKey: true });
+
+  if (!chatRoom) {
+    throw new Error("invalid conversation code");
+  }
+
+  if (chatRoom.get("status") !== "open") {
+    throw new Error("Chat room is closed");
+  }
+
+  // create a new anon user and give the correct ACL
+  const anonPassword = crypto.randomBytes(32).toString("hex");
+
+  const anonUser = new Parse.User();
+  anonUser.set("username", `anon_${Date.now()}`);
+  anonUser.set("password", anonPassword);
+  anonUser.set("roleLabel", "Anonymous");
+  anonUser.set("fullName", "Anon Ymous");
+
+  const newAnon = await anonUser.signUp(null, {
+    useMasterKey: true,
+  });
+
+  // --- Update ACL ---
+  const acl = chatRoom.getACL() || new Parse.ACL();
+  acl.setReadAccess(newAnon, true);
+  acl.setWriteAccess(newAnon, true);
+
+  chatRoom.setACL(acl);
+  chatRoom.set("anon", newAnon);
+
+  await chatRoom.save(null, { useMasterKey: true });
+
+  return {
+    oldChatRoomId: chatRoom.id,
+    anonUserName: newAnon.getUsername(),
+    anonPassword: anonPassword,
+  };
 });

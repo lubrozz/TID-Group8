@@ -11,6 +11,7 @@ import NewChildChat from "./Pages/NewChildChat";
 import Register from "./Pages/RegisterPage";
 import { useEffect } from "react";
 import Parse from "parse";
+import ExamWelcomePage from "./Pages/ExamWelcomePage";
 
 export default function App() {
   // Restore Anon user on page reload, but not after page closure.
@@ -43,7 +44,8 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<ExamWelcomePage />} />
+        <Route path="/child-home" element={<HomePage />} />
         <Route path="/prof-chat" element={<ProfChat />} />
         <Route path="/prof-login" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />

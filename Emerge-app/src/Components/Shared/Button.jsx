@@ -7,9 +7,10 @@ export default function Button({
   buttonText,
   buttonIcon,
   children,
+  isDisabled,
 }) {
   return (
-    <button className={styleName} onClick={onClick}>
+    <button className={styleName} onClick={onClick} disabled={isDisabled}>
       <p className="texts">{buttonText}</p>
       {buttonIcon}
       {children}
